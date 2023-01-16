@@ -12,7 +12,14 @@ spring:
   profiles:
     active: ec2
   datasource:
-    url:
-    password:
     username:
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
 
