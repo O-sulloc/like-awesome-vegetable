@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     @GetMapping("")
     public String testIndex() {
-        return "ci/cd 테스트";
+        return "테스트입니다";
     }
 }
