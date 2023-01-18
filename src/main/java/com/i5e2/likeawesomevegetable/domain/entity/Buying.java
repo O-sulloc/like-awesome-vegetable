@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.entity;
 
+import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
