@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.common;
+package com.i5e2.likeawesomevegetable.domain.payment;
 
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.AllArgsConstructor;

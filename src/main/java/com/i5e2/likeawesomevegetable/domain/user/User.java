@@ -3,7 +3,6 @@ package com.i5e2.likeawesomevegetable.domain.user;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor

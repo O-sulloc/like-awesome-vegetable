@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.auction;
 
 import com.i5e2.likeawesomevegetable.domain.common.Item;
-import com.i5e2.likeawesomevegetable.domain.common.User;
+import com.i5e2.likeawesomevegetable.domain.user.User;
 import org.attoparser.dom.Text;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

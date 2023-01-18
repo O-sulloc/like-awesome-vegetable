@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.common;
 
+import com.i5e2.likeawesomevegetable.domain.auction.Auction;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,8 +33,8 @@ public class Image {
     @JoinColumn(name = "user_id")
     private User user;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "auction_id")
-//    private Auction auction;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auction_id")
+    private Auction auction;
 
 }

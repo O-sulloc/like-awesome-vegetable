@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
-import com.i5e2.likeawesomevegetable.domain.common.Buying;
+import com.i5e2.likeawesomevegetable.domain.auction.Buying;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "t_buying")
+@Table(name = "t_apply")
 public class Apply {
 
     @Id

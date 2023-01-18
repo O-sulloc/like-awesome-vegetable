@@ -1,5 +1,6 @@
-package com.i5e2.likeawesomevegetable.domain.common;
+package com.i5e2.likeawesomevegetable.domain.auction;
 
+import com.i5e2.likeawesomevegetable.domain.common.Item;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
@@ -38,6 +39,7 @@ public class Buying {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "item_id")
+    @OneToOne//(mappedBy = "item_id")
+    @JoinColumn(name = "item_id")
     private Item item;
 }
