@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
-import com.i5e2.likeawesomevegetable.domain.entity.Item;
+import com.i5e2.likeawesomevegetable.domain.common.Item;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

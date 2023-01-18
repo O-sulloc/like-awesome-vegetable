@@ -1,12 +1,10 @@
-package com.i5e2.likeawesomevegetable.domain.entity;
+package com.i5e2.likeawesomevegetable.domain.common;
 
-import com.i5e2.likeawesomevegetable.domain.apply.Apply;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter

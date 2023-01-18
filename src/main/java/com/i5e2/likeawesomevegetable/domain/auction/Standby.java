@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.auction;
 
-import com.i5e2.likeawesomevegetable.domain.entity.User;
+import com.i5e2.likeawesomevegetable.domain.common.User;
 
 import javax.persistence.*;
 

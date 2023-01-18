@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.entity;
+package com.i5e2.likeawesomevegetable.domain.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
