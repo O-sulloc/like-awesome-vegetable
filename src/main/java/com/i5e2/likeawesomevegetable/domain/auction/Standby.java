@@ -1,4 +1,6 @@
-package com.i5e2.likeawesomevegetable.domain.entity;
+package com.i5e2.likeawesomevegetable.domain.auction;
+
+import com.i5e2.likeawesomevegetable.domain.entity.User;
 
 import javax.persistence.*;
 
@@ -11,9 +13,9 @@ public class Standby {
     @Column(name = "standby_id")
     private Long id;
 
-//    @ManyToOne//입잘자id bidder
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne//입잘자id bidder
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne //게시글 id
     @JoinColumn(name = "auction_id")
@@ -23,7 +25,6 @@ public class Standby {
     private Long biddingPrice;
     @Column(name = "bidding_time")
     private Long biddingTime;
-
 
 
 }
