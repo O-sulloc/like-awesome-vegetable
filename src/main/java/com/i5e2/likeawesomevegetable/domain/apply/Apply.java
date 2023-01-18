@@ -1,5 +1,6 @@
-package com.i5e2.likeawesomevegetable.domain.entity;
+package com.i5e2.likeawesomevegetable.domain.apply;
 
+import com.i5e2.likeawesomevegetable.domain.entity.Buying;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 

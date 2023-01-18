@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.entity;
 
+import com.i5e2.likeawesomevegetable.domain.apply.Apply;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
@@ -34,9 +35,6 @@ public class Buying {
 
     @Column(name = "shipping")
     private Boolean shipping;
-
-    @OneToMany(mappedBy = "buying", fetch = FetchType.LAZY)
-    private List<Apply> apply;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
