@@ -2,10 +2,15 @@ package com.i5e2.likeawesomevegetable.domain.auction;
 
 
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_standby")
 public class Standby {
 

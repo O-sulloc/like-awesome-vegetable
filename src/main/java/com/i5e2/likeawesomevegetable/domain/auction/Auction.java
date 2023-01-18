@@ -2,6 +2,7 @@ package com.i5e2.likeawesomevegetable.domain.auction;
 
 import com.i5e2.likeawesomevegetable.domain.common.Item;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import lombok.*;
 import org.attoparser.dom.Text;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +13,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_auction")
 @EntityListeners(AuditingEntityListener.class)
 public class Auction {
