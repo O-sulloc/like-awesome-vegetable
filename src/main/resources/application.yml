@@ -10,14 +10,9 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   profiles:
-    active: ec2
+    active:
   datasource:
     username:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url:
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true

@@ -39,5 +39,5 @@ out/
 .DS_Store
 
 application-local.yml
-application-ec2.yml
+application-dev.yml
 
