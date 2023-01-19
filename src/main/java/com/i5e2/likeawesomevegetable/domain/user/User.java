@@ -1,23 +1,25 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
 @Entity
-@Table(name="t_user")
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "t_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-
-    @Column(name = "user_name")
-    private String userName;
 
     @Column(name = "password")
     private String password;
@@ -55,4 +57,15 @@ public class User {
 
     @Column(name = "land")
     private Long land;
+
+    @CreatedDate
+    @Column(name = "registered_at", updatable = false)
+    private String registeredAt;
+
+    @LastModifiedDate
+    @Column(name = "modified_at")
+    private String modifiedAt;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 }
