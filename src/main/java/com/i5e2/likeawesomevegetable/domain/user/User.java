@@ -50,7 +50,8 @@ public class User {
 
     // enum type
     @Column(name = "verification")
-    private String verification;
+    @Enumerated(value = EnumType.STRING)
+    private UserVerification verification;
 
     @Column(name = "charged_point")
     private Long chargedPoint;
