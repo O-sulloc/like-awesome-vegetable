@@ -25,18 +25,24 @@ public class User {
     private String password;
 
     @Column(name = "business_name")
-    private String businessName;
+    private String businessName; // 업체 이름
 
     @Column(name = "manger_name")
-    private String managerName;
+    private String managerName; // 담당자 이름
+
+    @Column(name = "onwer_name")
+    private String OwnerName; // 대표자 이름
+
+    @Column(name = "business_phone_no")
+    private String BusinessPhoneNo; // 업체 전화번호
 
     @Column(name = "phone_no")
-    private String phoneNo;
+    private String phoneNo; // 담당자 전화번호
 
-    @Column(name = "address")
+    @Column(name = "address", length = 300)
     private String address;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 5000)
     private String description;
 
     @Column(name = "email")
