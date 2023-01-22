@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.common;
 
-import com.i5e2.likeawesomevegetable.domain.auction.Auction;
+import com.i5e2.likeawesomevegetable.domain.market.Auction;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

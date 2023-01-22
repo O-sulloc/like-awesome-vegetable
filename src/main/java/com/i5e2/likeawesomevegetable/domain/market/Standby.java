@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.auction;
+package com.i5e2.likeawesomevegetable.domain.market;
 
 
 import com.i5e2.likeawesomevegetable.domain.user.User;
