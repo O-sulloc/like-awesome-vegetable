@@ -7,27 +7,29 @@
     <title>농가 리스트</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/awesome/images/favicon.svg}"/>
     <!-- Place favicon.ico in the root directory -->
 
     <!-- Web Font -->
     <link
-            href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            th:href="@{https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}"
             rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Lato&display=swap}" rel="stylesheet">
 
     <!-- ========================= CSS here ========================= -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/LineIcons.2.0.css" />
-    <link rel="stylesheet" href="assets/css/animate.css" />
-    <link rel="stylesheet" href="assets/css/tiny-slider.css" />
-    <link rel="stylesheet" href="assets/css/glightbox.min.css" />
-    <link rel="stylesheet" href="assets/css/main.css" />
+    <link th:href ="@{/awesome/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href ="@{/awesome/css/LineIcons.2.0.css}" rel="stylesheet" type="text/css">
+    <link th:href ="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
+    <link th:href ="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
+    <link th:href ="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
+    <link th:href ="@{/awesome/css/main-custom.css}" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
-<!-- header -->
+<!--start header-->
+<div th:replace="fragments/header :: header" />
+<!--end header-->
 
 <!-- Start Breadcrumbs -->
 <div class="breadcrumbs">
@@ -174,14 +176,16 @@
 </section>
 <!-- End Dashboard Section -->
 
-
+<!--start footer-->
+<div th:replace="fragments/footer :: footer" />
+<!--end footer-->
 
 <!-- ========================= JS here ========================= -->
-<script src="assets/js/bootstrap.min.js"></script>
-<script src="assets/js/wow.min.js"></script>
-<script src="assets/js/tiny-slider.js"></script>
-<script src="assets/js/glightbox.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script type="text/javascript" th:src="@{/awesome/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/awesome/js/wow.min.js}"></script>
+<script type="text/javascript" th:src="@{/awesome/js/tiny-slider.js}"></script>
+<script type="text/javascript" th:src="@{/awesome/js/glightbox.min.js}"></script>
+<script type="text/javascript" th:src="@{/awesome/js/main.js}"></script>
 </body>
 
 </html>

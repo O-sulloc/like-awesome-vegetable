@@ -1,10 +1,169 @@
 <!DOCTYPE html>
-<html xmlns:th = "http://www.thymeleaf.org">
-    <div id="header" th:fragment="header">
-        <!-- header html 변경하면 됩니다-->
-        <p>
-            header
-        </p>
-        <!-- header html 변경하면 됩니다-->
+<html xmlns:th="http://www.thymeleaf.org">
+<div id="header" th:fragment="header">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
     </div>
+    <!-- /End Preloader -->
+
+    <!-- Start Header Area -->
+    <header class="header navbar-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12">
+                    <div class="nav-inner">
+                        <nav class="navbar navbar-expand-lg">
+                            <a class="navbar-brand" th:href="@{#}">
+                                <img th:src="@{/awesome/images/logo/logo.svg}" alt="Logo">
+                            </a>
+                            <button class="navbar-toggler mobile-menu-btn" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                                <span class="toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
+                                <ul id="nav" class="navbar-nav ms-auto">
+                                    <li class="nav-item">
+                                        <a class="active dd-menu collapsed" href="javascript:void(0)"
+                                           data-bs-toggle="collapse" data-bs-target="#submenu-1-1"
+                                           aria-controls="navbarSupportedContent" aria-expanded="false"
+                                           aria-label="Toggle navigation">농가/기업</a>
+                                        <ul class="sub-menu collapse" id="submenu-1-1">
+                                            <li class="nav-item"><a th:href="@{#}">농가 리스트</a></li>
+                                            <li class="nav-item"><a href="/using/company-list.html">기업 리스트</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/using/auction-detail.html" aria-label="Toggle navigation">농가 판매상품</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/using/auction-detail.html" aria-label="Toggle navigation">기업 구매요청</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/using/vegetable/vegetable-index.html"
+                                           aria-label="Toggle navigation">농산물 정보</a>
+                                    </li>
+                                </ul>
+                            </div> <!-- navbar collapse -->
+
+                            <!-- 로그인한 사용자 권한 확인해서 보여줄 버튼 설정 -->
+                            <div class="button header-button">
+                                <a href="/using/farmer-registration.html" class="btn">글 쓰기</a>
+                                <!-- <a href="/using/company-registration.html" class="btn">글 쓰기</a> -->
+                            </div>
+
+                            <!-- 로그인한 방문자는 알림과 유저 프로필이 보인다.-->
+                            <!-- notification start -->
+                            <div class="notification-box ml-15 d-none d-md-flex">
+                                <button class="dropdown-toggle" type="button" id="notification"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="lni lni-alarm"></i>
+
+                                    <!-- span에 알람 개수 연결-->
+                                    <span>2</span>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notification">
+                                    <li>
+                                        <a href="#0">
+                                            <div class="content">
+                                                <h6>
+                                                    John Doe
+                                                    <span class="text-regular">
+                                                        comment on a product.
+                                                    </span>
+                                                </h6>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consect etur adipiscing
+                                                    elit Vivamus tortor.
+                                                </p>
+                                                <span>10 mins ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#0">
+                                            <div class="content">
+                                                <h6>
+                                                    Jonathon
+                                                    <span class="text-regular">
+                                                        like on a product.
+                                                    </span>
+                                                </h6>
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consect etur adipiscing
+                                                    elit Vivamus tortor.
+                                                </p>
+                                                <span>10 mins ago</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- notification end -->
+
+                            <!-- user profile start-->
+                            <div class="profile-box ml-15">
+                                <button class="dropdown-toggle bg-transparent border-0" type="button" id="profile"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="profile-info">
+                                        <div class="info">
+                                            <div class="image">
+                                                <img th:src="@{/awesome/images/profile/profile-image.png}" alt=""/>
+                                                <span class="status"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
+                                    <li>
+                                        <a href="#0">
+                                            <i class="lni lni-user"></i> 마이 페이지
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#0">
+                                            <i class="lni lni-alarm"></i> 포인트
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#0"> <i class="lni lni-cog"></i> 회원정보 수정 </a>
+                                    </li>
+                                    <li>
+                                        <a href="#0"> <i class="lni lni-exit"></i> 로그아웃 </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- user profile end-->
+
+                            <!-- 비회원 방문자는 아래 로그인, 회원가입 버튼이 보인다. -->
+                            <!-- Login, sign-up start -->
+                            <!-- <div class="login-button">
+                                <ul>
+                                    <li>
+                                        <a href="login.html"><i class="lni lni-enter"></i> 로그인</a>
+                                    </li>
+                                    <li>
+                                        <a href="registration.html"><i class="lni lni-user"></i> 회원가입</a>
+                                    </li>
+                                </ul>
+                            </div> -->
+                            <!-- Login, sign-up end -->
+
+                        </nav> <!-- navbar -->
+                    </div>
+                </div>
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </header>
+    <!-- End Header Area -->
+</div>
 </html>
