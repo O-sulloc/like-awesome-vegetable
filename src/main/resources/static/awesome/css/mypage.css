@@ -1,0 +1,21 @@
+/* clearfix */
+.clearfix{*zoom:1;}
+.clearfix:before, .clearfix:after {display: block; content: ""; line-height: 0;}
+.clearfix:after {clear: both;}
+
+
+.m-20 {
+    margin-top: 20px;
+  }
+
+.float-r {
+  float: right;
+}
+
+.float-l {
+  float: left;
+}
+
+.point-btn {
+  margin-left: 700px;
+}

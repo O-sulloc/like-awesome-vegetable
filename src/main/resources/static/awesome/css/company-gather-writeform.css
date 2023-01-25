@@ -1,0 +1,64 @@
+/*--------------------------------
+
+회원가입
+
+-------------------------------- */
+
+/* 회원가입 이메일 체크 input */
+
+.login .form-head form .registration-email label {
+    display: block;
+    margin-bottom: .5rem;
+    color: #888;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+.registration-email input{
+    width: 85%;
+    min-height: 56px;
+    padding: 3px 20px;
+    color: #081828;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    outline: 0;
+    background-color: #fff;
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+.check-btn {
+    height: 56px;
+    width: 75px;
+}
+
+/* 회원가입 담당자 전화번호 체크 */
+.login .form-head form .registration-phone label {
+  display: block;
+  margin-bottom: .5rem;
+  color: #888;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.registration-phone input{
+  width: 85%;
+  min-height: 56px;
+  padding: 3px 20px;
+  color: #081828;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  outline: 0;
+  background-color: #fff;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+/* 글쓰기 에디터  */
+#editor-box{
+  height: 500px;
+}
+
+.ck-editor__editable { 
+  height: 400px; 
+}
