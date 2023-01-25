@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SecurityTestController {
-    @GetMapping("/api/test/security")
+    @GetMapping("/api/test-security")
     public ResponseEntity<String> securityChecking(Authentication authentication) {
         String email = authentication.getName();
         return ResponseEntity.ok().body(email);
     }
 
-    @GetMapping("/api/test/role")
+    @GetMapping("/api/test-role")
     public ResponseEntity<String> roleChecking(Authentication authentication) {
         String email = authentication.getName();
         return ResponseEntity.ok().body(email);
