@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/verifyingTest")
+@RequestMapping("/verifying-test")
 public class VerificationController {
 
     private final VerificationService verificationService;
