@@ -1,8 +1,10 @@
-package com.i5e2.likeawesomevegetable.domain.auction;
+package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.domain.common.Item;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "t_buying")
 public class Buying {
 
@@ -20,10 +23,11 @@ public class Buying {
     @Column(name = "buying_id")
     private Long id;
 
-    @Column(name = "recruitment_quantity")
-    private Long recruitmentQuantity;
+    @Column(name = "quantity")
+    private Long quantity;
 
-    @Column(name = "start_time")
+    @CreatedDate
+    @Column(name = "start_time",updatable = false)
     private LocalDateTime startTime;
 
     @Column(name = "end_time")
@@ -35,11 +39,14 @@ public class Buying {
     @Column(name = "shipping")
     private Boolean shipping;
 
+    @Column(name = "description",length = 5000)
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne//(mappedBy = "item_id")
+    @OneToOne
     @JoinColumn(name = "item_id")
     private Item item;
 }
