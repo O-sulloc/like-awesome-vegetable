@@ -16,4 +16,15 @@ public class BuyingService {
 
         return null;
     }
+
+    public static String shippingConvert(int value){
+        if (value==1){
+            return "BOXING";
+        } else if (value==2) {
+            return "TONBAG";
+        } else if (value==3) {
+            return "CONTIBOX";
+        }
+        return "0";
+    }
 }

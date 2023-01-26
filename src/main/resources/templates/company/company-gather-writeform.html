@@ -218,10 +218,10 @@
                                                                     <span class="arrow"><i
                                                                             class="lni lni-chevron-down"></i></span>
                                                                     <select class="user-chosen-select" th:field="*{shipping}" th:class="${#fields.hasErrors('shipping')}? 'error'">
-                                                                        <option value="-1">개별 포장은 하지 않습니다</option>
-                                                                        <option value="BOXING">박스 포장</option>
-                                                                        <option value="TONBAG">톤백 자루</option>
-                                                                        <option value="CONTIBOX">콘티 박스</option>
+                                                                        <option value="0">개별 포장은 하지 않습니다</option>
+                                                                        <option value="1">박스 포장</option>
+                                                                        <option value="2">톤백 자루</option>
+                                                                        <option value="3">콘티 박스</option>
                                                                     </select>
                                                                     <div th:each="msg : ${#fields.errors('shipping')}">
                                                                         <p style="color: red" th:text="${msg}"></p>
