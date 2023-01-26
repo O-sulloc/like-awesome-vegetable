@@ -1,11 +1,8 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
-import com.i5e2.likeawesomevegetable.domain.common.Item;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,21 +16,21 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "t_auction")
+@Table(name = "t_farm_auction")
 @EntityListeners(AuditingEntityListener.class)
-public class Auction {
+public class FarmAuction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "auction_id")
+    @Column(name = "farm_auction_id")
     private Long id;
     @Column(name = "quantity")
     private Long quantity;
-    @Column(name = "description",length = 5000)
+    @Column(name = "description", length = 5000)
     private String description;
-    @CreatedDate
-    @Column(name = "registered_at", updatable = false)
-    private String registeredAt;
+
+    @Column(name = "registered_at")
+    private LocalDateTime registeredAt;
     @Column(name = "end_time")
     private LocalDateTime endTime;
     @Column(name = "start_price")
@@ -43,10 +40,11 @@ public class Auction {
     @Column(name = "limit_price")
     private Long limitPrice;
     @Column(name = "shipping")
-    private Boolean shipping;
+    @Enumerated(value = EnumType.STRING)
+    private ShippingEnum shipping;
     @Column(name = "status")
-    @ColumnDefault("1")
-    private Boolean status;
+    @Enumerated(value = EnumType.STRING)
+    private StatusEnum status;
     @Column(name = "address")
     private String address;
     @LastModifiedDate
@@ -60,17 +58,6 @@ public class Auction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @PrePersist
-//      String으로 바꾸기
-    public void onPrePersist() {
-        this.registeredAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        this.modifiedAt = this.registeredAt;
-    }
 
     @PreUpdate
     public void onPreUpdatePersist() {
