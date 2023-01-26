@@ -46,6 +46,9 @@ public class CompanyBuying {
     @Column(name = "description", length = 5000)
     private String description;
 
+    @Column(name = "tag")
+    private String tag;
+
     @Column(name = "shipping")
     @Enumerated(value = EnumType.STRING)
     private ShippingEnum shipping;
