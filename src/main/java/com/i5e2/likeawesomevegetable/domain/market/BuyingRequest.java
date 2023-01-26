@@ -2,9 +2,7 @@ package com.i5e2.likeawesomevegetable.domain.market;
 
 import lombok.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -12,41 +10,57 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuyingRequest {
-    //TODO : 1. 후입력(endtime,userid) 2.이미지 업로드 3.리턴타입
+    //TODO : 1.이미지 업로드 2.user매핑
 
-//    - 기업명 userName
-//- 품목 item
-//- 수량 quantity
-//- 기업 설명 description
-//- 모집 기간 startTime
-//- 금액 price
-//- 운임 여부 shipping
-//- 카테고리 ??
-//- 검증마크 ??
-
-    private String userName;
+    @NotBlank(message = "제목을 입력해 주세요")
+    private String title;
+    //    private LocalDateTime startTime;
+//    private LocalDateTime endTime;
+    @NotBlank(message = "시작날짜를 달력에서 선택해 주세요")
+    private String startTime;
+    @NotBlank(message = "종료날짜를 달력에서 선택해 주세요")
+    private String endTime;
+    @Min(value = 0, message = "카테고리를 선택해 주세요")
+    private String category;
+    @NotBlank(message = "품종을 선택해 주세요")
     private String item;
-    @Min(value = 0)
+    @NotNull(message = "수량을 입력해 주세요")
+    @Min(value = 3, message = "3t이상 모집이 가능합니다.")
+    @Positive(message = "숫자만 입력해 주세요.")
     private Long quantity;
-    @NotNull
-    private String description;
-    private LocalDateTime startTime; // String?
-    @Min(value = 0)
+    @NotNull(message = "가격을 입력해 주세요")
+    @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Long price;
-    private Boolean shipping;
+    @NotBlank(message = "내용을 입력해 주세요")
+    private String description;
+    @NotBlank(message = "태그를 입력해 주세요")
+    private String tag; //split해서 넣을 곳 ?
+    @Min(value = 1, message = "운임 방법을 입력해 주세요")
+    private int shipping; //int -> string으로 변환
+    @NotBlank(message = "수령인을 입력해 주세요")
+    private String receiverName;
+    @NotBlank(message = "수령인의 연락처를 입력해 주세요")
+    private String receiverPhoneNo;
+    @NotBlank(message = "배송 받을 주소를 입력해 주세요")
+    private String receiverAddress;
+//    private User user;
 
     public CompanyBuying toEntity(BuyingRequest buyingRequest) {
         return CompanyBuying.builder()
-//                .user(buyingRequest.user.get)
-//                .item(buyingRequest.item.get)
-                .description(buyingRequest.getDescription())
+                .title(buyingRequest.getTitle())
+                .startTime(buyingRequest.getStartTime())
+                .endTime(buyingRequest.getEndTime())
+                .category(buyingRequest.getCategory())
+                .item(buyingRequest.getItem())
                 .quantity(buyingRequest.getQuantity())
-                .startTime(LocalDateTime.now()) //디테일 수정
-//                .endTime(buyingRequest.set)
-                .price(buyingRequest.price)
-//                .shipping(buyingRequest.shipping)
+                .price(buyingRequest.getPrice())
+                .description(buyingRequest.getDescription())
+                .tag(buyingRequest.getTag())
+                .shipping(BuyingService.shippingConvert(buyingRequest.getShipping())) //int->string
+                .receiverName(buyingRequest.getReceiverName())
+                .receiverPhoneNo(buyingRequest.getReceiverPhoneNo())
+                .receiverAddress(buyingRequest.getReceiverAddress())
+//                .user()
                 .build();
     }
-
-
 }

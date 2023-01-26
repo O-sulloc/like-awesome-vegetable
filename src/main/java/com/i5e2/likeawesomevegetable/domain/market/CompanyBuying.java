@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,11 +23,14 @@ public class CompanyBuying {
     @Column(name = "title")
     private String title;
 
+    //    @Column(name = "start_time")
+//    private LocalDateTime startTime;
+//    @Column(name = "end_time")
+//    private LocalDateTime endTime;
     @Column(name = "start_time")
-    private LocalDateTime startTime;
-
+    private String startTime;
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private String endTime;
 
     //카테고리 추가
     @Column(name = "category")
@@ -46,9 +48,12 @@ public class CompanyBuying {
     @Column(name = "description", length = 5000)
     private String description;
 
+    @Column(name = "tag")
+    private String tag;
+
     @Column(name = "shipping")
-    @Enumerated(value = EnumType.STRING)
-    private ShippingEnum shipping;
+//    @Enumerated(value = EnumType.STRING)
+    private String shipping;
 
     @Column(name = "receiver_name")
     private String receiverName;
