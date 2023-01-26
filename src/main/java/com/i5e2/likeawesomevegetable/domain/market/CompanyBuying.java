@@ -31,7 +31,7 @@ public class CompanyBuying {
     private LocalDateTime endTime;
 
     //카테고리 추가
-    @Column(name = "category;")
+    @Column(name = "category")
     private String category;
 
     @Column(name = "item")
