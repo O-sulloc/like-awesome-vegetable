@@ -60,8 +60,4 @@ public class CompanyBuying {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-//    @OneToOne
-//    @JoinColumn(name = "item_id")
-//    private Item item;
 }

@@ -1,6 +1,5 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
-import com.i5e2.likeawesomevegetable.domain.common.Item;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -59,17 +58,6 @@ public class FarmAuction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-//    @PrePersist
-////      String으로 바꾸기
-//    public void onPrePersist() {
-//        this.registeredAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        this.modifiedAt = this.registeredAt;
-//    }
 
     @PreUpdate
     public void onPreUpdatePersist() {
