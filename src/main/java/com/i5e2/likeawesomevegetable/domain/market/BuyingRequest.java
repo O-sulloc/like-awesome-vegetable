@@ -2,9 +2,10 @@ package com.i5e2.likeawesomevegetable.domain.market;
 
 import lombok.*;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,15 +14,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuyingRequest {
-    //TODO : 1. 후입력(endtime,userid) 2.이미지 업로드 3.리턴타입
+    //TODO : 1.이미지 업로드 2.user매핑
 
-    @NotNull(message = "제목을 입력해 주세요")
+    @NotBlank(message = "제목을 입력해 주세요")
     private String title;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    @NotNull(message = "카테고리를 선택해 주세요")
+//    private LocalDateTime startTime;
+//    private LocalDateTime endTime;
+    @NotBlank(message = "시작날짜를 달력에서 선택해 주세요")
+    private String startTime;
+    @NotBlank(message = "종료날짜를 달력에서 선택해 주세요")
+    private String endTime;
+    @Min(value = 0,message = "카테고리를 선택해 주세요")
     private String category;
-    @NotNull(message = "품종을 선택해 주세요")
+    @NotBlank(message = "품종을 선택해 주세요")
     private String item;
     @NotNull(message = "수량을 입력해 주세요")
     @Min(value = 3,message = "3t이상 모집이 가능합니다.")
@@ -30,16 +35,17 @@ public class BuyingRequest {
     @NotNull(message = "가격을 입력해 주세요")
     @Min(value = 0,message = "정확한 가격을 입력해 주세요")
     private Long price;
-    @NotNull(message = "내용을 입력해 주세요")
+    @NotBlank(message = "내용을 입력해 주세요")
     private String description;
-    @NotNull(message = "태그를 입력해 주세요")
+    @NotBlank(message = "태그를 입력해 주세요")
     private String tag;
+    @Min(value = 0,message = "정확한 가격을 입력해 주세요")
     private ShippingEnum shipping;
-    @NotNull(message = "수령인을 입력해 주세요")
+    @NotBlank(message = "수령인을 입력해 주세요")
     private String receiverName;
-    @NotNull(message = "수령인의 연락처를 입력해 주세요")
+    @NotBlank(message = "수령인의 연락처를 입력해 주세요")
     private String receiverPhoneNo;
-    @NotNull(message = "배송 받을 주소를 입력해 주세요")
+   @NotBlank(message = "배송 받을 주소를 입력해 주세요")
     private String receiverAddress;
 //    private User user;
 

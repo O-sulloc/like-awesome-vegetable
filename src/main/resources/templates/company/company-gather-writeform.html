@@ -101,25 +101,35 @@
                                              aria-labelledby="nav-item-info-tab">
                                             <!-- Start Post Ad Step One Content -->
                                             <div class="step-one-content">
-                                                <form class="default-form-style" method="post" action="#">
+                                                <form class="default-form-style" th:object="${buyingRequest}" method="post" th:action="@{/market/buying}">
                                                     <div class="row">
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>제목*</label>
-                                                                <input name="title" type="text"
-                                                                       placeholder="경매를 잘 드러낼 수 있는 제목으로 입력해주세요">
+                                                                <input placeholder="경매를 잘 드러낼 수 있는 제목으로 입력해주세요" type="text"
+                                                                       th:field="*{title}" th:class="${#fields.hasErrors('title')}? 'error'" />
+                                                                <div th:each="msg : ${#fields.errors('title')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>모집 시작일*</label>
-                                                                <input name="title" type="datetime-local"
-                                                                       placeholder="시작일을 설정해주세요">
+                                                                <input th:field="*{startTime}" type="datetime-local"
+                                                                       placeholder="시작일을 설정해주세요" th:class="${#fields.hasErrors('startTime')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('startTime')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label>모집 마감일*</label>
-                                                                <input name="title" type="datetime-local"
-                                                                       placeholder="마감일을 설정해주세요">
+                                                                <input th:field="*{endTime}" type="datetime-local"
+                                                                       placeholder="마감일을 설정해주세요" th:class="${#fields.hasErrors('endTime')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('endTime')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
@@ -128,23 +138,29 @@
                                                                 <div class="selector-head">
                                                                     <span class="arrow"><i
                                                                             class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">카테고리를 선택해주세요</option>
-                                                                        <option value="none">불러오기</option>
-                                                                        <option value="none">불러오기</option>
-                                                                        <option value="none">불러오기</option>
-                                                                        <option value="none">불러오기</option>
-                                                                        <option value="none">불러오기</option>
-                                                                        <option value="none">불러오기</option>
+                                                                    <select class="user-chosen-select" th:field="*{category}" th:class="${#fields.hasErrors('category')}? 'error'">
+                                                                        <option selected value="none">카테고리를 선택해주세요</option>
+                                                                        <option value="0">채소</option>
+                                                                        <option value="1">과일</option>
+<!--                                                                        <option value="2">확인확인</option>-->
+<!--                                                                        <option value="null">불러오기</option>-->
+<!--                                                                        <option value="none">불러오기</option>-->
+<!--                                                                        <option value="-1">유효성검사</option>-->
                                                                     </select>
+                                                                    <div th:each="msg : ${#fields.errors('category')}">
+                                                                        <p style="color: red" th:text="${msg}"></p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>모집 품종*</label>
-                                                                <input name="title" type="text"
-                                                                       placeholder="모집할 품종을 정확하게 기재해주세요">
+                                                                <input th:field="*{item}" type="text"
+                                                                       placeholder="모집할 품종을 정확하게 기재해주세요" th:class="${#fields.hasErrors('item')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('item')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -153,29 +169,43 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>모집 물량 (톤(t)단위)*</label>
-                                                                <input name="vege-category" type="text"
-                                                                       placeholder="모집 물량을 입력해주세요">
+                                                                <input th:field="*{quantity}" type="text"
+                                                                       placeholder="모집 물량을 입력해주세요" th:class="${#fields.hasErrors('quantity')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('quantity')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>가격 설정*</label>
-                                                                <input name="price" type="number"
-                                                                       placeholder="모집 가격을 입력해주세요">
+                                                                <input th:field="*{price}" type="number"
+                                                                       placeholder="모집 가격을 입력해주세요" th:class="${#fields.hasErrors('price')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('price')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
+
                                                         </div>
 
                                                         <!-- start editor -->
                                                         <div id="editor-box">
-                                                            <textarea id="content" placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요"></textarea>
+                                                            <textarea id="content" th:field="*{description}"  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요" th:class="${#fields.hasErrors('description')}? 'error'">
+                                                            </textarea>
+                                                            <div th:each="msg : ${#fields.errors('description')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
+                                                            </div>
                                                         </div>
                                                         <!-- end editor -->
 
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label class="tag-label">태그* <span>Comma(,)로 구분해 주세요</span></label>
-                                                                <input name="tag" type="text"
-                                                                       placeholder="태그를 작성해주세요">
+                                                                <input th:field="*{tag}" type="text"
+                                                                       placeholder="태그를 작성해주세요" th:class="${#fields.hasErrors('tag')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('tag')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -187,12 +217,15 @@
                                                                 <div class="selector-head">
                                                                     <span class="arrow"><i
                                                                             class="lni lni-chevron-down"></i></span>
-                                                                    <select class="user-chosen-select">
-                                                                        <option value="none">개별 포장은 하지 않습니다</option>
-                                                                        <option value="none">박스 포장</option>
-                                                                        <option value="none">톤백 자루</option>
-                                                                        <option value="none">콘티 박스</option>
+                                                                    <select class="user-chosen-select" th:field="*{shipping}" th:class="${#fields.hasErrors('shipping')}? 'error'">
+                                                                        <option value="-1">개별 포장은 하지 않습니다</option>
+                                                                        <option value="BOXING">박스 포장</option>
+                                                                        <option value="TONBAG">톤백 자루</option>
+                                                                        <option value="CONTIBOX">콘티 박스</option>
                                                                     </select>
+                                                                    <div th:each="msg : ${#fields.errors('shipping')}">
+                                                                        <p style="color: red" th:text="${msg}"></p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -200,23 +233,33 @@
                                                         <div class="col-lg-6 col-12">
                                                             <div class="form-group">
                                                                 <label>수령인*</label>
-                                                                <input name="name" type="text"
-                                                                       placeholder="수령인 성함을 작성해주세요">
+                                                                <input th:field="*{receiverName}" type="text"
+                                                                       placeholder="수령인 성함을 작성해주세요" th:class="${#fields.hasErrors('receiverName')}? 'error'">
+                                                                <div th:each="msg : ${#fields.errors('receiverName')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-12">
                                                             <div class="form-group">
                                                                 <label>수령인 연락처*</label>
-                                                                <input name="number" type="text"
+                                                                <input th:field="*{receiverPhoneNo}" type="text" th:class="${#fields.hasErrors('receiverPhoneNo')}? 'error'"
                                                                        placeholder="수령인 연락처를 작성해주세요">
+                                                                <div th:each="msg : ${#fields.errors('receiverPhoneNo')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>배송 받을 주소*</label>
-                                                                <input name="address" type="text"
+<!--                                                                <input name="address" type="text"-->
+                                                                <input th:field="*{receiverAddress}" type="text" th:class="${#fields.hasErrors('receiverAddress')}? 'error'"
                                                                        placeholder="배송 받을 주소를 입력해주세요">
+                                                                <div th:each="msg : ${#fields.errors('receiverAddress')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
+                                                                </div>
                                                             </div>
                                                         </div>
 

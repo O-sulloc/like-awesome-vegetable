@@ -5,15 +5,15 @@ import com.i5e2.likeawesomevegetable.domain.market.AuctionService;
 import com.i5e2.likeawesomevegetable.domain.market.BuyingRequest;
 import com.i5e2.likeawesomevegetable.domain.market.BuyingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 @RequestMapping("/market")
 public class MarketController {
 
@@ -29,9 +29,19 @@ public class MarketController {
         auctionService.creatAuction(auctionRequest);
     }
 
-    @PostMapping("/buying")
-    public void add(@RequestBody BuyingRequest buyingRequest){
-        buyingService.creatBuying(buyingRequest);
 
+    @GetMapping("/buying")
+    public String writeForm(BuyingRequest buyingRequest){
+
+        return "/company/company-gather-writeform";
+    }
+    @PostMapping("/buying")
+    public String add(@Valid BuyingRequest buyingRequest, BindingResult result){
+        if(result.hasErrors()){
+            return "/company/company-gather-writeform";
+        }
+
+        buyingService.creatBuying(buyingRequest);
+        return "/company/company-detail";
     }
 }
