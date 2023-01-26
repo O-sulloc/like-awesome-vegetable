@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
-import com.i5e2.likeawesomevegetable.domain.market.Buying;
+import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
@@ -22,11 +22,11 @@ public class Apply {
     @Column(name = "supply_quantity")
     private Long supplyQuantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "buying_id")
-    private Buying buying;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_buying_id")
+    private CompanyBuying companyBuying;
 }

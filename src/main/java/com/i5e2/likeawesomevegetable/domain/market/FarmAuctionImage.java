@@ -1,7 +1,5 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
-
-import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,26 +9,17 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "t_standby")
-public class Standby {
+@Table(name = "t_farm_auction_image")
+public class FarmAuctionImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "standby_id")
+    @Column(name = "farm_auction_image_id")
     private Long id;
-
+    @Column(name = "link")
+    private String like;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY) //게시글 id
     @JoinColumn(name = "farm_auction_id")
     private FarmAuction farmAuction;
-
-    @Column(name = "bidding_price")
-    private Long biddingPrice;
-    @Column(name = "bidding_time")
-    private Long biddingTime;
-
 
 }
