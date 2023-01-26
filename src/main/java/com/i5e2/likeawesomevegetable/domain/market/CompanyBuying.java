@@ -31,6 +31,8 @@ public class CompanyBuying {
     private LocalDateTime endTime;
 
     //카테고리 추가
+    @Column(name = "category;")
+    private String category;
 
     @Column(name = "item")
     private String item;
@@ -51,11 +53,11 @@ public class CompanyBuying {
     @Column(name = "receiver_name")
     private String receiverName;
 
-    @Column(name = "receiver_number")
-    private String receiverNumber;
+    @Column(name = "receiver_phone_no")
+    private String receiverPhoneNo;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "receiver_address")
+    private String receiverAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
