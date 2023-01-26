@@ -35,7 +35,7 @@ public class User {
     @Column(name = "business_name")
     private String businessName;
 
-    @Column(name = "manger_name")
+    @Column(name = "manager_name")
     private String managerName; // 담당자 이름
 
     @Column(name = "phone_no")
