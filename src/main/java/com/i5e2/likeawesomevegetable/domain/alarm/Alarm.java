@@ -37,7 +37,4 @@ public class Alarm {
     @Column(name = "post_type")
     private String postType;
 
-    // enum type
-    @Column(name = "user_type")
-    private String userType;
 }
