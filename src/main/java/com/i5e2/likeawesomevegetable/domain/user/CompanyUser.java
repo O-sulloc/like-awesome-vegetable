@@ -33,7 +33,7 @@ public class CompanyUser {
     @Column(name = "company_open_date")
     private String companyOpenDate;
 
-    @Column(name = "company_info")
+    @Column(name = "company_info", length = 500)
     private String companyInfo;
 
     @Column(name = "company_line_info")

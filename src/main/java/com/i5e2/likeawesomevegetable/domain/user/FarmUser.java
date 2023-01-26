@@ -33,6 +33,6 @@ public class FarmUser {
     @Column(name = "farm_website")
     private String farmWebsite;
 
-    @Column(name = "farm_info")
+    @Column(name = "farm_info", length = 500)
     private String farmInfo;
 }
