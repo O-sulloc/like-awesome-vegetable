@@ -24,27 +24,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "business_name")
-    private String businessName; // 업체 이름
-
-    @Column(name = "manger_name")
-    private String managerName; // 담당자 이름
-
-    @Column(name = "onwer_name")
-    private String OwnerName; // 대표자 이름
-
-    @Column(name = "business_phone_no")
-    private String BusinessPhoneNo; // 업체 전화번호
-
-    @Column(name = "phone_no")
-    private String phoneNo; // 담당자 전화번호
-
-    @Column(name = "address", length = 300)
-    private String address;
-
-    @Column(name = "description", length = 5000)
-    private String description;
-
     @Column(name = "email")
     private String email;
 
@@ -53,17 +32,17 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private UserType userType;
 
-    @Column(name = "charged_point")
-    private Long chargedPoint;
+    @Column(name = "business_name")
+    private String businessName;
 
-    @Column(name = "business_no")
-    private String businessNo;
+    @Column(name = "manager_name")
+    private String managerName; // 담당자 이름
 
-    @Column(name = "farmer_no")
-    private String farmerNo;
+    @Column(name = "phone_no")
+    private String phoneNo; // 담당자 전화번호
 
-    @Column(name = "land")
-    private Long land;
+    @Column(name = "address", length = 300)
+    private String address;
 
     @CreatedDate
     @Column(name = "registered_at", updatable = false)
@@ -75,4 +54,13 @@ public class User {
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    @OneToOne
+    @JoinColumn(name = "company_user_id")
+    private CompanyUser companyUser;
+
+    @OneToOne
+    @JoinColumn(name = "farm_user_id")
+    private FarmUser farmUser;
+
 }
