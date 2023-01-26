@@ -77,9 +77,9 @@ public class VerificationService {
         String BusinessState = responseToString.substring(indexOfBSttCd + 12, indexOfBSttCd + 14);
 
         if (validState.equals("01") && BusinessState.equals("01")) {
-            return UserType.VERIFIED_COMPANY;
+            return UserType.ROLE_COMPANY;
         }
-        return UserType.COMPANY;
+        return UserType.ROLE_BASIC;
     }
 
 }
