@@ -35,8 +35,8 @@ public class BuyingRequest {
     private Long price;
     private Boolean shipping;
 
-    public Buying toEntity(BuyingRequest buyingRequest) {
-        return Buying.builder()
+    public CompanyBuying toEntity(BuyingRequest buyingRequest) {
+        return CompanyBuying.builder()
 //                .user(buyingRequest.user.get)
 //                .item(buyingRequest.item.get)
                 .description(buyingRequest.getDescription())
@@ -44,7 +44,7 @@ public class BuyingRequest {
                 .startTime(LocalDateTime.now()) //디테일 수정
 //                .endTime(buyingRequest.set)
                 .price(buyingRequest.price)
-                .shipping(buyingRequest.shipping)
+//                .shipping(buyingRequest.shipping)
                 .build();
     }
 
