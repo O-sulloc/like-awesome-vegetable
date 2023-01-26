@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
-import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +23,8 @@ public class Apply {
     private Long supplyQuantity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "farm_user_id")
+    private FarmUser farmUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_buying_id")
