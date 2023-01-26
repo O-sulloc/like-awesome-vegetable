@@ -42,8 +42,8 @@ public class AuctionRequest {
     @NotNull
     private String address; //넣을곳
 
-    public Auction toEntity(AuctionRequest auctionRequest) {
-        return Auction.builder()
+    public FarmAuction toEntity(AuctionRequest auctionRequest) {
+        return FarmAuction.builder()
                 .quantity(auctionRequest.getQuantity())
                 .description(auctionRequest.getDescription())
 //                .registeredAt() //경매 시작 시간
@@ -51,7 +51,7 @@ public class AuctionRequest {
                 .startPrice(auctionRequest.getStartPrice())
 //                .endPrice(auctionRequest.getEndPrice())
 //                .limitPrice()
-                .shipping(auctionRequest.getShipping())
+//                .shipping(auctionRequest.getShipping())
 //                .status() //디폴트:1
 //                .modifiedAt()
 //                .deletedAt()
