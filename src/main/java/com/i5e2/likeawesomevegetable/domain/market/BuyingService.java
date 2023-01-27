@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BuyingService {
     private final CompanyBuyingJpaRepository buyingJpaRepository;
+    private final FarmAuctionJpaRepository farmAuctionJpaRepository;
 
     public String creatBuying(BuyingRequest buyingRequest) {
 
@@ -17,14 +19,13 @@ public class BuyingService {
         return null;
     }
 
-    public static String shippingConvert(int value){
-        if (value==1){
-            return "BOXING";
-        } else if (value==2) {
-            return "TONBAG";
-        } else if (value==3) {
-            return "CONTIBOX";
-        }
-        return "0";
+    public String creatAuction(AuctionRequest auctionRequest) {
+
+        FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest);
+//        farmAuctionJpaRepository.save(auctionRequest);
+
+        return null;
     }
+
+
 }

@@ -25,7 +25,9 @@
     <link th:href ="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
     <link th:href ="@{/awesome/css/company-gather-writeform.css}" rel="stylesheet" type="text/css">
 
-    <script th:src="@{https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js}"></script>
+    <script th:src="@{/awesome/js/ckeditor5/build/ckeditor.js}"></script>
+
+<!--    <script th:src="@{https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js}"></script>-->
 </head>
 
 <body>
@@ -139,9 +141,9 @@
                                                                     <span class="arrow"><i
                                                                             class="lni lni-chevron-down"></i></span>
                                                                     <select class="user-chosen-select" th:field="*{category}" th:class="${#fields.hasErrors('category')}? 'error'">
-                                                                        <option selected value="none">카테고리를 선택해주세요</option>
-                                                                        <option value="0">채소</option>
+                                                                        <option selected value="0">카테고리를 선택해주세요</option>
                                                                         <option value="1">과일</option>
+                                                                        <option value="2">채소</option>
 <!--                                                                        <option value="2">확인확인</option>-->
 <!--                                                                        <option value="null">불러오기</option>-->
 <!--                                                                        <option value="none">불러오기</option>-->
@@ -168,8 +170,8 @@
                                                         <!-- Start Post Ad Step Two Content -->
                                                         <div class="col-12">
                                                             <div class="form-group">
-                                                                <label>모집 물량 (톤(t)단위)*</label>
-                                                                <input th:field="*{quantity}" type="text"
+                                                                <label>모집 물량 (톤(t)단위) 최소 3T *</label>
+                                                                <input th:field="*{quantity}" type="number"
                                                                        placeholder="모집 물량을 입력해주세요" th:class="${#fields.hasErrors('quantity')}? 'error'">
                                                                 <div th:each="msg : ${#fields.errors('quantity')}">
                                                                     <p style="color: red" th:text="${msg}"></p>
@@ -189,8 +191,16 @@
                                                         </div>
 
                                                         <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
+                                                        <!-- start editor -->
                                                         <div id="editor-box">
-                                                            <textarea id="content" th:field="*{description}"  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요" th:class="${#fields.hasErrors('description')}? 'error'">
+                                                            <textarea id="editor" th:field="*{description}"  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요" th:class="${#fields.hasErrors('description')}? 'error'">
                                                             </textarea>
                                                             <div th:each="msg : ${#fields.errors('description')}">
                                                                 <p style="color: red" th:text="${msg}"></p>
@@ -242,9 +252,9 @@
                                                         </div>
                                                         <div class="col-lg-6 col-12">
                                                             <div class="form-group">
-                                                                <label>수령인 연락처*</label>
+                                                                <label>수령인 연락처 (-를 제외한 숫자만 입력해주세요) *</label>
                                                                 <input th:field="*{receiverPhoneNo}" type="text" th:class="${#fields.hasErrors('receiverPhoneNo')}? 'error'"
-                                                                       placeholder="수령인 연락처를 작성해주세요">
+                                                                       placeholder="ex) 01012345678 ">
                                                                 <div th:each="msg : ${#fields.errors('receiverPhoneNo')}">
                                                                     <p style="color: red" th:text="${msg}"></p>
                                                                 </div>
@@ -302,7 +312,15 @@
     <script th:src="@{/awesome/js/tiny-slider.js}"></script>
     <script th:src="@{/awesome/js/glightbox.min.js}"></script>
     <script th:src="@{/awesome/js/main.js}"></script>
+
     <script th:src="@{/awesome/js/ckeditor.js}"></script>
+<!--    <script th:src="@{/awesome/js/ckeditor5/src/ckeditor.js}"></script>-->
+
+
+
+
+
+
 </body>
 
 </html>

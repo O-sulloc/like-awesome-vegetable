@@ -25,21 +25,23 @@ public class FarmAuction {
     @Column(name = "farm_auction_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "registered_at")
+    private String registeredAt;
+
+    @Column(name = "end_time")
+    private String endTime;
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "item")
+    private String item;
 
     @Column(name = "quantity")
     private Long quantity;
-
-    @Column(name = "description", length = 5000)
-    private String description;
-
-    @Column(name = "registered_at")
-    private LocalDateTime registeredAt;
-
-    @Column(name = "end_time")
-    private LocalDateTime endTime;
 
     @Column(name = "start_price")
     private Long startPrice;
@@ -50,9 +52,14 @@ public class FarmAuction {
     @Column(name = "limit_price")
     private Long limitPrice;
 
+    @Column(name = "description", length = 5000)
+    private String description;
+
+
+
+
     @Column(name = "shipping")
-    @Enumerated(value = EnumType.STRING)
-    private ShippingEnum shipping;
+    private String shipping;
 
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
@@ -68,18 +75,12 @@ public class FarmAuction {
     @Column(name = "winner_price")
     private Long winnerPrice;
 
-    @Column(name = "item")
-    private String item;
-
-    @Column(name = "category")
-    private String category;
-
-    @Column(name = "title")
-    private String title;
-
     @Column(name = "address")
     private String address;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
     @PreUpdate
     public void onPreUpdatePersist() {
         this.modifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

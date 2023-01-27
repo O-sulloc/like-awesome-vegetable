@@ -14,12 +14,6 @@ public class AuctionService {
     public String creatAuction(AuctionRequest auctionRequest) {
 
         FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest);
-
-//        request에서 받은 부분말고 따로 추가
-//        auction=Auction.builder()
-//                .endPrice(123L)
-//                .endTime(LocalDateTime.now())
-//                .build();
         auctionJpaRepository.save(farmAuction);
 
         return null;
