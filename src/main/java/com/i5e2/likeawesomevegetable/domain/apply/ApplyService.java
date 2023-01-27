@@ -1,35 +1,25 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i5e2.likeawesomevegetable.domain.apply.dto.InfoRequest;
-import com.i5e2.likeawesomevegetable.domain.apply.dto.MessageRequest;
-import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsRequest;
-import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsResponse;
+import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
+import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
+import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
+import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
+import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -37,114 +27,64 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class ApplyService {
 
-    private final RedisSmsUtil redisSmsUtil;
+    private final ApplyJpaRepository applyJpaRepository;
+    private final UserJpaRepository userJpaRepository;
+    private final FarmUserRepository farmUserRepository;
+    private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
 
-    @Value("${sens.serviceId}")
-    private String serviceId;
+    // 모집 참여 조회
+    public Page<ApplyResponse> list(Long companyBuyingId, Pageable pageable) {
 
-    @Value("${sens.accessKey}")
-    private String accessKey;
-
-    @Value("${sens.secretKey}")
-    private String secretKey;
-
-    @Value("${sens.senderPhone}")
-    private String senderPhone;
-
-    // 인증번호 발송
-    public void sendSms(MessageRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException,
-            InvalidKeyException, JsonProcessingException, URISyntaxException {
-
-        Long time = System.currentTimeMillis();
-        String smsCode = mackCode();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("x-ncp-apigw-timestamp", time.toString());
-        headers.set("x-ncp-iam-access-key", accessKey);
-        headers.set("x-ncp-apigw-signature-v2", makeSignature(time));
-
-        List<MessageRequest> messages = new ArrayList<>();
-        messages.add(request);
-
-        SmsRequest smsRequest = SmsRequest.builder()
-                .type("SMS")
-                .contentType("COMM")
-                .countryCode("82")
-                .from(senderPhone)
-                .content("[멋쟁이 채소처럼] 인증번호 [" + smsCode + "]를 입력해주세요.")
-                .messages(messages)
-                .build();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        String body = objectMapper.writeValueAsString(smsRequest);
-        HttpEntity<String> httpBody = new HttpEntity<>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
-
-        restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + this.serviceId +
-                "/messages"), httpBody, SmsResponse.class);
-
-        redisSmsUtil.saveSmsAuth(request.getTo(), smsCode);
+        return applyJpaRepository.findAllByCompanyBuyingId(companyBuyingId, pageable).map(ApplyResponse::fromEntity);
     }
 
-    // Body를 AccessKey Id와 맵핑되는 SecretKey로 암호화
-    private String makeSignature(Long time) throws UnsupportedEncodingException, NoSuchAlgorithmException,
-            InvalidKeyException {
+    // 모집 진행률
+    public double progress(Long companyBuyingId) {
 
-        String space = " ";
-        String newLine = "\n";
-        String method = "POST";
-        String url = "/sms/v2/services/" + this.serviceId + "/messages";
-        String accessKey = this.accessKey;
-        String secretKey = this.secretKey;
+        CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
+                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
 
-        String message = new StringBuilder()
-                .append(method)
-                .append(space)
-                .append(url)
-                .append(newLine)
-                .append(time)
-                .append(newLine)
-                .append(accessKey)
-                .toString();
-
-        SecretKeySpec signingKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256");
-        Mac mac = Mac.getInstance("HmacSHA256");
-        mac.init(signingKey);
-
-        byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
-
-        return Base64.encodeBase64String(rawHmac);
+        return (double)applyJpaRepository.currentQuantity(companyBuyingId) / companyBuying.getQuantity() * 100;
     }
 
-    // 6자리 난수 생성
-    private String mackCode() {
+    // 모집 참여 신청하기
+    public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail) {
 
-        StringBuffer key = new StringBuffer();
-        Random rand = new Random();
+        CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
+                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
 
-        for (int i = 0; i < 6; i++) {
-            key.append(rand.nextInt(10));
+        User user = userJpaRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApplyException(ErrorCode.USER_NOT_FOUND, ErrorCode.USER_NOT_FOUND.getMessage()));
+
+        // 신청자가 농가 사용자인지 확인
+        farmUserRepository.findById(user.getFarmUser().getId())
+                .orElseThrow(() -> new ApplyException(ErrorCode.NOT_FARM_USER, ErrorCode.NOT_FARM_USER.getMessage()));
+
+        Apply savedApply = applyJpaRepository
+                .save(request.toEntity(request.getSupplyQuantity(), companyBuying, user));
+
+        // 모집 수량이 넘었거나 모집 시간이 종료되면 모집 완료
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        if (companyBuying.getQuantity() <= applyJpaRepository.currentQuantity(companyBuyingId)
+                || LocalDateTime.now().isAfter(LocalDateTime.parse(companyBuying.getEndTime(), formatter))) {
+
+            complete(companyBuyingId, userEmail);
         }
 
-        return key.toString();
+        return ApplyResponse.fromEntity(savedApply);
     }
 
-    // 인증번호 검증
-    public void verifySms(InfoRequest request) {
+    // 모집 완료
+    public void complete(Long companyBuyingId, String userEmail) {
 
-        if (!isVerify(request)) {
-            throw new ApplyException(ErrorCode.AUTHENTICATION_FAILED, ErrorCode.AUTHENTICATION_FAILED.getMessage());
-        }
-        redisSmsUtil.deleteSmsAuth(request.getPhone());
-    }
+        CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
+                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
 
-    // 인증번호 일치 여부
-    private boolean isVerify(InfoRequest request) {
+        User user = userJpaRepository.findByEmail(userEmail)
+                .filter(users -> Objects.equals(users.getEmail(), userEmail))
+                .orElseThrow(() -> new ApplyException(ErrorCode.INVALID_PERMISSION,
+                        ErrorCode.INVALID_PERMISSION.getMessage()));
 
-        return (redisSmsUtil.hasKey(request.getPhone()) &&
-                redisSmsUtil.getSmsAuth(request.getPhone()).equals(request.getCode()));
+        //TODO: 포인트 배분
     }
 }

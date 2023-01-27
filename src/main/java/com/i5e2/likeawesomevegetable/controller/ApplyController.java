@@ -1,44 +1,56 @@
 package com.i5e2.likeawesomevegetable.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.i5e2.likeawesomevegetable.domain.apply.dto.InfoRequest;
-import com.i5e2.likeawesomevegetable.domain.apply.dto.MessageRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.ApplyService;
+import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
+import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
 @RestController
-@RequestMapping("/apply")
+@RequestMapping("/market/buying/{companyBuyingId}")
 @RequiredArgsConstructor
 public class ApplyController {
 
     private final ApplyService applyService;
 
-    @GetMapping()
-    public String getSmsPage() {
-        return "";
+    // 모집 조회
+    @GetMapping("/apply")
+    public ResponseEntity<Page<ApplyResponse>> getApply(
+            @PathVariable Long companyBuyingId,
+            @PageableDefault(size = 10, direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<ApplyResponse> applyResponsePage = applyService.list(companyBuyingId, pageable);
+        return ResponseEntity.ok().body(applyResponsePage);
     }
 
-    // 인증번호 발송
-    @PostMapping("/sms/send")
-    public ResponseEntity<String> sendSms(@RequestBody MessageRequest request) throws UnsupportedEncodingException,
-            NoSuchAlgorithmException, URISyntaxException, InvalidKeyException, JsonProcessingException {
+    // 모집 진행률
+    @GetMapping("/progress")
+    public ResponseEntity<Double> progress(@PathVariable Long companyBuyingId) {
 
-        applyService.sendSms(request);
-        return ResponseEntity.ok("인증번호가 발송되었습니다."); //TODO: 리턴 방식 리펙토링
+        double currentProgress = applyService.progress(companyBuyingId);
+        return ResponseEntity.ok().body(currentProgress);
     }
 
-    // 인증번호 검증
-    @PostMapping("/sms/confirm")
-    public ResponseEntity<String> verification(@RequestBody InfoRequest request) {
+    // 참여 신청
+    @PostMapping("/apply")
+    public ResponseEntity<String> quantityInput(@RequestBody ApplyRequest request, @PathVariable Long companyBuyingId,
+                                                Authentication authentication) {
 
-        applyService.verifySms(request);
-        return ResponseEntity.ok("인증이 완료되었습니다."); //TODO: 리턴 방식 리펙토링
+        applyService.apply(request, companyBuyingId, authentication.getName());
+        return ResponseEntity.ok().body("신청 완료");
+    }
+
+    // 모집 완료
+    @PostMapping("/complete")
+    public ResponseEntity<String> complete(@PathVariable Long companyBuyingId, Authentication authentication) {
+
+        applyService.complete(companyBuyingId, authentication.getName());
+        return ResponseEntity.ok().body("모집 종료");
     }
 }
