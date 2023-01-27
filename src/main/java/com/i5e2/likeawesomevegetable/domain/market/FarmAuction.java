@@ -24,40 +24,61 @@ public class FarmAuction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "farm_auction_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(name = "quantity")
     private Long quantity;
+
     @Column(name = "description", length = 5000)
     private String description;
 
     @Column(name = "registered_at")
     private LocalDateTime registeredAt;
+
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
     @Column(name = "start_price")
     private Long startPrice;
+
     @Column(name = "end_price")
     private Long endPrice;
+
     @Column(name = "limit_price")
     private Long limitPrice;
+
     @Column(name = "shipping")
     @Enumerated(value = EnumType.STRING)
     private ShippingEnum shipping;
+
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     private StatusEnum status;
-    @Column(name = "address")
-    private String address;
+
     @LastModifiedDate
     @Column(name = "modified_at")
     private String modifiedAt;
+
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
     @Column(name = "winner_price")
     private Long winnerPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(name = "item")
+    private String item;
+
+    @Column(name = "category")
+    private String category;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "address")
+    private String address;
 
     @PreUpdate
     public void onPreUpdatePersist() {
