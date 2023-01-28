@@ -29,267 +29,270 @@
 </head>
 
 <body>
-    <!-- Start Header Area -->
-    <div th:replace="fragments/header :: header" />
-    <!-- End Header Area -->
+<!-- Start Header Area -->
+<div th:replace="fragments/header :: header" />
+<!-- End Header Area -->
 
-    <!-- Start Breadcrumbs -->
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="breadcrumbs-content">
-                        <h1 class="page-title">경매 게시글 작성</h1>
-                    </div>
+<!-- Start Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">농산물 경매 게시글 작성</h1>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Breadcrumbs -->
+</div>
+<!-- End Breadcrumbs -->
 
-    <!-- Start Dashboard Section -->
-    <section class="dashboard section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-12">
-                    <!-- Start Dashboard Sidebar -->
-                    <div class="dashboard-sidebar">
-                        <div class="user-image">
-                            <img src="https://via.placeholder.com/300x300" alt="#">
-                            <h3>I5E2(검증된 농가)
-                                <span><a href="javascript:void(0)">농가 회원</a></span>
-                            </h3>
-                        </div>
-                        <div class="dashboard-menu">
-                            <ul>
-                                <li><a class="active" href="dashboard.html"><i class="lni lni-dashboard"></i>
-                                    I5E2</a></li>
-                                <li><a href="profile-settings.html"><i class="lni lni-pencil-alt"></i>회원정보수정</a></li>
-                                <li><a href="favourite-items.html"><i class="lni lni-heart"></i>모집 내역</a></li>
-                                <li><a href="favourite-items.html"><i class="lni lni-heart"></i>응찰 내역</a></li>
-                                <li><a href="my-items.html"><i class="lni lni-bolt-alt"></i>포인트</a></li>
-                                <li><a href="favourite-items.html"><i class="lni lni-heart"></i>관심 목록</a></li>
-                                <li><a href="favourite-items.html"><i class="lni lni-heart"></i>알림</a></li>
-                                <div class="button">
-                                    <a class="btn" href="javascript:void(0)">정회원 신청</a>
-                                </div>
-                        </div>
+<!-- Start Dashboard Section -->
+<section class="dashboard section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-12">
+                <!-- Start Dashboard Sidebar -->
+                <div class="dashboard-sidebar">
+                    <div class="user-image">
+                        <img src="https://via.placeholder.com/300x300" alt="#">
+                        <h3>I5E2(검증된 농가)
+                            <span><a href="javascript:void(0)">농가회원</a></span>
+                        </h3>
                     </div>
-                    <!-- Start Dashboard Sidebar -->
+                    <div class="dashboard-menu">
+                        <ul>
+                            <li><a class="active" href="dashboard.html"><i class="lni lni-dashboard"></i>
+                                I5E2</a></li>
+                            <li><a href="profile-settings.html"><i class="lni lni-pencil-alt"></i>회원정보수정</a></li>
+                            <li><a href="favourite-items.html"><i class="lni lni-heart"></i>모집 내역</a></li>
+                            <li><a href="favourite-items.html"><i class="lni lni-heart"></i>응찰 내역</a></li>
+                            <li><a href="my-items.html"><i class="lni lni-bolt-alt"></i>포인트</a></li>
+                            <li><a href="favourite-items.html"><i class="lni lni-heart"></i>관심 목록</a></li>
+                            <li><a href="favourite-items.html"><i class="lni lni-heart"></i>알림</a></li>
+                            <div class="button">
+                                <a class="btn" href="javascript:void(0)">정회원 신청</a>
+                            </div>
+                    </div>
                 </div>
-                <div class="col-lg-9 col-md-8 col-12">
-                    <div class="main-content">
-                        <!-- Start Post Ad Block Area -->
-                        <div class="dashboard-block mt-0">
-                            <h3 class="block-title">경매 게시글 작성</h3>
-                            <div class="inner-block">
-                                <!-- Start Post Ad Tab -->
-                                <div class="post-ad-tab">
-                                    <nav>
-                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                            <button class="nav-link active" id="nav-item-info-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#nav-item-info" type="button" role="tab"
-                                                    aria-controls="nav-item-info" aria-selected="true">
-                                                <span class="serial">필수</span>
-                                                경매 게시글
-                                                <span class="sub-title">기본/상세설정/운임정보</span>
-                                            </button>
-                                        </div>
-                                    </nav>
-                                    <div class="tab-content" id="nav-tabContent">
-                                        <div class="tab-pane fade show active" id="nav-item-info" role="tabpanel"
-                                             aria-labelledby="nav-item-info-tab">
-                                            <!-- Start Post Ad Step One Content -->
-                                            <div class="step-one-content">
-<!--                                                <form class="default-form-style" th:object="${buyingRequest}" method="post" th:action="@{/market/buying}">-->
-                                                    <div class="row">
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>제목*</label>
-<!--                                                                <input placeholder="경매를 잘 드러낼 수 있는 제목으로 입력해주세요" type="text"-->
-<!--                                                                       th:field="*{title}" th:class="${#fields.hasErrors('title')}? 'error'" />-->
-<!--                                                                <div th:each="msg : ${#fields.errors('title')}">-->
-<!--                                                                    <p style="color: red" th:text="${msg}"></p>-->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>경매 시작일*</label>
-<!--                                                                <input th:field="*{startTime}" type="datetime-local"-->
-<!--                                                                       placeholder="시작일을 설정해주세요" th:class="${#fields.hasErrors('startTime')}? 'error'">-->
-<!--                                                                <div th:each="msg : ${#fields.errors('startTime')}">-->
-<!--                                                                    <p style="color: red" th:text="${msg}"></p>-->
-<!--                                                                </div>-->
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <label>경매 마감일*</label>
-<!--                                                                <input th:field="*{endTime}" type="datetime-local"-->
-<!--                                                                       placeholder="마감일을 설정해주세요" th:class="${#fields.hasErrors('endTime')}? 'error'">-->
-<!--                                                                <div th:each="msg : ${#fields.errors('endTime')}">-->
-<!--                                                                    <p style="color: red" th:text="${msg}"></p>-->
-<!--                                                                </div>-->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>품종 카테고리*</label>
-                                                                <div class="selector-head">
-                                                                    <span class="arrow"><i
-                                                                            class="lni lni-chevron-down"></i></span>
-<!--                                                                    <select class="user-chosen-select" th:field="*{category}" th:class="${#fields.hasErrors('category')}? 'error'">-->
-                                                                        <option selected value="none">카테고리를 선택해주세요</option>
-                                                                        <option value="0">채소</option>
-                                                                        <option value="1">과일</option>
-<!--                                                                        <option value="2">확인확인</option>-->
-<!--                                                                        <option value="null">불러오기</option>-->
-<!--                                                                        <option value="none">불러오기</option>-->
-<!--                                                                        <option value="-1">유효성검사</option>-->
-                                                                    </select>
-                                                                    <!--<div th:each="msg : ${#fields.errors('category')}">
-                                                                        <p style="color: red" th:text="${msg}"></p>
-                                                                    </div>-->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>경매 품종*</label>
-                                                                <!--<input th:field="*{item}" type="text"
-                                                                       placeholder="경매할 품종을 정확하게 기재해주세요" th:class="${#fields.hasErrors('item')}? 'error'">
-                                                                <div th:each="msg : ${#fields.errors('item')}">
-                                                                    <p style="color: red" th:text="${msg}"></p>
-                                                                </div>-->
-                                                            </div>
-                                                        </div>
-                                                        <hr>
-
-                                                        <!-- Start Post Ad Step Two Content -->
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>경매 물량 (톤(t)단위)*</label>
-                                                                <!--<input th:field="*{quantity}" type="text"
-                                                                       placeholder="경매 물량을 입력해주세요" th:class="${#fields.hasErrors('quantity')}? 'error'">
-                                                                <div th:each="msg : ${#fields.errors('quantity')}">
-                                                                    <p style="color: red" th:text="${msg}"></p>
-                                                                </div>-->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>시작가*</label>
-                                                                <!--<input th:field="*{price}" type="number"
-                                                                       placeholder="경매 시작가를 입력해주세요" th:class="${#fields.hasErrors('price')}? 'error'">
-                                                                <div th:each="msg : ${#fields.errors('price')}">
-                                                                    <p style="color: red" th:text="${msg}"></p>
-                                                                </div>-->
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>상한가*</label>
-                                                                <!--<input th:field="*{price}" type="number"
-                                                                       placeholder="경매 상한가를 입력해주세요" th:class="${#fields.hasErrors('price')}? 'error'">
-                                                                <div th:each="msg : ${#fields.errors('price')}">
-                                                                    <p style="color: red" th:text="${msg}"></p>
-                                                                </div>-->
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- start editor -->
-                                                        <div id="editor-box">
-                                                            <!--<textarea id="content" th:field="*{description}"  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요" th:class="${#fields.hasErrors('description')}? 'error'">
-                                                            </textarea>
-                                                            <div th:each="msg : ${#fields.errors('description')}">
+                <!-- Start Dashboard Sidebar -->
+            </div>
+            <div class="col-lg-9 col-md-8 col-12">
+                <div class="main-content">
+                    <!-- Start Post Ad Block Area -->
+                    <div class="dashboard-block mt-0">
+                        <h3 class="block-title">경매 게시글 작성</h3>
+                        <div class="inner-block">
+                            <!-- Start Post Ad Tab -->
+                            <div class="post-ad-tab">
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <button class="nav-link active" id="nav-item-info-tab" data-bs-toggle="tab"
+                                                data-bs-target="#nav-item-info" type="button" role="tab"
+                                                aria-controls="nav-item-info" aria-selected="true">
+                                            <span class="serial">필수</span>
+                                            경매 게시글
+                                            <span class="sub-title">기본/상세설정/운임정보</span>
+                                        </button>
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-item-info" role="tabpanel"
+                                         aria-labelledby="nav-item-info-tab">
+                                        <!-- Start Post Ad Step One Content -->
+                                        <div class="step-one-content">
+                                            <form class="default-form-style" th:object="${auctionRequest}" method="post" th:action="@{/market/auction}">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>제목*</label>
+                                                            <input th:field="*{title}" type="text" th:class="${#fields.hasErrors('title')}? 'error'"
+                                                                   placeholder="경매를 잘 드러낼 수 있는 제목으로 입력해주세요">
+                                                            <div th:each="msg : ${#fields.errors('title')}">
                                                                 <p style="color: red" th:text="${msg}"></p>
-                                                            </div>-->
-                                                        </div>
-                                                        <!-- end editor -->
-
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label class="tag-label">태그* <span>Comma(,)로 구분해 주세요</span></label>
-                                                                <!--<input th:field="*{tag}" type="text"
-                                                                       placeholder="태그를 작성해주세요" th:class="${#fields.hasErrors('tag')}? 'error'">
-                                                                <div th:each="msg : ${#fields.errors('tag')}">
-                                                                    <p style="color: red" th:text="${msg}"></p>
-                                                                </div>-->
                                                             </div>
                                                         </div>
-                                                        <hr>
-
-                                                        <!-- Start Post Ad Step Three Content -->
-                                                        <div class="col-12">
-                                                            <div class="form-group">
-                                                                <label>운임방법*</label>
-                                                                <div class="selector-head">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>모집 시작일*</label>
+                                                            <input th:field="*{registeredAt}" type="datetime-local" th:class="${#fields.hasErrors('registeredAt')}? 'error'"
+                                                                   placeholder="시작일을 설정해주세요">
+                                                            <div th:each="msg : ${#fields.errors('registeredAt')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label>모집 마감일*</label>
+                                                            <input th:field="*{endTime}" type="datetime-local" th:class="${#fields.hasErrors('endTime')}? 'error'"
+                                                                   placeholder="마감일을 설정해주세요">
+                                                            <div th:each="msg : ${#fields.errors('endTime')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>품종 카테고리*</label>
+                                                            <div class="selector-head">
                                                                     <span class="arrow"><i
                                                                             class="lni lni-chevron-down"></i></span>
-                                                                    <!--<select class="user-chosen-select" th:field="*{shipping}" th:class="${#fields.hasErrors('shipping')}? 'error'">
-                                                                        <option value="0">개별 포장은 하지 않습니다</option>
-                                                                        <option value="1">박스 포장</option>
-                                                                        <option value="2">톤백 자루</option>
-                                                                        <option value="3">콘티 박스</option>
-                                                                    </select>
-                                                                    <div th:each="msg : ${#fields.errors('shipping')}">
-                                                                        <p style="color: red" th:text="${msg}"></p>
-                                                                    </div>-->
+                                                                <select class="user-chosen-select" th:field="*{category}" th:class="${#fields.hasErrors('category')}? 'error'">
+                                                                    <option value="0">카테고리를 선택해주세요</option>
+                                                                    <option value="1">과일</option>
+                                                                    <option value="2">채소</option>
+                                                                </select>
+                                                                <div th:each="msg : ${#fields.errors('category')}">
+                                                                    <p style="color: red" th:text="${msg}"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="col-lg-6 col-12">
-                                                            <div class="form-group">
-                                                                <label>수령인*</label>
-                                                                <!--<input th:field="*{receiverName}" type="text"
-                                                                       placeholder="수령인 성함을 작성해주세요" th:class="${#fields.hasErrors('receiverName')}? 'error'">
-                                                                <div th:each="msg : ${#fields.errors('receiverName')}">
-                                                                    <p style="color: red" th:text="${msg}"></p>
-                                                                </div>-->
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-12">
-                                                            <div class="form-group button mb-0">
-                                                                <button type="submit" class="btn ">작성 완료</button>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>모집 품종*</label>
+                                                            <input th:field="*{item}" type="text" th:class="${#fields.hasErrors('item')}? 'error'"
+                                                                   placeholder="모집할 품종을 정확하게 기재해주세요">
+                                                            <div th:each="msg : ${#fields.errors('item')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
                                                             </div>
                                                         </div>
 
                                                     </div>
-<!--                                                </form>-->
-                                            </div>
-                                            <!-- Start Post Ad Step One Content -->
+                                                    <hr>
+
+                                                    <!-- Start Post Ad Step Two Content -->
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>모집 물량 (톤(t)단위)*</label>
+                                                            <input th:field="*{quantity}" type="text" th:class="${#fields.hasErrors('quantity')}? 'error'"
+                                                                   placeholder="모집 물량을 입력해주세요">
+                                                            <div th:each="msg : ${#fields.errors('quantity')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>시작가 설정*</label>
+                                                            <input th:field="*{startPrice}" type="number" th:class="${#fields.hasErrors('startPrice')}? 'error'"
+                                                                   placeholder="시작 가격을 입력해주세요">
+                                                            <div th:each="msg : ${#fields.errors('startPrice')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>상한가 설정*</label>
+                                                            <input th:field="*{limitPrice}" type="number" th:class="${#fields.hasErrors('limitPrice')}? 'error'"
+                                                                   placeholder="상한 가격을 입력해주세요">
+                                                            <div th:each="msg : ${#fields.errors('limitPrice')}">
+                                                                <p style="color: red" th:text="${msg}"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- start editor -->
+                                                    <div id="editor-box">
+                                                        <textarea id="content" th:field="*{description}" th:class="${#fields.hasErrors('description')}? 'error'"
+                                                                  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요">
+                                                        </textarea>
+                                                        <div th:each="msg : ${#fields.errors('description')}">
+                                                            <p style="color: red" th:text="${msg}"></p>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end editor -->
+
+<!--                                                    <div class="col-12">-->
+<!--                                                        <div class="form-group">-->
+<!--                                                            <label class="tag-label">태그* <span>Comma(,)로 구분해 주세요</span></label>-->
+<!--                                                            <input name="tag" type="text"-->
+<!--                                                                   placeholder="태그를 작성해주세요">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+
+                                                    <!-- Start Post Ad Step Three Content -->
+<!--                                                    <div class="col-12">-->
+<!--                                                        <div class="form-group">-->
+<!--                                                            <label>운임방법*</label>-->
+<!--                                                            <div class="selector-head">-->
+<!--                                                                    <span class="arrow"><i-->
+<!--                                                                            class="lni lni-chevron-down"></i></span>-->
+<!--                                                                <select class="user-chosen-select">-->
+<!--                                                                    <option value="none">개별 포장은 하지 않습니다</option>-->
+<!--                                                                    <option value="none">박스 포장</option>-->
+<!--                                                                    <option value="none">톤백 자루</option>-->
+<!--                                                                    <option value="none">콘티 박스</option>-->
+<!--                                                                </select>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+
+<!--                                                    <div class="col-lg-6 col-12">-->
+<!--                                                        <div class="form-group">-->
+<!--                                                            <label>수령인*</label>-->
+<!--                                                            <input name="name" type="text"-->
+<!--                                                                   placeholder="수령인 성함을 작성해주세요">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-6 col-12">-->
+<!--                                                        <div class="form-group">-->
+<!--                                                            <label>수령인 연락처*</label>-->
+<!--                                                            <input name="number" type="text"-->
+<!--                                                                   placeholder="수령인 연락처를 작성해주세요">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+
+<!--                                                    <div class="col-12">-->
+<!--                                                        <div class="form-group">-->
+<!--                                                            <label>배송 받을 주소*</label>-->
+<!--                                                            <input name="address" type="text"-->
+<!--                                                                   placeholder="배송 받을 주소를 입력해주세요">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+
+                                                    <div class="col-12">
+                                                        <div class="form-group button mb-0">
+                                                            <button type="submit" class="btn ">작성 완료</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
                                         </div>
+                                        <!-- Start Post Ad Step One Content -->
                                     </div>
                                 </div>
-                                <!-- End Post Ad Tab -->
                             </div>
+                            <!-- End Post Ad Tab -->
                         </div>
-                        <!-- End Post Ad Block Area -->
                     </div>
+                    <!-- End Post Ad Block Area -->
                 </div>
             </div>
         </div>
-    </section>
-    <!-- End Dashboard Section -->
+    </div>
+</section>
+<!-- End Dashboard Section -->
 
-    <!-- Start Footer Area -->
-    <div th:replace="fragments/footer :: footer" />
-    <!--/ End Footer Area -->
+<!-- Start Footer Area -->
+<div th:replace="fragments/footer :: footer" />
+<!--/ End Footer Area -->
 
-    <!-- ========================= scroll-top ========================= -->
-    <a href="#" class="scroll-top btn-hover">
-        <i class="lni lni-chevron-up"></i>
-    </a>
+<!-- ========================= scroll-top ========================= -->
+<a href="#" class="scroll-top btn-hover">
+    <i class="lni lni-chevron-up"></i>
+</a>
 
-    <!-- ========================= JS here ========================= -->
-    <script th:src="@{/awesome/js/bootstrap.min.js}"></script>
-    <script th:src="@{/awesome/js/wow.min.js}"></script>
-    <script th:src="@{/awesome/js/tiny-slider.js}"></script>
-    <script th:src="@{/awesome/js/glightbox.min.js}"></script>
-    <script th:src="@{/awesome/js/main.js}"></script>
-    <script th:src="@{/awesome/js/ckeditor.js}"></script>
+<!-- ========================= JS here ========================= -->
+<script th:src="@{/awesome/js/bootstrap.min.js}"></script>
+<script th:src="@{/awesome/js/wow.min.js}"></script>
+<script th:src="@{/awesome/js/tiny-slider.js}"></script>
+<script th:src="@{/awesome/js/glightbox.min.js}"></script>
+<script th:src="@{/awesome/js/main.js}"></script>
+<script th:src="@{/awesome/js/ckeditor.js}"></script>
 </body>
 
 </html>
