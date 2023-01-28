@@ -10,55 +10,73 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionRequest {
-    //TODO : 1. 후입력(price,time,userid,time) 2.이미지 업로드 3.리턴타입
-//- 농가 이름 user.getUser_name
-//- 품목 (api 선택)
-//- 수량 quantity
-//- 농산물 설명(이미지 포함) description
-//- 경매 시간 registeredAt
-//- 최저(농가)/최고(푸드리퍼브) 금액  startPrice / endprice 후 입력
-//- 운임 여부 shipping
-//- 위치 주소 address
+    //TODO : 1. 후입력(price,time,userid,time) 2.이미지 업로드 3.category 다양화 4.날짜형식 & 유효성 검증 추가 5.limit
 
-
-    //    @NotBlank
-    private String userName;
-    //    @NotBlank
-    private String item;
-    @NotNull
-    @Min(value = 1)
-    private Long quantity;
-    @NotNull
-    private String description;
-    //    @FutureOrPresent //Localdatetime아니라 에러?
+    @NotBlank(message = "제목을 입력해 주세요")
+    private String title;
+    //    private LocalDateTime startTime;
+//    private LocalDateTime endTime;
+    @NotBlank(message = "시작날짜를 달력에서 선택해 주세요")
     private String registeredAt;
-    //    @NotBlank
-    @Min(value = 0)
-//    @Max(value = endPrice) //??
+    @NotBlank(message = "종료날짜를 달력에서 선택해 주세요")
+    private String endTime;
+    @NotBlank(message = "품종을 선택해 주세요")
+    private String item;
+    @Min(value = 1, message = "카테고리를 선택해 주세요")
+    private int category;
+    @NotBlank(message = "내용을 입력해 주세요")
+    private String description;
+    @NotNull(message = "수량을 입력해 주세요")
+    @Min(value = 3, message = "3t이상 모집이 가능합니다.")
+    @Positive(message = "숫자만 입력해 주세요.")
+    private Long quantity;
+    @NotNull(message = "가격을 입력해 주세요")
+    @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Long startPrice;
-    private Long endPrice;
-    //    @NotBlank
-    private Boolean shipping;
-    @NotNull
-    private String address; //넣을곳
+    @NotNull(message = "가격을 입력해 주세요")
+    @Min(value = 0, message = "정확한 가격을 입력해 주세요")
+    private Long limitPrice;
+
+//    private User user;
 
     public FarmAuction toEntity(AuctionRequest auctionRequest) {
         return FarmAuction.builder()
+                .title(auctionRequest.getTitle())
+                .registeredAt(auctionRequest.getRegisteredAt())
+                .endTime(auctionRequest.getEndTime())
+                .category(categoryConvert(auctionRequest.getCategory()))
+                .item(auctionRequest.getItem())
                 .quantity(auctionRequest.getQuantity())
-                .description(auctionRequest.getDescription())
-//                .registeredAt() //경매 시작 시간
-//                .endTime(auctionRequest.getEndTime())
                 .startPrice(auctionRequest.getStartPrice())
-//                .endPrice(auctionRequest.getEndPrice())
-//                .limitPrice()
-//                .shipping(auctionRequest.getShipping())
-//                .status() //디폴트:1
+//                .endPrice()
+                .limitPrice(auctionRequest.getLimitPrice())
+                .description(auctionRequest.getDescription())
+//                .shipping()
+//                .status()
 //                .modifiedAt()
 //                .deletedAt()
 //                .winnerPrice()
-                .address(auctionRequest.address)
-//                .user()
-//                .item(item.findByName)
+//                .address()
                 .build();
+    }
+
+    private String shippingConvert(int value) {
+        if (value == 1) {
+            return "BOXING";
+        } else if (value == 2) {
+            return "TONBAG";
+        } else if (value == 3) {
+            return "CONTIBOX";
+        }
+        return "0";
+    }
+
+    private String categoryConvert(int value) {
+        if (value == 1) {
+            return "과일";
+        } else if (value == 2) {
+            return "채소";
+        }
+        return "0";
     }
 }
