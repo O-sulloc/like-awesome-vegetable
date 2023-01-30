@@ -42,5 +42,11 @@ public class Apply {
     @Enumerated(EnumType.STRING)
     @Column(name = "apply_result")
     private ApplyResult applyResult;
-    
+
+    @Column(name = "buying_title", length = 20)
+    private String buyingTitle;
+
+    @Column(name = "apply_number", length = 100)
+    private String applyNumber;
+
 }
