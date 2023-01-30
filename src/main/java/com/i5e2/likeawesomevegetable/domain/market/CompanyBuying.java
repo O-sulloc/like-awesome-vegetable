@@ -90,8 +90,4 @@ public class CompanyBuying {
     @Column(name = "buying_deleted_at")
     private LocalDateTime buyingDeletedAt;
 
-    //BUYING-날짜-게시글번호-신청ID
-    @Column(name = "buying_number")
-    private String buyingNumber;
-
 }

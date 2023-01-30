@@ -44,4 +44,10 @@ public class Standby {
     @Column(name = "bidding_result")
     private String biddingResult;
 
+    @Column(name = "auction_title", length = 20)
+    private String auctionTitle;
+
+    @Column(name = "bidding_number", length = 100)
+    private String biddingNumber;
+
 }
