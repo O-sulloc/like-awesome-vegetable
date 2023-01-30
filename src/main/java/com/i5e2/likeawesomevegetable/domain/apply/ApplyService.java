@@ -6,10 +6,7 @@ import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
-import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
-import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
-import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -44,7 +40,7 @@ public class ApplyService {
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
                 .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
 
-        return (double)applyJpaRepository.currentQuantity(companyBuyingId) / companyBuying.getQuantity() * 100;
+        return (double)applyJpaRepository.currentQuantity(companyBuyingId) / companyBuying.getBuyingQuantity() * 100;
     }
 
     // 모집 참여 신청하기
@@ -61,30 +57,37 @@ public class ApplyService {
                 .orElseThrow(() -> new ApplyException(ErrorCode.NOT_FARM_USER, ErrorCode.NOT_FARM_USER.getMessage()));
 
         Apply savedApply = applyJpaRepository
-                .save(request.toEntity(request.getSupplyQuantity(), companyBuying, user));
+                .save(request.toEntity(request.getApplyQuantity(), companyBuying, user, ComapnyBuyingStatus.IN_PROGRESS));
+
+        // 참여 고유번호 생성(APPLY-날짜-게시글번호-신청ID)
+        String applyNumber = "APPLY-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"))
+                + companyBuying.getId() + savedApply.getId();
+
+        savedApply.setApplyNumber(applyNumber);
 
         // 모집 수량이 넘었거나 모집 시간이 종료되면 모집 완료
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-        if (companyBuying.getQuantity() <= applyJpaRepository.currentQuantity(companyBuyingId)
-                || LocalDateTime.now().isAfter(LocalDateTime.parse(companyBuying.getEndTime(), formatter))) {
+        if (companyBuying.getBuyingQuantity() <= applyJpaRepository.currentQuantity(companyBuyingId)
+                || LocalDateTime.now().isAfter(LocalDateTime.parse(companyBuying.getBuyingEndTime(), formatter))) {
 
-            complete(companyBuyingId, userEmail);
+            //TODO: 모집 종료
         }
 
         return ApplyResponse.fromEntity(savedApply);
     }
 
-    // 모집 완료
-    public void complete(Long companyBuyingId, String userEmail) {
-
-        CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
-
-        User user = userJpaRepository.findByEmail(userEmail)
-                .filter(users -> Objects.equals(users.getEmail(), userEmail))
-                .orElseThrow(() -> new ApplyException(ErrorCode.INVALID_PERMISSION,
-                        ErrorCode.INVALID_PERMISSION.getMessage()));
-
-        //TODO: 포인트 배분
-    }
+    //TODO: BuyingService에서 구현
+//    // 모집 완료
+//    public void complete(Long companyBuyingId, String userEmail) {
+//
+//        CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
+//                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+//
+//        User user = userJpaRepository.findByEmail(userEmail)
+//                .filter(users -> Objects.equals(users.getEmail(), userEmail))
+//                .orElseThrow(() -> new ApplyException(ErrorCode.INVALID_PERMISSION,
+//                        ErrorCode.INVALID_PERMISSION.getMessage()));
+//
+//        //TODO: 포인트 배분
+//    }
 }

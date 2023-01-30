@@ -8,6 +8,7 @@ import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +60,7 @@ public class SmsService {
             InvalidKeyException, JsonProcessingException, URISyntaxException {
 
         // 휴대폰 번호 검증
-        userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getPhoneNo(), request.getTo()))
+        userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
                 .orElseThrow(() -> new ApplyException(ErrorCode.PHONE_DISCORD, ErrorCode.PHONE_DISCORD.getMessage()));
 
         Long time = System.currentTimeMillis();
@@ -140,12 +141,17 @@ public class SmsService {
     }
 
     // 인증번호 검증
-    public void verifySms(InfoRequest request) {
+    public User verifySms(InfoRequest request, String userEmail) {
+
+        User user = userJpaRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApplyException(ErrorCode.PHONE_DISCORD, ErrorCode.PHONE_DISCORD.getMessage()));
 
         if (!isVerify(request)) {
             throw new ApplyException(ErrorCode.AUTHENTICATION_FAILED, ErrorCode.AUTHENTICATION_FAILED.getMessage());
         }
         redisSmsUtil.deleteSmsAuth(request.getPhone());
+
+        return user;
     }
 
     // 인증번호 일치 여부
