@@ -19,7 +19,7 @@ public class PointDetailLog {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "point_event_id")
+    @JoinColumn(name = "point_event_id")
     private PointEvent pointEvent;
 
     @Column(name = "user_id")
