@@ -19,7 +19,7 @@ public class UserService {
     @Value("${jwt.token.secret}")
     private String secretKey;
 
-    private long expireTimeMs = 10000 * 60 * 60; // 1시간
+    private long expireTimeMs = 10000 * 60 * 60;
 
     public UserJoinResponse join(UserJoinRequest dto) {
         if (!isNotEmailExist(dto.getEmail())) {
@@ -29,11 +29,9 @@ public class UserService {
         User savedUser = userJpaRepository.save(
                 User.builder()
                         .email(dto.getEmail())
-                        .businessName(dto.getBusinessName())
-                        .phoneNo(dto.getPhoneNo())
-                        .address(dto.getAddress())
-                        .userType(dto.getVerification())
+                        .managerName(dto.getManagerName())
                         .password(encoder.encode(dto.getPassword()))
+                        .userType(UserType.ROLE_BASIC)
                         .build()
         );
 
