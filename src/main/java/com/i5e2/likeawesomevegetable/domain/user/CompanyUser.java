@@ -43,7 +43,7 @@ public class CompanyUser {
     @Column(name = "company_line_info", length = 100)
     private String companyLineInfo;
 
-    @Column(name = "company_ registered_at")
+    @Column(name = "company_registered_at")
     private LocalDateTime companyRegisteredAt;
 
     @Column(name = "company_major_item")
