@@ -14,23 +14,21 @@ public class BuyingRequest {
 
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
-    //    private LocalDateTime startTime;
-//    private LocalDateTime endTime;
     @NotBlank(message = "시작날짜를 달력에서 선택해 주세요")
     private String startTime;
     @NotBlank(message = "종료날짜를 달력에서 선택해 주세요")
     private String endTime;
     @Min(value = 0, message = "카테고리를 선택해 주세요")
-    private int category;
+    private Integer category;
     @NotBlank(message = "품종을 선택해 주세요")
     private String item;
     @NotNull(message = "수량을 입력해 주세요")
     @Min(value = 3, message = "3t이상 모집이 가능합니다.")
     @Positive(message = "숫자만 입력해 주세요.")
-    private Long quantity;
+    private Integer quantity;
     @NotNull(message = "가격을 입력해 주세요")
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
-    private Long price;
+    private Integer price;
     @NotBlank(message = "내용을 입력해 주세요")
     private String description;
     @NotBlank(message = "태그를 입력해 주세요")
@@ -47,20 +45,24 @@ public class BuyingRequest {
 
     public CompanyBuying toEntity(BuyingRequest buyingRequest) {
         return CompanyBuying.builder()
-                .title(buyingRequest.getTitle())
-                .startTime(buyingRequest.getStartTime())
-                .endTime(buyingRequest.getEndTime())
-                .category(categoryConvert(buyingRequest.getCategory()))
-                .item(buyingRequest.getItem())
-                .quantity(buyingRequest.getQuantity())
-                .price(buyingRequest.getPrice())
-                .description(buyingRequest.getDescription())
-                .tag(buyingRequest.getTag())
-                .shipping(shippingConvert(buyingRequest.getShipping())) //int->string
+                .buyingTitle(buyingRequest.getTitle())
+                .buyingStartTime(buyingRequest.getStartTime())
+                .buyingEndTime(buyingRequest.getEndTime())
+                .buyingItemCategory(buyingRequest.getCategory())
+                .buyingItem(buyingRequest.getItem())
+                .buyingQuantity(buyingRequest.getQuantity())
+                .buyingPrice(buyingRequest.getPrice())
+                .buyingDescription(buyingRequest.getDescription())
+                .buyingTag(buyingRequest.getTag())
+                .buyingShipping(shippingConvert(buyingRequest.getShipping())) //int->string
                 .receiverName(buyingRequest.getReceiverName())
                 .receiverPhoneNo(buyingRequest.getReceiverPhoneNo())
                 .receiverAddress(buyingRequest.getReceiverAddress())
 //                .user()
+//                .companyBuyingStatus
+//                .buyingRegisteredAt
+//                .buyingModifiedAt
+//                .buyingDeletedAt
                 .build();
     }
     private String shippingConvert(int value) {
@@ -74,12 +76,4 @@ public class BuyingRequest {
         return "0";
     }
 
-    private String categoryConvert(int value) {
-        if (value == 1) {
-            return "과일";
-        } else if (value == 2) {
-            return "채소";
-        }
-        return "0";
-    }
 }
