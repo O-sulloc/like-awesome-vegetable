@@ -1,9 +1,10 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
-import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingStatus;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_apply")
 public class Apply {
@@ -31,11 +33,12 @@ public class Apply {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "buying_status")
-    private CompanyBuyingStatus companyBuyingStatus;
+    private ComapnyBuyingStatus companyBuyingStatus;
 
     @Column(name = "apply_quantity")
     private Long applyQuantity;
 
+    @CreatedDate
     @Column(name = "apply_time")
     private LocalDateTime applyTime;
 
@@ -45,4 +48,11 @@ public class Apply {
     @Column(name = "apply_number", length = 100)
     private String applyNumber;
 
+    public void setApplyNumber(String applyNumber) {
+        this.applyNumber = applyNumber;
+    }
+
+    public void setCompanyBuyingEnd() {
+        this.companyBuyingStatus = ComapnyBuyingStatus.END;
+    }
 }
