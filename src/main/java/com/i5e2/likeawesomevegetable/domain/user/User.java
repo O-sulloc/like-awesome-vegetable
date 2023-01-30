@@ -21,40 +21,6 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "email")
-    private String email;
-
-    // enum type
-    @Column(name = "user_type")
-    @Enumerated(value = EnumType.STRING)
-    private UserType userType;
-
-    @Column(name = "business_name")
-    private String businessName;
-
-    @Column(name = "manager_name")
-    private String managerName; // 담당자 이름
-
-    @Column(name = "phone_no")
-    private String phoneNo; // 담당자 전화번호
-
-    @Column(name = "address", length = 300)
-    private String address;
-
-    @CreatedDate
-    @Column(name = "registered_at", updatable = false)
-    private String registeredAt;
-
-    @LastModifiedDate
-    @Column(name = "modified_at")
-    private String modifiedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     @OneToOne
     @JoinColumn(name = "company_user_id")
     private CompanyUser companyUser;
@@ -63,4 +29,31 @@ public class User {
     @JoinColumn(name = "farm_user_id")
     private FarmUser farmUser;
 
+    @Column(name = "password", length = 20)
+    private String password;
+
+    @Column(name = "email", length = 50)
+    private String email;
+
+    // enum type
+    @Column(name = "user_type", length = 20)
+    @Enumerated(value = EnumType.STRING)
+    private UserType userType;
+
+    @Column(name = "manager_name", length = 10)
+    private String managerName; // 담당자 이름
+
+    @Column(name = "manager_phone_no", length = 50)
+    private String manaverPhoneNo; // 담당자 전화번호
+
+    @CreatedDate
+    @Column(name = "user_registered_at", updatable = false)
+    private LocalDateTime userRegisteredAt;
+
+    @LastModifiedDate
+    @Column(name = "user_modified_at")
+    private LocalDateTime userModifiedAt;
+
+    @Column(name = "user_deleted_at")
+    private LocalDateTime userDeletedAt;
 }

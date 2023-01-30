@@ -24,17 +24,16 @@ public class Alarm {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "target_id")
-    private Long targetId;
+    @Column(name = "alarm_sender_id")
+    private Long alarmSenderId;
 
-    @Column(name = "from_user_id")
-    private Long fromUserId;
+    @Column(name = "alarm_detail")
+    private AlarmDetail alarmDetail;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "alarm_trigger_id")
+    private Long alarmTriggerId;
 
-    // enum type
-    @Column(name = "post_type")
-    private String postType;
+    @Column(name = "alarm_read")
+    private Boolean alarmRead;
 
 }
