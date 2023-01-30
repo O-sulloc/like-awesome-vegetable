@@ -21,12 +21,15 @@ public class UserVerification {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "verification_email", length = 30)
     private Verification verificationEmail;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "verification_url", length = 30)
     private Verification verificationUrl;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "verification_business", length = 30)
     private Verification verificationBusiness;
 }

@@ -28,6 +28,7 @@ public class Message {
     @Column(name = "other_id")
     private Long otherId;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "message_type", length = 20)
     private MessageType messageType;
 }
