@@ -12,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_standby")
+// table명 t_bidding으로 변경해야 함. 변경하면 브랜치 에러날 것 같아서 수정 안함.
 public class Standby {
 
     @Id
@@ -29,8 +30,18 @@ public class Standby {
 
     @Column(name = "bidding_price")
     private Long biddingPrice;
+
+    // 추가
+    // String이 아닌 Enum이어야 함. Enum 맞춰서 수정 필요
+    @Column(name = "auction_status")
+    private String auctionStatus;
+
     @Column(name = "bidding_time")
     private Long biddingTime;
 
+    // 추가
+    // String이 아닌 Enum이어야 함. Enum 맞춰서 수정 필요
+    @Column(name = "bidding_result")
+    private String biddingResult;
 
 }
