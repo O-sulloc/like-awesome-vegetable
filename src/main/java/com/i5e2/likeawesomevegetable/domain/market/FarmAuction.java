@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
-import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -25,62 +25,92 @@ public class FarmAuction {
     @Column(name = "farm_auction_id")
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @ManyToOne
+    @JoinColumn(name = "farm_user_id")
+    private FarmUser farmUser;
 
-    @Column(name = "registered_at")
-    private String registeredAt;
+    //    @Column(name = "title")
+    //    private String title;
+    @Column(name = "auction_title")
+    private String auctionTitle;
 
-    @Column(name = "end_time")
-    private String endTime;
+    //    @Column(name = "category")
+//    private String category;
+    @Column(name = "auction_item_category")
+    private String auctionItemCategory;
 
-    @Column(name = "category")
-    private String category;
+    //    @Column(name = "item")
+//    private String item;
+    @Column(name = "auction_item")
+    private String auctionItem;
 
-    @Column(name = "item")
-    private String item;
+    //    @Column(name = "quantity")
+//    private Long quantity;
+    @Column(name = "auction_quantity")
+    private Long auctionQuantity;
 
-    @Column(name = "quantity")
-    private Long quantity;
+    //    @Column(name = "description", length = 5000)
+//    private String description;
+    @Column(name = "auction_description", length = 5000)
+    private String auctionDescription;
 
-    @Column(name = "start_price")
-    private Long startPrice;
+    // 추가
+    @Column(name = "auction_start_time")
+    private LocalDateTime auctionStartTime;
 
-    @Column(name = "end_price")
-    private Long endPrice;
+    //    @Column(name = "end_time")
+//    private String endTime;
+    @Column(name = "auction_end_time")
+    private LocalDateTime auctionEndTime;
 
-    @Column(name = "limit_price")
-    private Long limitPrice;
+    //    @Column(name = "start_price")
+//    private Long startPrice;
+    @Column(name = "auction_start_price")
+    private Long auctionStartPrice;
 
-    @Column(name = "description", length = 5000)
-    private String description;
+    // 추가
+    @Column(name = "auction_highest_price")
+    private Long auctionHighestPrice;
 
+    //    @Column(name = "limit_price")
+//    private Long limitPrice;
+    @Column(name = "auction_limit_price")
+    private Long auctionLimitPrice;
 
+    // ERD에 ENUM으로 정의되어있음. Enum 맞춰서 수정 필요
+//    @Column(name = "shipping")
+//    private String shipping;
+    @Column(name = "auction_shipping")
+    private String auctionShipping;
 
-
-    @Column(name = "shipping")
-    private String shipping;
-
-    @Column(name = "status")
+    //    @Column(name = "status")
+//    @Enumerated(value = EnumType.STRING)
+//    private StatusEnum status;
+    @Column(name = "auction_status")
     @Enumerated(value = EnumType.STRING)
-    private StatusEnum status;
+    private StatusEnum auctionStatus;
 
+    //    @Column(name = "registered_at")
+//    private String registeredAt;
+    @Column(name = "auction_registered_at")
+    private LocalDateTime auctionRegisteredAt;
+
+    //    @LastModifiedDate
+//    @Column(name = "modified_at")
+//    private String modifiedAt;
     @LastModifiedDate
-    @Column(name = "modified_at")
-    private String modifiedAt;
+    @Column(name = "auction_modified_at")
+    private LocalDateTime auctionModifiedAt;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    //    @Column(name = "deleted_at")
+//    private LocalDateTime deletedAt;
+    @Column(name = "auction_deleted_at")
+    private LocalDateTime auctionDeletedAt;
 
-    @Column(name = "winner_price")
-    private Long winnerPrice;
+    // 추가
+    @Column(name = "auction_tag")
+    private String auctionTag;
 
-    @Column(name = "address")
-    private String address;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id")
-//    private User user;
     @PreUpdate
     public void onPreUpdatePersist() {
         this.modifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

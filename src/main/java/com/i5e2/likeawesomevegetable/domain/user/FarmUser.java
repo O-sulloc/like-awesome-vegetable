@@ -1,13 +1,17 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
-import lombok.*;
-import javax.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_farm_user")
 public class FarmUser {
     @Id
@@ -18,21 +22,32 @@ public class FarmUser {
     @Column(name = "farm_owner_name")
     private String farmOwnerName;
 
-    @Column(name = "major_product")
-    private String majorProduct;
+    @Column(name = "farm_major_item")
+    private String farmMajorItem;
 
-    @Column(name = "farm_name")
-    private String farmName;
+    @Column(name = "farm_type")
+    private String farmType;
 
-    @Column(name = "farm_ground_area")
-    private String farmGroundArea;
+    @Column(name = "ground_area")
+    private String groundArea;
 
-    @Column(name = "farm_facility_area")
-    private String farmFacilityArea;
+    @Column(name = "facility_area")
+    private String facilityArea;
 
     @Column(name = "farm_website")
     private String farmWebsite;
 
     @Column(name = "farm_info", length = 500)
     private String farmInfo;
+
+    @Column(name = "farm_name")
+    private String farmName;
+
+    // 추가
+    @Column(name = "farm_address")
+    private String farmAddress;
+
+    // 추가
+    @Column(name = "farm_registered_at")
+    private LocalDateTime farmRegisteredAt;
 }
