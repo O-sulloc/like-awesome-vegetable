@@ -16,10 +16,19 @@ public class FarmAuctionImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "farm_auction_image_id")
     private Long id;
-    @Column(name = "link")
-    private String like;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_auction_id")
     private FarmAuction farmAuction;
+
+    //    @Column(name = "link")
+//    private String link;
+    @Column(name = "auction_image_link")
+    private String auctionImageLink;
+    
+    // 추가
+    @Column(name = "auction_image_name")
+    private String auctionImageName;
+
 
 }
