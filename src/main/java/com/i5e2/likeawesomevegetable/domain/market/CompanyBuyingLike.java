@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "t_company_buying")
+@Table(name = "t_company_buying_like")
 public class CompanyBuyingLike {
 
     @Id
@@ -31,5 +31,5 @@ public class CompanyBuyingLike {
 
     @Column(name = "company_buying_like_registered_at")
     private LocalDateTime companyBuyingLikeRegisteredAt;
-    
+
 }
