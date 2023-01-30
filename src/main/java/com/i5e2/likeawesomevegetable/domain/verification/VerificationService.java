@@ -82,4 +82,5 @@ public class VerificationService {
         return UserType.ROLE_BASIC;
     }
 
+
 }

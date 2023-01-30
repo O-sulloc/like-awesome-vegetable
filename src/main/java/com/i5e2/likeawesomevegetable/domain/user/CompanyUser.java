@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_company_user")
 public class CompanyUser {
+    // test
+    // test branch work
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_user_id")
