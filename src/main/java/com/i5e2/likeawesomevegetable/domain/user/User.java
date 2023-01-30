@@ -35,9 +35,8 @@ public class User {
     @Column(name = "email", length = 50)
     private String email;
 
-    // enum type
-    @Column(name = "user_type", length = 20)
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "user_type", length = 20)
     private UserType userType;
 
     @Column(name = "manager_name", length = 10)

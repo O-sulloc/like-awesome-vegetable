@@ -27,6 +27,7 @@ public class Alarm {
     @Column(name = "alarm_sender_id")
     private Long alarmSenderId;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "alarm_detail")
     private AlarmDetail alarmDetail;
 
