@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "t_company_user")
+@Table(name = "t_company_file")
 public class CompanyFile {
 
     @Id
