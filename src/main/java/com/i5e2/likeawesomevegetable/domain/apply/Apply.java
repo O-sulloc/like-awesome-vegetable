@@ -1,10 +1,12 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
+import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingStatus;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,9 +21,6 @@ public class Apply {
     @Column(name = "apply_id")
     private Long id;
 
-    @Column(name = "supply_quantity")
-    private Long supplyQuantity;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -29,4 +28,19 @@ public class Apply {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_buying_id")
     private CompanyBuying companyBuying;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "buying_status")
+    private CompanyBuyingStatus companyBuyingStatus;
+
+    @Column(name = "apply_quantity")
+    private Long applyQuantity;
+
+    @Column(name = "apply_time")
+    private LocalDateTime applyTime;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "apply_result")
+    private ApplyResult applyResult;
+    
 }
