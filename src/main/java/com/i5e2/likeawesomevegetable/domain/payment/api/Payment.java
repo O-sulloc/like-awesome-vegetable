@@ -23,7 +23,7 @@ public class Payment {
     private UserPaymentOrder userPaymentOrder;
 
     @Column(name = "payment_amount")
-    private Integer paymentAmount;
+    private Long paymentAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
