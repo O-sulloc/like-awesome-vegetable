@@ -84,6 +84,9 @@ public class FarmAuction {
     @Column(name = "auction_deleted_at")
     private String auctionDeletedAt;
 
+    @Column(name = "post_point_activate")
+    private PostPointActivateEnum PostPointActivate;
+
     @PrePersist
 //      String으로 바꾸기
     public void onPrePersist() {

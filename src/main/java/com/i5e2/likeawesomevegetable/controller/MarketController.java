@@ -53,4 +53,10 @@ public class MarketController {
 
         return "/company/company-detail";
     }
+
+    //test
+    @GetMapping("")
+    public String view(){
+        return "/company/smart";
+    }
 }
