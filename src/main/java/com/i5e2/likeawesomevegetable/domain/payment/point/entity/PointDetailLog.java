@@ -1,5 +1,6 @@
-package com.i5e2.likeawesomevegetable.domain.payment.point;
+package com.i5e2.likeawesomevegetable.domain.payment.point.entity;
 
+import com.i5e2.likeawesomevegetable.domain.payment.point.dto.PointStatus;
 import lombok.*;
 
 import javax.persistence.*;
