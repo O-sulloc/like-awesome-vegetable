@@ -7,11 +7,7 @@ import lombok.Getter;
 @Builder
 public class UserJoinRequest {
     private String email;
-    private String businessName;
     private String password;
     private String managerName;
     private String phoneNo;
-    private String address;
-    private UserType verification;
-    private String businessNo;
 }

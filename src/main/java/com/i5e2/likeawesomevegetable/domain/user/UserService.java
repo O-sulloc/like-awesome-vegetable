@@ -2,8 +2,10 @@ package com.i5e2.likeawesomevegetable.domain.user;
 
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.security.JwtTokenUtil;
+import com.i5e2.likeawesomevegetable.security.RedisAccessTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,12 @@ public class UserService {
     private final BCryptPasswordEncoder encoder;
     private final UserJpaRepository userJpaRepository;
 
+    private final RedisAccessTokenUtil redisAccessTokenUtil;
+
     @Value("${jwt.token.secret}")
     private String secretKey;
 
-    private long expireTimeMs = 10000 * 60 * 60;
+    private long expireTimeMs = 1000 * 60 * 60; // 1h
 
     public UserJoinResponse join(UserJoinRequest dto) {
         if (!isNotEmailExist(dto.getEmail())) {
@@ -30,6 +34,7 @@ public class UserService {
                 User.builder()
                         .email(dto.getEmail())
                         .managerName(dto.getManagerName())
+                        .manaverPhoneNo(dto.getPhoneNo())
                         .password(encoder.encode(dto.getPassword()))
                         .userType(UserType.ROLE_BASIC)
                         .build()
@@ -51,8 +56,16 @@ public class UserService {
             throw new UserException(UserErrorCode.INVALID_PASSWORD, UserErrorCode.INVALID_PASSWORD.getMessage());
         }
 
+        String generatedJwt = JwtTokenUtil.createToken(user.getEmail(), secretKey, expireTimeMs);
+
+        if (redisAccessTokenUtil.hasAccessToken(user.getEmail())) {
+            redisAccessTokenUtil.saveBlockAccessToken(
+                    redisAccessTokenUtil.getAccessToken(dto.getEmail())
+            );
+        }
+        redisAccessTokenUtil.saveAccessToken(user.getEmail(), generatedJwt);
         return UserLoginResponse.builder()
-                .jwt(JwtTokenUtil.createToken(user.getEmail(), secretKey, expireTimeMs))
+                .jwt(generatedJwt)
                 .build();
     }
 
@@ -72,5 +85,21 @@ public class UserService {
                     throw new UserException(UserErrorCode.EMAIL_NOT_FOUND, UserErrorCode.EMAIL_NOT_FOUND.getMessage());
                 });
         return user;
+    }
+
+    public UserLogoutResponse logout(Authentication authentication) {
+        String logoutResultMsg = "";
+        String email = authentication.getName();
+        if (redisAccessTokenUtil.hasAccessToken(email)) {
+
+            String jwt = redisAccessTokenUtil.getAccessToken(email);
+            redisAccessTokenUtil.saveBlockAccessToken(jwt);
+            redisAccessTokenUtil.deleteAccessToken(email);
+
+            logoutResultMsg = email;
+        }
+        return UserLogoutResponse.builder()
+                .logoutResult(logoutResultMsg)
+                .build();
     }
 }

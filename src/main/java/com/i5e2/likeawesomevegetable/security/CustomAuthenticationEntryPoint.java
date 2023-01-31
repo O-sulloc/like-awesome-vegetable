@@ -15,15 +15,13 @@ import java.io.IOException;
 
 @Component
 @Slf4j
-public class CustomAuthenticationEntryPointHandler implements AuthenticationEntryPoint {
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorization == null) {
-            log.error("토큰이 존재하지 않습니다.");
             UserErrorCode userErrorCode = UserErrorCode.TOKEN_NOT_FOUND;
-
             UserExceptionManager.setErrorResponse(response, userErrorCode);
         }
     }

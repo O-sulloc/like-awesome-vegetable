@@ -38,6 +38,11 @@ public class JwtTokenExceptionFilter extends OncePerRequestFilter {
             //사용자 찾을 수 없음
             log.error("사용자를 찾을 수 없습니다.");
             setErrorResponse(response, UserErrorCode.EMAIL_NOT_FOUND);
+        } catch (NoAccessTokenException e) {
+
+            //사용자 찾을 수 없음
+            log.error("로그인이 필요합니다.");
+            setErrorResponse(response, UserErrorCode.NEED_LOGIN);
         }
 
     }
