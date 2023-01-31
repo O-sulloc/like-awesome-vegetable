@@ -25,7 +25,25 @@
     <link th:href ="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
     <link th:href ="@{/awesome/css/company-gather-writeform.css}" rel="stylesheet" type="text/css">
 
-    <script th:src="@{/awesome/js/ckeditor5/build/ckeditor.js}"></script>
+    <script th:src="@{/awesome/js/smarteditor2/js/service/HuskyEZCreator.js}"></script>
+    <script th:src="@{https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js}"></script>
+    <script>
+        $(document).ready(function () {
+
+            <!-- SmartEditor2 텍스트편집기 -->
+            var oEditors = [];
+            function smartEditorIFrame() {
+
+                nhn.husky.EZCreator.createInIFrame({
+                    oAppRef : oEditors,
+                    elPlaceHolder : "form-control",
+                    sSkinURI : "/awesome/js/smarteditor2/SmartEditor2Skin.html",
+                    fCreator : "createSEditor2"
+                });
+            }
+            smartEditorIFrame();
+        });
+    </script>
 
 <!--    <script th:src="@{https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js}"></script>-->
 </head>
@@ -49,7 +67,7 @@
     </div>
     <!-- End Breadcrumbs -->
 
-    <!-- Start Dashboard Section -->
+                                    <!-- Start Dashboard Section -->
     <section class="dashboard section">
         <div class="container">
             <div class="row">
@@ -118,7 +136,7 @@
                                                         <div class="col-12">
                                                             <div class="form-group">
                                                                 <label>모집 시작일*</label>
-                                                                <input th:field="*{startTime}" type="datetime-local"
+                                                                <input th:field="*{startTime}" type="date"
                                                                        placeholder="시작일을 설정해주세요" th:class="${#fields.hasErrors('startTime')}? 'error'">
                                                                 <div th:each="msg : ${#fields.errors('startTime')}">
                                                                     <p style="color: red" th:text="${msg}"></p>
@@ -127,7 +145,7 @@
 
                                                             <div class="form-group">
                                                                 <label>모집 마감일*</label>
-                                                                <input th:field="*{endTime}" type="datetime-local"
+                                                                <input th:field="*{endTime}" type="date"
                                                                        placeholder="마감일을 설정해주세요" th:class="${#fields.hasErrors('endTime')}? 'error'">
                                                                 <div th:each="msg : ${#fields.errors('endTime')}">
                                                                     <p style="color: red" th:text="${msg}"></p>
@@ -187,7 +205,6 @@
                                                                     <p style="color: red" th:text="${msg}"></p>
                                                                 </div>
                                                             </div>
-
                                                         </div>
 
                                                         <!-- start editor -->
@@ -199,14 +216,23 @@
                                                         <!-- start editor -->
                                                         <!-- start editor -->
                                                         <!-- start editor -->
-                                                        <div id="editor-box">
-                                                            <textarea id="editor" th:field="*{description}"  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요" th:class="${#fields.hasErrors('description')}? 'error'">
-                                                            </textarea>
-                                                            <div th:each="msg : ${#fields.errors('description')}">
-                                                                <p style="color: red" th:text="${msg}"></p>
-                                                            </div>
-                                                        </div>
+
+<!--                                                        <textarea rows="20" name="form-control" id="form-control"></textarea>-->
+
                                                         <!-- end editor -->
+
+
+
+
+
+                                                    <div id="editor-box">
+                                                        <textarea id="content" th:field="*{description}"  placeholder="이미지를 포함한 상품 상세 내용을 작성해주세요" th:class="${#fields.hasErrors('description')}? 'error'">
+                                                        </textarea>
+                                                        <div th:each="msg : ${#fields.errors('description')}">
+                                                            <p style="color: red" th:text="${msg}"></p>
+                                                        </div>
+                                                    </div>
+                                                                                                                <!-- end editor -->
 
                                                         <div class="col-12">
                                                             <div class="form-group">
@@ -315,6 +341,7 @@
 
     <script th:src="@{/awesome/js/ckeditor.js}"></script>
 <!--    <script th:src="@{/awesome/js/ckeditor5/src/ckeditor.js}"></script>-->
+
 
 
 
