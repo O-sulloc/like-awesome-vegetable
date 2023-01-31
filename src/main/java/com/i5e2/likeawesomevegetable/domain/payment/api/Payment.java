@@ -1,6 +1,5 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
-import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,12 +18,12 @@ public class Payment {
     @Column(name = "payment_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_payment_order_id")
+    private UserPaymentOrder userPaymentOrder;
 
     @Column(name = "payment_amount")
-    private Integer paymentAmount;
+    private Long paymentAmount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method")
