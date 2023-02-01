@@ -24,35 +24,37 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final UserService userService;
     private final String key;
 
+    private final RedisAccessTokenUtil redisAccessTokenUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        // Token꺼내기
+
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        // authorization header null 확인
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Jwt Token만 분리하기
         final String token = authorizationHeader.split(" ")[1].trim();
 
-        // Valid한지 확인 하기
         if (JwtTokenUtil.isExpired(token, key)) {
             log.info("Token 유효 기간이 지났습니다.");
             filterChain.doFilter(request, response);
             return;
         }
-        // Claim에서 email 꺼내기
         String email = JwtTokenUtil.getEmail(token, key);
-        // email 가져오기
         User user = userService.getUserByEmail(email);
 
-        // UserName넣기
+        /* token 검증 */
+        if (redisAccessTokenUtil.hasBlockAccessToken(token)) {
+            log.info("!");
+            throw new LogoutTokenException();
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                user.getEmail(), null, List.of(new SimpleGrantedAuthority("USER"))
+                user.getEmail(), null, List.of(new SimpleGrantedAuthority(user.getUserType().name()))
         );
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
