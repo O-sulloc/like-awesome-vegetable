@@ -3,9 +3,15 @@ package com.i5e2.likeawesomevegetable.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Component
+@Slf4j
+@RequiredArgsConstructor
 public class JwtTokenUtil {
     public static String createToken(String userName, String key, long expiredTimeMs) {
         Claims claims = Jwts.claims();
@@ -28,7 +34,7 @@ public class JwtTokenUtil {
     }
 
     public static boolean isExpired(String token, String key) {
-        Date expiredDate = extractClaims(token, key).getExpiration(); // expire timestamp를 return함
-        return expiredDate.before(new Date()); // 현재보다 전인지 check를 합니다.
+        Date expiredDate = extractClaims(token, key).getExpiration();
+        return expiredDate.before(new Date());
     }
 }
