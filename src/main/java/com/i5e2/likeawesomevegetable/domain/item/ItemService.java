@@ -35,8 +35,9 @@ public class ItemService {
     private String id;
 
     @Scheduled(cron = "0 0 0/3 * * *", zone = "Asia/Seoul")
-    public void getApi() throws ParseException {
+    public void getApi() throws ParseException, InterruptedException {
         log.info("농산물 Api 호출");
+        Thread.sleep(1000);
         priceInfo();
     }
 
