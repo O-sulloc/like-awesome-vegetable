@@ -1,5 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentMethod;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentStatus;
 import lombok.*;
 
 import javax.persistence.*;

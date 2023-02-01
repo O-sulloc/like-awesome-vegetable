@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.payment.point;
+package com.i5e2.likeawesomevegetable.domain.payment.point.entity;
 
 import com.i5e2.likeawesomevegetable.domain.payment.api.Payment;
 import lombok.AccessLevel;

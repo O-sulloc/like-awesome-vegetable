@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.payment.api;
+package com.i5e2.likeawesomevegetable.domain.payment.api.dto;
 
 import lombok.Getter;
 

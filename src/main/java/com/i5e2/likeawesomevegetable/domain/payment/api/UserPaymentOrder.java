@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
 @Entity
 @Getter
 @AllArgsConstructor
@@ -31,4 +32,11 @@ public class UserPaymentOrder {
     @Column(name = "payment_order_amount")
     private Long paymentOrderAmount;
 
+    @Builder
+    public UserPaymentOrder(User user, String postOrderId, String paymentOrderPost, Long paymentOrderAmount) {
+        this.user = user;
+        this.postOrderId = postOrderId;
+        this.paymentOrderPost = paymentOrderPost;
+        this.paymentOrderAmount = paymentOrderAmount;
+    }
 }
