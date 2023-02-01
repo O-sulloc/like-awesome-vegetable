@@ -1,14 +1,13 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,10 +29,22 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        writeTokenResponse(response, authentication);
+        String targetUrl = determineTargetUrl(request, response, authentication);
+
+        /* 로그인 하기 전의 페이지의 url을 담아서 로그인 이후 redirect 주소로 설정 (refactoring 해보기) */
+
+        if(response.isCommitted()){
+            log.debug("Response has already been commited");
+            return;
+        }
+        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
     }
-    private void writeTokenResponse(HttpServletResponse response, Authentication authentication) throws IOException {
-        log.info(authentication.getPrincipal().toString());
+
+    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
+        String targetUrl = getDefaultTargetUrl();
+//        String targetUrl = "http://localhost:8080/oauth2/redirect";
+        log.debug(targetUrl);
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
@@ -48,10 +59,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
         redisAccessTokenUtil.saveAccessToken(email, token);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setCharacterEncoding("UTF-8");
-        objectMapper.writeValue(response.getWriter(),
-                new OAuthLoginResponse(token));
+        return UriComponentsBuilder.fromUriString(targetUrl)
+                .queryParam("accessToken", token)
+                .build().toUriString();
     }
+
 }
