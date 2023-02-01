@@ -1,14 +1,15 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_company_image")
@@ -28,5 +29,21 @@ public class CompanyImage {
 
     @Column(name = "company_image_name", length = 100)
     private String companyImageName;
+
+    @CreatedDate
+    @Column(name = "company_image_registered_at")
+    private LocalDateTime companyImageRegisteredAt;
+
+    @LastModifiedDate
+    @Column(name = "company_image_modified_at")
+    private LocalDateTime companyImageModifiedAt;
+
+    public static CompanyImage makeCompanyImage(String companyImageName, String companyImageLink, CompanyUser companyUser) {
+        return CompanyImage.builder()
+                .companyImageName(companyImageName)
+                .companyImageLink(companyImageLink)
+                .companyUser(companyUser)
+                .build();
+    }
 
 }
