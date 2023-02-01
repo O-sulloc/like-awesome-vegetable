@@ -17,7 +17,7 @@ public class ItemController {
 
     // 최근일자 도·소매 가격정보
     @GetMapping("/item")
-    public ResponseEntity<?> PriceInfo() throws ParseException {
+    public ResponseEntity<?> priceInfo() throws ParseException {
 
         return ResponseEntity.ok().body(itemService.priceInfo());
     }
