@@ -5,6 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-
+index
 </body>
+<script>
+    const url = new URL(window.location.href)
+    const accessToken = url.searchParams.get('accessToken')
+
+    if(accessToken != null) {
+        localStorage.setItem('accessToken', accessToken)
+        window.location.href = '/';
+    }
+</script>
 </html>
