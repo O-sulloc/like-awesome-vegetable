@@ -9,14 +9,82 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
   profiles:
     active:
+
   datasource:
-    username:
-    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-  thymeleaf:
-    suffix: .html
-    prefix: classpath:/templates/
-    cache: false
+    url: #
+    username: #
+    password: #
+
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+
+
+
+  redis:
+    host: #
+    port: 6379
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: #
+            client-secret: #
+            scope: profile,email
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: #
+    password: #
+    properties:
+      debug: true
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
+
+
+sens:
+  serviceId: #
+  accessKey: #
+  secretKey: #
+  senderPhone: #
+
+jwt:
+  token:
+    secret: #
+
+cloud:
+  aws:
+    credentials:
+      accessKey:  #
+      secretKey:  #
+    s3:
+      bucket: #
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+kamis:
+  host: https://www.kamis.or.kr/service/price/xml.do?
+  key: #
+  id: #
+
+BUSINESS-API:
+  KEY: #
+
+toss:
+  api:
+    testSecretApiKey: #
