@@ -15,38 +15,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-    private final UserService userService;
-
-    @PostMapping("/join")
-    @ResponseBody
-    public ResponseEntity<UserJoinResponse> join(@RequestBody UserJoinRequest dto){
-        UserJoinResponse userJoinResponse = userService.join(dto);
-        return ResponseEntity.ok().body(userJoinResponse);
-    }
-
-    @PostMapping("/join/check-email") // email을 사용할 수 있을 경우 true
-    @ResponseBody
-    public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String, String> targetEmail){
-        Boolean isEmailExist = userService.isNotEmailExist(targetEmail.get("email"));
-        return ResponseEntity.ok().body(isEmailExist);
-    }
-
-    @PostMapping("/login")
-    @ResponseBody
-    public ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginRequest dto) {
-        UserLoginResponse userLoginResponse = userService.login(dto);
-        return ResponseEntity.ok().body(userLoginResponse);
-    }
-
-    @PostMapping("/logout")
-    @ResponseBody
-    public ResponseEntity<UserLogoutResponse> logout(Authentication authentication) {
-        UserLogoutResponse userLogoutResponse = userService.logout(authentication);
-        return ResponseEntity.ok().body(userLogoutResponse);
-    }
 
     @GetMapping("/login")
     public String login() {
         return "/user/login";
     }
+
 }
