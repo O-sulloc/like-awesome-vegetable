@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.i5e2.likeawesomevegetable.domain.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -13,10 +14,12 @@ public class UserExceptionManager {
     @ExceptionHandler(UserException.class)
     public ResponseEntity<?> AppExceptionHandler(UserException e) {
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(
-                UserErrorResponse.builder()
-                        .contents(e.getMessage())
-                        .build()
-                );
+                Response.error(
+                        UserErrorResponse.builder()
+                                .contents(e.getMessage())
+                                .build()
+                )
+        );
     }
 
     public static void setErrorResponse(HttpServletResponse response, UserErrorCode userErrorCode) throws IOException {
@@ -29,7 +32,7 @@ public class UserExceptionManager {
                 new ResponseEntity(UserErrorResponse.builder()
                         .contents(userErrorCode.getMessage())
                         .build()
-                , userErrorCode.getStatus())
+                        , userErrorCode.getStatus())
         ));
 
     }
