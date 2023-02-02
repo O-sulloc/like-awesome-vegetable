@@ -29,7 +29,7 @@ public class User {
     @JoinColumn(name = "farm_user_id")
     private FarmUser farmUser;
 
-    @Column(name = "password", length = 20)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "email", length = 50)

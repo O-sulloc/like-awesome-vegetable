@@ -86,6 +86,9 @@ public class CompanyBuying {
     @Column(name = "buying_deleted_at")
     private LocalDateTime buyingDeletedAt;
 
+    @Column(name = "post_point_activate")
+    private PostPointActivateEnum PostPointActivate;
+
     @PrePersist
 //      String으로 바꾸기
     public void onPrePersist() {
