@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.controller;
 
-import com.i5e2.likeawesomevegetable.domain.Response;
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.user.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ public class UserRestController {
 
     @PostMapping("/join")
     @ResponseBody
-    public ResponseEntity<Response<UserJoinResponse>> join(@RequestBody UserJoinRequest dto){
+    public ResponseEntity<Result<UserJoinResponse>> join(@RequestBody UserJoinRequest dto){
         UserJoinResponse userJoinResponse = userService.join(dto);
-        return ResponseEntity.ok().body(Response.success(userJoinResponse));
+        return ResponseEntity.ok().body(Result.success(userJoinResponse));
     }
 
     /*
@@ -37,15 +37,15 @@ public class UserRestController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<Response<UserLoginResponse>> login(@RequestBody UserLoginRequest dto) {
+    public ResponseEntity<Result<UserLoginResponse>> login(@RequestBody UserLoginRequest dto) {
         UserLoginResponse userLoginResponse = userService.login(dto);
-        return ResponseEntity.ok().body(Response.success(userLoginResponse));
+        return ResponseEntity.ok().body(Result.success(userLoginResponse));
     }
 
     @PostMapping("/logout")
     @ResponseBody
-    public ResponseEntity<Response<UserLogoutResponse>> logout(Authentication authentication) {
+    public ResponseEntity<Result<UserLogoutResponse>> logout(Authentication authentication) {
         UserLogoutResponse userLogoutResponse = userService.logout(authentication);
-        return ResponseEntity.ok().body(Response.success(userLogoutResponse));
+        return ResponseEntity.ok().body(Result.success(userLogoutResponse));
     }
 }
