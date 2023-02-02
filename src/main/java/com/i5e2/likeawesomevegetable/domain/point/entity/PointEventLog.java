@@ -1,0 +1,60 @@
+package com.i5e2.likeawesomevegetable.domain.point.entity;
+
+import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
+import lombok.*;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
+@Table(name = "t_point_event_log")
+public class PointEventLog {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "point_event_log_id")
+    private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
+    @Column(name = "point_event_status")
+    private String paymentType;
+
+    @Column(name = "point_event_history")
+    private String PointEventHistory;
+
+    @Column(name = "point_target_user")
+    private Long pointTargetUserId;
+
+    @Column(name = "point_event_amount")
+    private Long pointEventAmount;
+
+    @Column(name = "point_request_at")
+    private String pointRequestAt;
+
+    @Column(name = "point_approved_at")
+    private String pointApprovedAt;
+
+    @Column(name = "point_user_id")
+    private Long pointUserId;
+
+    @Column(name = "point_used_event_at")
+    private LocalDateTime pointUsedEventAt;
+
+    @Builder
+    public PointEventLog(Payment payment, String paymentType, String pointEventHistory, Long pointEventAmount
+            , String pointRequestAt, String pointApprovedAt, Long pointUserId) {
+        this.payment = payment;
+        this.paymentType = paymentType;
+        PointEventHistory = pointEventHistory;
+        this.pointEventAmount = pointEventAmount;
+        this.pointRequestAt = pointRequestAt;
+        this.pointApprovedAt = pointApprovedAt;
+        this.pointUserId = pointUserId;
+        this.pointUsedEventAt = LocalDateTime.now();
+    }
+}
