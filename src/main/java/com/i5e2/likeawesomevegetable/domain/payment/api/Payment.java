@@ -8,8 +8,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
@@ -36,7 +36,7 @@ public class Payment {
     private PaymentStatus paymentStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "payment-type")
+    @Column(name = "payment_type")
     private PaymentType paymentType;
 
     @Column(name = "payment_request_at")
