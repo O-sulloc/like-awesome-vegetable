@@ -31,10 +31,13 @@ public class PaymentToPoint {
     @Column(name = "point_balance")
     private Long pointBalance;
 
-    @Column(name = "point_charge_date_at")
-    private LocalDateTime pointChargeDateAt;
-
     @Column(name = "user_id")
     private Long userId;
+
+    @Column(name = "point_charge_date_at")
+    private LocalDateTime pointChargeDateAt;
+    
+    @Column(name = "point_approved_at")
+    private LocalDateTime pointApprovedAt;
 
 }
