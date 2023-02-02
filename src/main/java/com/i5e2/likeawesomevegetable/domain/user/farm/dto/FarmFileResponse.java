@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.user.company.dto;
+package com.i5e2.likeawesomevegetable.domain.user.farm.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
