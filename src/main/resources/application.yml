@@ -24,10 +24,12 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto:
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
+    open-in-view: false
 
 
 
@@ -82,8 +84,8 @@ kamis:
   key: #
   id: #
 
-BUSINESS-API:
-  KEY: #
+business-api:
+  key:
 
 toss:
   api:
