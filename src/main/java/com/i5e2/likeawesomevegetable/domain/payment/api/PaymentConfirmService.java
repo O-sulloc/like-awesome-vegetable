@@ -2,7 +2,7 @@ package com.i5e2.likeawesomevegetable.domain.payment.api;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i5e2.likeawesomevegetable.domain.Response;
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class PaymentConfirmService {
     }
 
     @Transactional
-    public Response<String> requestFinalPayment(String paymentKey, String orderId, Long amount) throws IOException, InterruptedException {
+    public Result<String> requestFinalPayment(String paymentKey, String orderId, Long amount) throws IOException, InterruptedException {
         testSecretApiKey = testSecretApiKey + ":";
         String authKey = new String(Base64.getEncoder().encode(testSecretApiKey.getBytes(StandardCharsets.UTF_8)));
 
@@ -54,7 +54,7 @@ public class PaymentConfirmService {
         HttpResponse<String> response = HttpClient
                 .newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-        return Response.success(response.body());
+        return Result.success(response.body());
     }
 
 }

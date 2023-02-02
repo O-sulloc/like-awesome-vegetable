@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
-import com.i5e2.likeawesomevegetable.domain.Response;
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.payment.UserPaymentOrderFactory;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
@@ -19,7 +19,7 @@ public class PaymentApiService {
     private final UserJpaRepository userJpaRepository;
     private final UserPaymentOrderJpaRepository userPaymentOrderJpaRepository;
 
-    public Response<UserPaymentOrderResponse> addUserPaymentToOrder(UserPaymentOrderRequest userPaymentOrderRequest) {
+    public Result<UserPaymentOrderResponse> addUserPaymentToOrder(UserPaymentOrderRequest userPaymentOrderRequest) {
         User getUser = getUserOne(userPaymentOrderRequest.getUserId());
 
         //데이터 저장
@@ -29,7 +29,7 @@ public class PaymentApiService {
         userPaymentOrderJpaRepository.save(userPaymentOrder);
 
         //DTO 변환
-        return Response.success(UserPaymentOrderFactory.of(userPaymentOrder));
+        return Result.success(UserPaymentOrderFactory.of(userPaymentOrder));
     }
 
     private User getUserOne(Long userId) {
