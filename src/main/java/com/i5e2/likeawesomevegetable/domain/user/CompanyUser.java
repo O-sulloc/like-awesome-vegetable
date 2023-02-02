@@ -1,15 +1,14 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.i5e2.likeawesomevegetable.domain.verification.dto.VerifyCompanyUserRequest;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_company_user")
@@ -49,4 +48,18 @@ public class CompanyUser {
     @Column(name = "company_major_item")
     private Integer companyMajorItem;
 
+    public static CompanyUser makeCompanyUser(VerifyCompanyUserRequest verifyCompanyUserRequest) {
+        return CompanyUser.builder()
+                .companyName(verifyCompanyUserRequest.getCompanyName())
+                .companyPhoneNo(verifyCompanyUserRequest.getCompanyPhoneNo())
+                .companyWebsite(verifyCompanyUserRequest.getCompanyWebsite())
+                .companyOwnerName(verifyCompanyUserRequest.getCompanyOwnerName())
+                .companyBusinessNo(verifyCompanyUserRequest.getCompanyBusinessNo())
+                .companyOpenDate(verifyCompanyUserRequest.getCompanyOpenDate())
+                .companyInfo(verifyCompanyUserRequest.getCompanyInfo())
+                .companyLineInfo(verifyCompanyUserRequest.getCompanyLineInfo())
+                .companyRegisteredAt(LocalDateTime.now())
+                .companyMajorItem(verifyCompanyUserRequest.getCompanyMajorItem())
+                .build();
+    }
 }

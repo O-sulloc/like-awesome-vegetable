@@ -32,4 +32,17 @@ public class UserVerification {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "verification_business", length = 30)
     private Verification verificationBusiness;
+
+    public void makeEmailVerification(Verification verificationEnum) {
+        this.verificationEmail = verificationEnum;
+    }
+
+    public void makeUrlVerification(Verification verificationEnum) {
+        this.verificationUrl = verificationEnum;
+    }
+
+    public void makeBusinessVerification(Verification verificationEnum) {
+        this.verificationBusiness = verificationEnum;
+    }
+
 }

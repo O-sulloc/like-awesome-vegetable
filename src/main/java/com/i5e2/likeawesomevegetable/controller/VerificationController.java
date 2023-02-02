@@ -5,6 +5,7 @@ import com.i5e2.likeawesomevegetable.domain.verification.VerificationService;
 import com.i5e2.likeawesomevegetable.domain.verification.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -27,25 +28,47 @@ public class VerificationController {
     /*     메일 검증     */
     @PostMapping("/verify-email")
     @ResponseBody
-    public ResponseEntity<VerifyResponse> verifyEmail(@RequestBody VerifyEmailRequest verifyEmailRequest) {
-        VerifyResponse verifyEmailResponse = verificationService.verifyEmail(verifyEmailRequest.getEmailCode());
+    public ResponseEntity<VerifyResponse> verifyEmail(@RequestBody VerifyEmailRequest verifyEmailRequest,
+                                                      Authentication authentication) {
+        VerifyResponse verifyEmailResponse = verificationService.verifyEmail(verifyEmailRequest.getEmailCode(), authentication.getName());
         return ResponseEntity.ok().body(verifyEmailResponse);
     }
 
     /*     사이트 작동 검증     */
     @PostMapping("/verify-url")
-    public ResponseEntity<VerifyResponse> verifyUrl(@RequestBody VerifyUrlRequest urlRequest) {
-        VerifyResponse verifyUrlResponse = verificationService.verifyUrl(urlRequest.getUrl());
+    public ResponseEntity<VerifyResponse> verifyUrl(@RequestBody VerifyUrlRequest urlRequest,
+                                                    Authentication authentication) {
+        VerifyResponse verifyUrlResponse = verificationService.verifyUrl(urlRequest.getUrl(), authentication.getName());
         return ResponseEntity.ok().body(verifyUrlResponse);
     }
 
     /*     사업자 등록정보 검증     */
     @PostMapping("/verify-business-no")
-    public ResponseEntity<VerifyResponse> verifyCompany(@RequestBody VerificationRequest verificationRequest) throws IOException {
+    public ResponseEntity<VerifyResponse> verifyCompany(@RequestBody VerificationRequest verificationRequest,
+                                                        Authentication authentication) throws IOException {
         VerifyResponse businessNoVerifyResponse = verificationService.verifyCompany(
                 verificationRequest.getBusinessNo(),
                 verificationRequest.getStartDate(),
-                verificationRequest.getManagerName());
+                verificationRequest.getManagerName(),
+                authentication.getName()
+        );
         return ResponseEntity.ok().body(businessNoVerifyResponse);
     }
+
+    /*     기업 사용자 등록     */
+    @PostMapping("/verify-company-user")
+    public ResponseEntity<VerifyUserResponse> verifyCompanyUser(@RequestBody VerifyCompanyUserRequest verifyCompanyUserRequest,
+                                                                Authentication authentication) {
+        VerifyUserResponse verifyCompanyUserResponse = verificationService.verifyCompanyUser(verifyCompanyUserRequest, authentication.getName());
+        return ResponseEntity.ok().body(verifyCompanyUserResponse);
+    }
+
+    /*     농가 사용자 등록     */
+    @PostMapping("/verify-farm-user")
+    public ResponseEntity<VerifyUserResponse> verifyFarmUser(@RequestBody VerifyFarmUserRequest verifyFarmUserRequest,
+                                                             Authentication authentication) {
+        VerifyUserResponse verifyFarmUserResponse = verificationService.verifyFarmUser(verifyFarmUserRequest, authentication.getName());
+        return ResponseEntity.ok().body(verifyFarmUserResponse);
+    }
+
 }
