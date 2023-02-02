@@ -26,11 +26,11 @@
         "company": {
             "id": "5a74ada340a1404c85cd23e643c8c3a5",            // Company ID 입력
             "country_code": "kr",
-            "user_key": ""
+            "user_key": "bujjaf@gmail.com"
         },
         "user": {
             "type": "01",         // 사용자 구분 (01: 멤버, 02: 외부자)
-            "id": "", // 사용자 ID(이메일)
+            "id": "bujjaf@gmail.com", // 사용자 ID(이메일)
             "access_token": /*[[${accessToken}]]*/ null,
             "refresh_token" : /*"${refreshToken}"*/ null   // Refresh Token 입력 (eformsign API 사용하기 - Access Token 발급 참조)
         },
@@ -42,7 +42,7 @@
             "lang_code": "ko" // 이폼사인 언어. ko, en, ja
         },
         "prefill" : {
-            "document_name": "", // 문서 제목 입력
+            "document_name": "농산물", // 문서 제목 입력
             "fields": [
                 {
                     "id" : "고객명",       // 필드명
@@ -70,38 +70,25 @@
     console.log(document_option);
 
     //callback option
-    var success_callback = function (response) {
+    var success_callback= function(response){
+        console.log(response.document_id);
+        console.log(response.title);
+        console.log(response.values["성함"]);
+    };
+
+    var error_callback= function(response){
+        //alert(response.message);
+        //alert("붉은 색으로 강조된 입력란에 값을 입력해주세요.");
         console.log(response.code);
-        if (response.code == "-1") {
-            //문서 작성 성공
-            console.log(response.document_id);
-            // return_fields에 넘긴 데이터를 조회 가능함. fields는 폼을 작성할 때 만든 입력 컴포넌트의 id를 의미함.
-            console.log(response.field_values["company_name"]);
-            console.log(response.field_values["position"]);
-        }
+        console.log(response.message);
     };
 
-    var error_callback = function (response) {
-        console.log(response.code);
-        //문서 작성 실패
-        alert(response.message);
-    };
+    var action_callback= function(response){
+        //alert("붉은 색으로 강조된 입력란에 값을 입력해주세요.");
+        console.table(response.data);   // 기능 목록 출력
+    }
 
-
-    var action_callback = function (response) {
-        $('#buttonList').find('button').css('display','none');      // div id=buttonList의 모든 버튼을 보이지 않도록 설정
-        $(response.data).each(function(idx, action){                // response.data의 각 값에 대해
-            $('#buttonList').find('button').each(function(idx, btn){    // div id=buttonList의 모든 버튼에서
-                if ($(btn).attr('id').replace('btn_','') === action.code){  // 만약 data[].code에 해당하는 버튼이 있으면
-                    $(btn).attr('title',action.name).text(action.name);     // 버튼 title을 data[].name으로 설정하고
-                    $(btn).css('display', '');                              // 버튼을 보이도록 설정
-                }
-            });
-        });
-        console.table(response.data);
-    };
-
-    // 무한 로딩..
+    //alert("반복");
 
     eformsign.document(document_option, "eformsign_iframe", success_callback, error_callback, action_callback);
     eformsign.open();
