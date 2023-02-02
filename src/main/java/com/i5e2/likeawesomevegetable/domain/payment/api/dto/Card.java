@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentCardDto {
+public class Card {
     private Long amount; //카드로 결제한 금액
     private String issuerCode; //카드사 숫자 코드
     private String acquirerCode; //카드 매입사 숫자 코드
