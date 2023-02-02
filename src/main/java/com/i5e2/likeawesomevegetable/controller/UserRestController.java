@@ -20,17 +20,17 @@ public class UserRestController {
 
     @PostMapping("/join")
     @ResponseBody
-    public ResponseEntity<Result<UserJoinResponse>> join(@RequestBody UserJoinRequest dto){
+    public ResponseEntity<Result<UserJoinResponse>> join(@RequestBody UserJoinRequest dto) {
         UserJoinResponse userJoinResponse = userService.join(dto);
         return ResponseEntity.ok().body(Result.success(userJoinResponse));
     }
 
     /*
-    * refactoring 사항 - ajax로 구현해보기
-    * */
+     * refactoring 사항 - ajax로 구현해보기
+     * */
     @PostMapping("/join/check-email") // email을 사용할 수 있을 경우 true
     @ResponseBody
-    public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String, String> targetEmail){
+    public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String, String> targetEmail) {
         Boolean isEmailExist = userService.isNotEmailExist(targetEmail.get("email"));
         return ResponseEntity.ok().body(isEmailExist);
     }

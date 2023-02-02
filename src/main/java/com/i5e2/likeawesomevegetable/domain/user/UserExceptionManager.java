@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i5e2.likeawesomevegetable.domain.Response;
+import com.i5e2.likeawesomevegetable.domain.Result;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,7 +14,7 @@ public class UserExceptionManager {
     @ExceptionHandler(UserException.class)
     public ResponseEntity<?> AppExceptionHandler(UserException e) {
         return ResponseEntity.status(e.getErrorCode().getStatus()).body(
-                Response.error(
+                Result.error(
                         UserErrorResponse.builder()
                                 .contents(e.getMessage())
                                 .build()
