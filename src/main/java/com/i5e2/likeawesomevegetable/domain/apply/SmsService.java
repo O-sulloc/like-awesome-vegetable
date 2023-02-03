@@ -8,7 +8,9 @@ import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +31,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -42,6 +41,7 @@ public class SmsService {
 
     private final RedisSmsUtil redisSmsUtil;
     private final UserJpaRepository userJpaRepository;
+    private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
 
     @Value("${sens.serviceId}")
     private String serviceId;
@@ -55,16 +55,36 @@ public class SmsService {
     @Value("${sens.senderPhone}")
     private String senderPhone;
 
-    // 인증번호 발송
-    public void sendSms(MessageRequest request, String userEmail) throws UnsupportedEncodingException, NoSuchAlgorithmException,
-            InvalidKeyException, JsonProcessingException, URISyntaxException {
+    // 권한 확인
+    public void checkPermission(MessageRequest request, Long companyBuyingId, String userEmail) {
 
-        // 휴대폰 번호 검증
-        userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
+        // 휴대폰 번호 확인
+        User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
                 .orElseThrow(() -> new ApplyException(ErrorCode.PHONE_DISCORD, ErrorCode.PHONE_DISCORD.getMessage()));
 
+        log.info("농가 사용자 검증");
+
+        // 신청자가 농가 사용자인지 확인
+        Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
+
+        if (farmUser.isEmpty()) {
+            throw new ApplyException(ErrorCode.NOT_FARM_USER, ErrorCode.NOT_FARM_USER.getMessage());
+        }
+
+        // 모집 게시글이 있는지 확인
+        companyBuyingJpaRepository.findById(companyBuyingId)
+                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+    }
+
+    // 인증번호 발송
+    public void sendSms(MessageRequest request, Long companyBuyingId, String userEmail)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException,
+            URISyntaxException {
+
+        checkPermission(request, companyBuyingId, userEmail);
+
         Long time = System.currentTimeMillis();
-        String smsCode = mackCode();
+        String smsCode = makeCode();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -128,7 +148,7 @@ public class SmsService {
     }
 
     // 6자리 난수 생성
-    private String mackCode() {
+    private String makeCode() {
 
         StringBuffer key = new StringBuffer();
         Random rand = new Random();
@@ -141,17 +161,15 @@ public class SmsService {
     }
 
     // 인증번호 검증
-    public User verifySms(InfoRequest request, String userEmail) {
+    public void verifySms(InfoRequest request, String userEmail) {
 
-        User user = userJpaRepository.findByEmail(userEmail)
+        userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ApplyException(ErrorCode.PHONE_DISCORD, ErrorCode.PHONE_DISCORD.getMessage()));
 
         if (!isVerify(request)) {
             throw new ApplyException(ErrorCode.AUTHENTICATION_FAILED, ErrorCode.AUTHENTICATION_FAILED.getMessage());
         }
         redisSmsUtil.deleteSmsAuth(request.getPhone());
-
-        return user;
     }
 
     // 인증번호 일치 여부
