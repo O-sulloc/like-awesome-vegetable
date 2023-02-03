@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.controller;
 
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.verification.VerificationRequest;
 import com.i5e2.likeawesomevegetable.domain.verification.VerificationService;
 import com.i5e2.likeawesomevegetable.domain.verification.dto.*;
@@ -20,55 +21,55 @@ public class VerificationController {
     /*     검증 메일 전송     */
     @PostMapping("/send-verify-email")
     @ResponseBody
-    public ResponseEntity<SendVerifyEmailResponse> sendVerifyEmail(@RequestBody SendEmailCodeRequest sendEmailCodeRequest) throws Exception {
-        SendVerifyEmailResponse sendVerifyEmailResponse = verificationService.sendSimpleMessage(sendEmailCodeRequest.getEmail());
-        return ResponseEntity.ok().body(sendVerifyEmailResponse);
+    public ResponseEntity<Result<SendVerifyEmailResponse>> sendVerifyEmail(@RequestBody SendEmailRequest sendEmailRequest) throws Exception {
+        SendVerifyEmailResponse sendVerifyEmailResponse = verificationService.sendSimpleMessage(sendEmailRequest.getEmail());
+        return ResponseEntity.ok().body(Result.success(sendVerifyEmailResponse));
     }
 
     /*     메일 검증     */
     @PostMapping("/verify-email")
     @ResponseBody
-    public ResponseEntity<VerifyResponse> verifyEmail(@RequestBody VerifyEmailRequest verifyEmailRequest,
-                                                      Authentication authentication) {
+    public ResponseEntity<Result<VerifyResponse>> verifyEmail(@RequestBody VerifyEmailRequest verifyEmailRequest,
+                                                              Authentication authentication) {
         VerifyResponse verifyEmailResponse = verificationService.verifyEmail(verifyEmailRequest.getEmailCode(), authentication.getName());
-        return ResponseEntity.ok().body(verifyEmailResponse);
+        return ResponseEntity.ok().body(Result.success(verifyEmailResponse));
     }
 
     /*     사이트 작동 검증     */
     @PostMapping("/verify-url")
-    public ResponseEntity<VerifyResponse> verifyUrl(@RequestBody VerifyUrlRequest urlRequest,
-                                                    Authentication authentication) {
+    public ResponseEntity<Result<VerifyResponse>> verifyUrl(@RequestBody VerifyUrlRequest urlRequest,
+                                                            Authentication authentication) {
         VerifyResponse verifyUrlResponse = verificationService.verifyUrl(urlRequest.getUrl(), authentication.getName());
-        return ResponseEntity.ok().body(verifyUrlResponse);
+        return ResponseEntity.ok().body(Result.success(verifyUrlResponse));
     }
 
     /*     사업자 등록정보 검증     */
     @PostMapping("/verify-business-no")
-    public ResponseEntity<VerifyResponse> verifyCompany(@RequestBody VerificationRequest verificationRequest,
-                                                        Authentication authentication) throws IOException {
+    public ResponseEntity<Result<VerifyResponse>> verifyCompany(@RequestBody VerificationRequest verificationRequest,
+                                                                Authentication authentication) throws IOException {
         VerifyResponse businessNoVerifyResponse = verificationService.verifyCompany(
                 verificationRequest.getBusinessNo(),
                 verificationRequest.getStartDate(),
                 verificationRequest.getManagerName(),
                 authentication.getName()
         );
-        return ResponseEntity.ok().body(businessNoVerifyResponse);
+        return ResponseEntity.ok().body(Result.success(businessNoVerifyResponse));
     }
 
     /*     기업 사용자 등록     */
     @PostMapping("/verify-company-user")
-    public ResponseEntity<VerifyUserResponse> verifyCompanyUser(@RequestBody VerifyCompanyUserRequest verifyCompanyUserRequest,
-                                                                Authentication authentication) {
+    public ResponseEntity<Result<VerifyUserResponse>> verifyCompanyUser(@RequestBody VerifyCompanyUserRequest verifyCompanyUserRequest,
+                                                                        Authentication authentication) {
         VerifyUserResponse verifyCompanyUserResponse = verificationService.verifyCompanyUser(verifyCompanyUserRequest, authentication.getName());
-        return ResponseEntity.ok().body(verifyCompanyUserResponse);
+        return ResponseEntity.ok().body(Result.success(verifyCompanyUserResponse));
     }
 
     /*     농가 사용자 등록     */
     @PostMapping("/verify-farm-user")
-    public ResponseEntity<VerifyUserResponse> verifyFarmUser(@RequestBody VerifyFarmUserRequest verifyFarmUserRequest,
-                                                             Authentication authentication) {
+    public ResponseEntity<Result<VerifyUserResponse>> verifyFarmUser(@RequestBody VerifyFarmUserRequest verifyFarmUserRequest,
+                                                                     Authentication authentication) {
         VerifyUserResponse verifyFarmUserResponse = verificationService.verifyFarmUser(verifyFarmUserRequest, authentication.getName());
-        return ResponseEntity.ok().body(verifyFarmUserResponse);
+        return ResponseEntity.ok().body(Result.success(verifyFarmUserResponse));
     }
 
 }

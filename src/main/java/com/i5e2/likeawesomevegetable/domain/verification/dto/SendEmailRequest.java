@@ -5,6 +5,6 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SendEmailCodeRequest {
+public class SendEmailRequest {
     private String email;
 }
