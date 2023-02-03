@@ -5,7 +5,9 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.PaymentConfirmService;
 import com.i5e2.likeawesomevegetable.domain.payment.api.PointManagerService;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentToPointResponse;
+import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointEventDetailResponse;
+import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import java.io.IOException;
 public class PaymentConfirmController {
     private final PaymentConfirmService paymentConfirmService;
     private final PointManagerService pointManagerService;
+    private final UserPointService userPointService;
 
     @RequestMapping(value = "/success")
     public ResponseEntity<Result<PaymentToPointResponse>> paymentSuccess(@RequestParam("paymentKey") String paymentKey
@@ -30,10 +33,11 @@ public class PaymentConfirmController {
         paymentConfirmService.verifySuccessRequest(orderId);
         PaymentCardResponse paymentCardResponse = paymentConfirmService.requestFinalPayment(paymentKey, orderId, amount);
         PointEventDetailResponse pointEventDetailResponse = pointManagerService.savePaymentAndPoint(paymentCardResponse);
+        UserPointResponse userPointResponse = userPointService.checkUserPointInfo(pointEventDetailResponse.getPointUserId());
 
         return ResponseEntity
                 .ok()
-                .body(Result.success(new PaymentToPointResponse(paymentCardResponse, pointEventDetailResponse)));
+                .body(Result.success(new PaymentToPointResponse(paymentCardResponse, pointEventDetailResponse, userPointResponse)));
     }
 
 }

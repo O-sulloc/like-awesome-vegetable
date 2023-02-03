@@ -32,7 +32,7 @@ public class PointManagerService {
 
         PointEventLog pointEventLog = PointFactory.createPointEventLog(payment);
         PointEventLog pointDetailResult = pointEventLogJpaRepository.save(pointEventLog);
-        return PointFactory.from(pointDetailResult);
+        return PointFactory.of(pointDetailResult);
     }
 
 }
