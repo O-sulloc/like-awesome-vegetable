@@ -9,6 +9,10 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/templates/
+    cache: false
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
