@@ -25,7 +25,7 @@ public class PaymentApiController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Result> userPaymentToOrder(@RequestBody UserPaymentOrderRequest userPaymentOrderRequest) {
+    public ResponseEntity<Result<UserPaymentOrderResponse>> userPaymentToOrder(@RequestBody UserPaymentOrderRequest userPaymentOrderRequest) {
         Result<UserPaymentOrderResponse> paymentOrderResponse = paymentApiService.addUserPaymentToOrder(userPaymentOrderRequest);
         return ResponseEntity.ok().body(paymentOrderResponse);
     }

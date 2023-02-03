@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.payment.point.dto;
+package com.i5e2.likeawesomevegetable.domain.point.dto;
 
 import lombok.Getter;
 

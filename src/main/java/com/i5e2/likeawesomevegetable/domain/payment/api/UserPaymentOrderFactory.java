@@ -1,8 +1,8 @@
-package com.i5e2.likeawesomevegetable.domain.payment;
+package com.i5e2.likeawesomevegetable.domain.payment.api;
 
-import com.i5e2.likeawesomevegetable.domain.payment.api.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserType;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @Slf4j
 public class UserPaymentOrderFactory {
-
     public static UserPaymentOrder createUserPaymentOrder(User getUser, UserPaymentOrderRequest userPaymentOrderRequest) {
         return UserPaymentOrder.builder()
                 .user(getUser)

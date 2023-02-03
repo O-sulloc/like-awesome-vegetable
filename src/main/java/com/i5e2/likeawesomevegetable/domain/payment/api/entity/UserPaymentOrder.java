@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.payment.api;
+package com.i5e2.likeawesomevegetable.domain.payment.api.entity;
 
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
@@ -13,7 +13,6 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @Table(name = "t_user_payment_order")
 public class UserPaymentOrder {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_payment_order_id")

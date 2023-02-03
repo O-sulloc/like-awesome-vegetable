@@ -2,7 +2,6 @@ package com.i5e2.likeawesomevegetable.domain.payment.api;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,22 +22,19 @@ import java.util.Base64;
 @Service
 @RequiredArgsConstructor
 public class PaymentConfirmService {
-
     @Value("${toss.api.testSecretApiKey}")
     private String testSecretApiKey;
-
     private final UserPaymentOrderJpaRepository userPaymentOrderJpaRepository;
     private final ObjectMapper objectMapper;
 
     @Transactional(timeout = 2)
-    public void verifySuccessRequest(String orderId, Long amount) {
-        UserPaymentOrder userPaymentOrder = userPaymentOrderJpaRepository.findByPostOrderId(orderId)
+    public void verifySuccessRequest(String orderId) {
+        userPaymentOrderJpaRepository.findByPostOrderId(orderId)
                 .orElseThrow(() -> new NotFoundException("사용자 요청 데이터가 존재하지 않습니다"));
-        log.info("userRequestAmount: {}, paymentAmount: {}", userPaymentOrder.getPaymentOrderAmount(), amount);
     }
 
-    @Transactional
-    public Result<PaymentCardResponse> requestFinalPayment(String paymentKey, String orderId, Long amount) throws IOException, InterruptedException {
+    @Transactional(timeout = 300, rollbackFor = Exception.class)
+    public PaymentCardResponse requestFinalPayment(String paymentKey, String orderId, Long amount) throws IOException, InterruptedException {
         testSecretApiKey = testSecretApiKey + ":";
         String authKey = new String(Base64.getEncoder().encode(testSecretApiKey.getBytes(StandardCharsets.UTF_8)));
 
@@ -57,8 +53,6 @@ public class PaymentConfirmService {
                 .send(request, HttpResponse.BodyHandlers.ofString());
 
         PaymentCardResponse paymentCardResponse = objectMapper.readValue(response.body(), PaymentCardResponse.class);
-
-        return Result.success(paymentCardResponse);
+        return paymentCardResponse;
     }
-
 }
