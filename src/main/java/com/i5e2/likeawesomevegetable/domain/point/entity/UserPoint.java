@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class UserPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_point")
+    @Column(name = "user_point_id")
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -23,6 +23,9 @@ public class UserPoint {
 
     @Column(name = "point_total_balance")
     private Long pointTotalBalance;
+
+    @Column(name = "deposit_total_balance")
+    private Long depositTotalBalance;
 
     public UserPoint(User user, Long pointTotalBalance) {
         this.user = user;
