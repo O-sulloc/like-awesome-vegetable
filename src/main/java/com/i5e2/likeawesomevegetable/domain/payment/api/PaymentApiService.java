@@ -11,9 +11,11 @@ import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PaymentApiService {
     private final UserJpaRepository userJpaRepository;
@@ -28,9 +30,9 @@ public class PaymentApiService {
 
         return Result.success(UserPaymentOrderFactory.of(userPaymentOrder));
     }
-
+    
     private User getUserOne(Long userId) {
         return userJpaRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다."));//TODO: 예외처리
+                .orElseThrow(() -> new NotFoundException("해당 유저가 존재하지 않습니다.")); //TODO: 예외처리
     }
 }
