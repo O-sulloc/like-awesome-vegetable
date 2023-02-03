@@ -55,4 +55,17 @@ public class User {
 
     @Column(name = "user_deleted_at")
     private LocalDateTime userDeletedAt;
+
+    public void updateUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public void updateCompanyUser(CompanyUser companyUser) {
+        this.companyUser = companyUser;
+    }
+
+    public void updateFarmUser(FarmUser farmUser) {
+        this.farmUser = farmUser;
+    }
+
 }

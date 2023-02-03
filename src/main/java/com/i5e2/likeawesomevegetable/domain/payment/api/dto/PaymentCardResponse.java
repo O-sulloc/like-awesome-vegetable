@@ -21,6 +21,6 @@ public class PaymentCardResponse {
     private String lastTransactionKey; //마지막 거래 키 값
     private Long vat; //부가세
     private boolean isPartialCancelable; //부분 취소 가능 여부
-    //private PaymentCardDto paymentCardDto; //카드 정보
-    //private String url; //영수증 확인 주소
+    private Card card; //카드 정보
+    private String url; //영수증 확인 주소
 }

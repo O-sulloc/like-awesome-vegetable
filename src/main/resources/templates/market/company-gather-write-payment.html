@@ -61,7 +61,7 @@
                             <h2>참여 정보</h2>
                             <span>
                                 <span>OrderNumber:</span>
-                                <span id="orderId">POST-C-20220131-1</span>
+                                <span id="orderId">POST-F-ORDER-2023-02-02-42ca49bb-c1a9-4e83-8393-0a556d0b6ff1</span>
                             </span><br>
                             <span>
                                 <span>참여게시물 타이틀:</span>
@@ -69,17 +69,17 @@
                             </span><br>
                             <span>
                                 <span>참여자:</span>
-                                <span id="customerName">멋채럼</span>
+                                <span id="customerName">장서윤</span>
                             </span>
                         </div>
 
                         <div class="contant-inner-title">
                             <h2>현재 잔여포인트 확인</h2>
                             <span>현재 잔여포인트:</span>
-                            <span id="total-amount">998,000 </span><br>
+                            <span id="total-amount">12000</span><br>
 
                             <span>부족한 포인트:</span>
-                            <span id="amount">1,000,000</span>
+                            <span id="amount">15000</span>
                         </div>
 
                         <p th:if="${amount != null}">앗! 포인트 충전이 필요합니다!</p>
@@ -117,19 +117,14 @@
 <script type="text/javascript" th:inline="javascript">
     var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
     var tossPayments = TossPayments(clientKey);
-
     var button = document.getElementById('payment_card_button');
-    var orderId = document.getElementById('orderId');
-    var orderName = document.getElementById('orderName');
-    var customerName = document.getElementById('customerName');
-    var amount = document.getElementById('amount');
 
     button.addEventListener('click', function () {
         tossPayments.requestPayment('카드', { // 결제 수단 파라미터
-            amount: amount,
-            orderId: orderId,
-            orderName: orderName,
-            customerName: customerName,
+            amount: 15000,
+            orderId: 'POST-C-ORDER-2023-02-03-e930f2f0-b698-444c-ac9b-f3feb1f3bce8',
+            orderName: '사과 2톤 모집합니다',
+            customerName: '한건주',
             successUrl: 'http://localhost:8080/success',
             failUrl: 'http://localhost:8080/fail',
         })
