@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.controller;
 
-import com.i5e2.likeawesomevegetable.domain.Response;
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.payment.api.PaymentApiService;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
@@ -25,8 +25,8 @@ public class PaymentApiController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<Response> userPaymentToOrder(@RequestBody UserPaymentOrderRequest userPaymentOrderRequest) {
-        Response<UserPaymentOrderResponse> paymentOrderResponse = paymentApiService.addUserPaymentToOrder(userPaymentOrderRequest);
+    public ResponseEntity<Result<UserPaymentOrderResponse>> userPaymentToOrder(@RequestBody UserPaymentOrderRequest userPaymentOrderRequest) {
+        Result<UserPaymentOrderResponse> paymentOrderResponse = paymentApiService.addUserPaymentToOrder(userPaymentOrderRequest);
         return ResponseEntity.ok().body(paymentOrderResponse);
     }
 

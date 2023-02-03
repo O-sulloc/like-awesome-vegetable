@@ -11,7 +11,7 @@ import com.i5e2.likeawesomevegetable.domain.user.FarmFile;
 import com.i5e2.likeawesomevegetable.domain.user.FarmImage;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.company.dto.FarmFileResponse;
+import com.i5e2.likeawesomevegetable.domain.user.farm.dto.FarmFileResponse;
 import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.repository.FarmFileJpaRepository;

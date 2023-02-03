@@ -36,6 +36,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET, "/api/test-security-ad").hasRole("ADMIN")
                 /*.antMatchers(HttpMethod.GET, "/api/**").authenticated()*/
                 .antMatchers("/**").permitAll()
+//                .antMatchers("/**").permitAll()
                 /*.antMatchers("/api/v1/users/join", "/api/v1/users/login").permitAll() // join,login은 언제나 가능
                 .antMatchers(HttpMethod.GET, "/api/v1/**").authenticated()
                 .antMatchers(HttpMethod.POST, "/api/v1/**").authenticated()

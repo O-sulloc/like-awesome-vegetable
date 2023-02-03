@@ -1,15 +1,14 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.i5e2.likeawesomevegetable.domain.verification.dto.VerifyFarmUserRequest;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_farm_user")
@@ -50,4 +49,20 @@ public class FarmUser {
     // 추가
     @Column(name = "farm_registered_at")
     private LocalDateTime farmRegisteredAt;
+
+    public static FarmUser makeFarmUser(VerifyFarmUserRequest verifyFarmUserRequest) {
+        return FarmUser.builder()
+                .farmOwnerName(verifyFarmUserRequest.getFarmOwnerName())
+                .farmMajorItem(verifyFarmUserRequest.getFarmMajorItem())
+                .farmType(verifyFarmUserRequest.getFarmType())
+                .groundArea(verifyFarmUserRequest.getGroundArea())
+                .facilityArea(verifyFarmUserRequest.getFacilityArea())
+                .farmWebsite(verifyFarmUserRequest.getFarmWebsite())
+                .farmInfo(verifyFarmUserRequest.getFarmInfo())
+                .farmName(verifyFarmUserRequest.getFarmName())
+                .farmAddress(verifyFarmUserRequest.getFarmAddress())
+                .farmRegisteredAt(LocalDateTime.now())
+                .build();
+    }
+
 }
