@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -25,11 +23,6 @@ import java.security.NoSuchAlgorithmException;
 public class SmsController {
 
     private final SmsService smsService;
-
-    // 세션 키로 사용될 문자열
-    public static class SessionConst {
-        public static final String SMS_AUTH = "sms";
-    }
 
     // 인증번호 발송
     @PostMapping("/sms-send")
@@ -43,13 +36,9 @@ public class SmsController {
 
     // 인증번호 검증
     @PostMapping("/sms-confirm")
-    public ResponseEntity<String> verification(@RequestBody InfoRequest request, Authentication authentication,
-                                               HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> verification(@RequestBody InfoRequest request, Authentication authentication) {
 
-        User user = smsService.verifySms(request, authentication.getName());
-
-        HttpSession session = httpServletRequest.getSession();
-        session.setAttribute(SessionConst.SMS_AUTH, user);
+        smsService.verifySms(request, authentication.getName());
 
         return ResponseEntity.ok("인증이 완료되었습니다."); //TODO: 리턴 방식 리펙토링
     }

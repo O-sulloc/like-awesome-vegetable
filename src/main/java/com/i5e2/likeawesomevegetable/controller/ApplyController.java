@@ -3,7 +3,6 @@ package com.i5e2.likeawesomevegetable.controller;
 import com.i5e2.likeawesomevegetable.domain.apply.ApplyService;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
-import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +11,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/market/buying/{companyBuyingId}")
@@ -44,19 +40,9 @@ public class ApplyController {
     // 참여 신청
     @PostMapping("/apply")
     public ResponseEntity<String> quantityInput(@RequestBody ApplyRequest request, @PathVariable Long companyBuyingId,
-                                                Authentication authentication, HttpServletRequest httpServletRequest) {
-
-        HttpSession session = httpServletRequest.getSession(false);
-        User user = (User) session.getAttribute(SmsController.SessionConst.SMS_AUTH);
-
-        if (session == null || user == null) {
-            return ResponseEntity.ok().body("본인 인증 실패");
-        }
+                                                Authentication authentication) {
 
         applyService.apply(request, companyBuyingId, authentication.getName());
-
-        session.invalidate();
-
         return ResponseEntity.ok().body("신청 완료");
     }
 
