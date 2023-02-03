@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "t_user_point")
 public class UserPoint {
@@ -23,10 +24,12 @@ public class UserPoint {
     @Column(name = "point_total_balance")
     private Long pointTotalBalance;
 
-    @Builder
-    public UserPoint(Long id, User user, Long pointTotalBalance) {
-        this.id = id;
+    public UserPoint(User user, Long pointTotalBalance) {
         this.user = user;
+        this.pointTotalBalance = pointTotalBalance;
+    }
+
+    public void updatePointTotalBalance(Long pointTotalBalance) {
         this.pointTotalBalance = pointTotalBalance;
     }
 }

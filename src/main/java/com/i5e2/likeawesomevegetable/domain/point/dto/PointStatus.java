@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public enum PointStatus {
-    SAVE_POINT, USED_POINT
+    SAVE_POINT, USED_POINT, SPLIT_POINT
 }
