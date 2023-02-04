@@ -1,12 +1,14 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.i5e2.likeawesomevegetable.domain.point.dto.DepositTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.UserPointDepositJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPointJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class UserPointService {
     private final UserPointJpaRepository userPointJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final PointEventLogJpaRepository pointEventLogJpaRepository;
+    private final UserPointDepositJpaRepository userPointDepositJpaRepository;
 
     public UserPointResponse checkUserPointInfo(Long userId) {
         User getUser = getUser(userId);
@@ -44,6 +47,10 @@ public class UserPointService {
         PointTotalBalanceDto userPointInfo = getTotalPointBalanceByUser(userId);
         userPoint.updatePointTotalBalance(userPointInfo.getUserTotalBalance());
         return userPointJpaRepository.save(userPoint);
+    }
+
+    public DepositTotalBalanceDto getTotalDepositBalanceByUser(Long userId) {
+        return userPointDepositJpaRepository.getDepositTotalBalance(userId);
     }
 
     private User getUser(Long userId) {

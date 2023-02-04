@@ -16,11 +16,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/payment")
 public class PaymentApiController {
-
     private final PaymentApiService paymentApiService;
 
     @GetMapping("/company")
     public String checkMyPoint() {
+        //userId, post_order_id, payment_order_post, payment_order_amount
+        //point_total_balance, 모집금액 혹은 입찰가
         return "market/company-gather-write-payment";
     }
 
@@ -29,5 +30,4 @@ public class PaymentApiController {
         Result<UserPaymentOrderResponse> paymentOrderResponse = paymentApiService.addUserPaymentToOrder(userPaymentOrderRequest);
         return ResponseEntity.ok().body(paymentOrderResponse);
     }
-
 }

@@ -1,10 +1,10 @@
 package com.i5e2.likeawesomevegetable.domain.point.entity;
 
 import com.i5e2.likeawesomevegetable.domain.point.dto.DepositStatus;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -35,7 +35,24 @@ public class UserPointDeposit {
     @Column(name = "deposit_commission")
     private Long depositCommission;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "deposit_type")
-    private DepositType depositType;
+    private String depositType;
+
+    @Column(name = "deposit_pending_at")
+    private LocalDateTime depositPendingAt;
+
+    @Column(name = "deposit_transfer_at")
+    private LocalDateTime depositTransferAt;
+
+    @Builder(builderMethodName = "setPendingDeposit")
+    public UserPointDeposit(UserPoint userPoint, Long depositAmount, Long depositTargetPostId, DepositStatus depositStatus
+            , Long depositCommission, String depositType, LocalDateTime depositPendingAt, LocalDateTime depositTransferAt) {
+        this.userPoint = userPoint;
+        this.depositAmount = depositAmount;
+        this.depositTargetPostId = depositTargetPostId;
+        this.depositStatus = DepositStatus.PENDING;
+        this.depositCommission = depositCommission;
+        this.depositType = depositType;
+        this.depositPendingAt = LocalDateTime.now();
+    }
 }
