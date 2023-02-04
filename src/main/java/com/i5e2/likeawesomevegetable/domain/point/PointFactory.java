@@ -46,5 +46,4 @@ public class PointFactory {
                 .userType(userPoint.getUser().getUserType())
                 .build();
     }
-
 }

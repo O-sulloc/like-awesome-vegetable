@@ -35,4 +35,8 @@ public class UserPoint {
     public void updatePointTotalBalance(Long pointTotalBalance) {
         this.pointTotalBalance = pointTotalBalance;
     }
+
+    public void updateDepositTotalBalance(Long depositTotalBalance) {
+        this.depositTotalBalance = depositTotalBalance;
+    }
 }
