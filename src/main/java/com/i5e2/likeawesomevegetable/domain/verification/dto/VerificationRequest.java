@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.verification;
+package com.i5e2.likeawesomevegetable.domain.verification.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

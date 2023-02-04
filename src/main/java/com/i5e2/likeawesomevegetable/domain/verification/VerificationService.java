@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.verification;
 
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
@@ -38,13 +39,14 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class VerificationService {
+    // TODO: VerifyUrl UserVerification 생성 부분 추후 myPage 구현 시 그쪽으로 이동
+
     private final UserJpaRepository userJpaRepository;
     private final UserVerificationJpaRepository userVerificationJpaRepository;
     private final CompanyUserJpaRepository companyUserJpaRepository;
     private final FarmUserRepository farmUserRepository;
     private final JavaMailSender javaMailSender;
     private final RedisEmailUtil redisEmailUtil;
-    private final String ePw = createKey();
 
     // 메일전송 ID
     @Value("${spring.mail.username}")
@@ -55,7 +57,7 @@ public class VerificationService {
     private String apiKey;
 
     /*     농가 정회원 등록     */
-    public VerifyUserResponse verifyFarmUser(VerifyFarmUserRequest verifyFarmUserRequest, String loginEmail) {
+    public Result<VerifyUserResponse> verifyFarmUser(VerifyFarmUserRequest verifyFarmUserRequest, String loginEmail) {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
@@ -75,13 +77,13 @@ public class VerificationService {
             // loginUserUserVerification 삭제
             userVerificationJpaRepository.delete(loginUserVerification);
 
-            return VerifyUserResponse.of(loginEmail, farmUser.getFarmOwnerName(), "농가 정회원 등록 성공");
+            return Result.success(VerifyUserResponse.of(loginEmail, farmUser.getFarmOwnerName(), "농가 정회원 등록 성공"));
         }
-        return VerifyUserResponse.of(loginEmail, verifyFarmUserRequest.getFarmOwnerName(), "Email 검증을 완료하세요.");
+        return Result.error(VerifyUserResponse.of(loginEmail, verifyFarmUserRequest.getFarmOwnerName(), "Email 검증을 완료하세요."));
     }
 
     /*     기업 정회원 등록     */
-    public VerifyUserResponse verifyCompanyUser(VerifyCompanyUserRequest verifyCompanyUserRequest, String loginEmail) {
+    public Result<VerifyUserResponse> verifyCompanyUser(VerifyCompanyUserRequest verifyCompanyUserRequest, String loginEmail) {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
@@ -90,17 +92,17 @@ public class VerificationService {
 
         // Email 검증 확인
         if (Verification.NOT_VERIFIED.equals(loginUserVerification.getVerificationEmail())) {
-            return VerifyUserResponse.of(loginEmail, verifyCompanyUserRequest.getCompanyName(), "이메일 검증을 완료하세요.");
+            return Result.error(VerifyUserResponse.of(loginEmail, verifyCompanyUserRequest.getCompanyName(), "이메일 검증을 완료하세요."));
         }
 
         // 기업 홈페이지 Url 검증 확인
         if (Verification.NOT_VERIFIED.equals(loginUserVerification.getVerificationUrl())) {
-            return VerifyUserResponse.of(loginEmail, verifyCompanyUserRequest.getCompanyName(), "url 검증을 완료하세요.");
+            return Result.error(VerifyUserResponse.of(loginEmail, verifyCompanyUserRequest.getCompanyName(), "url 검증을 완료하세요."));
         }
 
         // 사업자 등록정보 검증 확인
         if (Verification.NOT_VERIFIED.equals(loginUserVerification.getVerificationBusiness())) {
-            return VerifyUserResponse.of(loginEmail, verifyCompanyUserRequest.getCompanyName(), "사업자 등록정보 검증을 완료하세요.");
+            return Result.error(VerifyUserResponse.of(loginEmail, verifyCompanyUserRequest.getCompanyName(), "사업자 등록정보 검증을 완료하세요."));
         }
 
         // 가입된 유저 기업 정회원 등록
@@ -115,41 +117,45 @@ public class VerificationService {
         // loginUserUserVerification 삭제
         userVerificationJpaRepository.delete(loginUserVerification);
 
-        return VerifyUserResponse.of(loginEmail, companyUser.getCompanyName(), "기업 정회원 등록 성공");
+        return Result.success(VerifyUserResponse.of(loginEmail, companyUser.getCompanyName(), "기업 정회원 등록 성공"));
     }
 
     /*     url 검증     */
-    public VerifyResponse verifyUrl(String verificationUrl, String loginEmail) {
+    public Result<VerifyResponse> verifyUrl(String verificationUrl, String loginEmail) {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
+        // 테스트 용 임시 UserVerification 생성
+        UserVerification loginUserVerification = UserVerification.makeUserVerification(loginUser);
+        userVerificationJpaRepository.save(loginUserVerification);
+
         // 로그인 유저 검증 테이블 확인
-        UserVerification loginUserVerification = validateUserVerification(loginUser);
-        log.info("loginUserVerification Id: " + loginUserVerification.getId().toString());
-        log.info("loginUserVerification 의 User Id: " + loginUserVerification.getUser().getId().toString());
-        log.info("loginUser 의 User Id: " + loginUser.getId().toString());
+        loginUserVerification = validateUserVerification(loginUser);
+
+        // 연결 시간 설정 2초
+        int TIMEOUT_VALUE = 2000;
 
         int code = 0;
         try {
             URL obj = new URL(verificationUrl);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setConnectTimeout(TIMEOUT_VALUE);
+            con.setReadTimeout(TIMEOUT_VALUE);
             code = con.getResponseCode();
         } catch (Exception e) {
-            e.printStackTrace();
         }
-
         if (code >= 200 && code < 300) {
             loginUserVerification.makeUrlVerification(Verification.VERIFIED);
             userVerificationJpaRepository.save(loginUserVerification);
-            return VerifyResponse.of(loginUserVerification.getVerificationUrl(), "인증 성공");
+            return Result.success(VerifyResponse.of(loginUserVerification.getVerificationUrl(), "인증 성공"));
         }
         loginUserVerification.makeUrlVerification(Verification.NOT_VERIFIED);
         userVerificationJpaRepository.save(loginUserVerification);
-        return VerifyResponse.of(loginUserVerification.getVerificationUrl(), "유효하지 않은 url 입니다.");
+        return Result.error(VerifyResponse.of(loginUserVerification.getVerificationUrl(), "유효하지 않은 url 입니다."));
     }
 
     /*     사업자 등록번호 확인     */
-    public VerifyResponse verifyCompany(String businessNo, String startDate, String managerName, String loginEmail) throws IOException {
+    public Result<VerifyResponse> verifyCompany(String businessNo, String startDate, String managerName, String loginEmail) throws IOException {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
@@ -199,55 +205,57 @@ public class VerificationService {
         if (validState.equals("01") && BusinessState.equals("01")) {
             loginUserVerification.makeBusinessVerification(Verification.VERIFIED);
             userVerificationJpaRepository.save(loginUserVerification);
-            return VerifyResponse.of(loginUserVerification.getVerificationBusiness(), "인증 성공");
+            return Result.success(VerifyResponse.of(loginUserVerification.getVerificationBusiness(), "인증 성공"));
         }
         loginUserVerification.makeBusinessVerification(Verification.NOT_VERIFIED);
         userVerificationJpaRepository.save(loginUserVerification);
-        return VerifyResponse.of(loginUserVerification.getVerificationBusiness(), "유효하지 않은 사업자 등록정보입니다.");
+        return Result.success(VerifyResponse.of(loginUserVerification.getVerificationBusiness(), "유효하지 않은 사업자 등록정보입니다."));
     }
 
     /*     이메일 검증 코드 전송 로직     */
-    public SendVerifyEmailResponse sendSimpleMessage(String to) throws Exception {
-        MimeMessage message = createMessage(to);
+    public Result<SendVerifyEmailResponse> sendSimpleMessage(String to) throws Exception {
+        String ePw = createKey();
+        MimeMessage message = createMessage(to, ePw);
         try {
             // 코드 유효시간 3분
-            redisEmailUtil.setDataExpire(ePw, to, 60 * 3L);
+            redisEmailUtil.setDataExpire(to, ePw, 60 * 3L);
             javaMailSender.send(message);
         } catch (MailException es) {
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-        return SendVerifyEmailResponse.of(to, "인증 번호가 전송되었습니다.");
+        return Result.success(SendVerifyEmailResponse.of(to, "인증 번호가 전송되었습니다."));
     }
 
     /*     이메일 코드 확인 로직     */
-    public VerifyResponse verifyEmail(String key, String loginEmail) {
+    public Result<VerifyResponse> verifyEmail(String keyEmail, String key, String loginEmail) {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
         // 로그인 유저 검증 테이블 확인
         UserVerification loginUserVerification = validateUserVerification(loginUser);
 
-        String memberEmail = redisEmailUtil.getData(key);
-        if (memberEmail == null) {
+        boolean verifyEmailCode = redisEmailUtil.hasKey(keyEmail) && redisEmailUtil.getEmailCode(keyEmail).equals(key);
+
+        if (!verifyEmailCode) {
+            redisEmailUtil.deleteData(keyEmail);
             loginUserVerification.makeEmailVerification(Verification.NOT_VERIFIED);
             userVerificationJpaRepository.save(loginUserVerification);
-            return VerifyResponse.of(Verification.NOT_VERIFIED, "잘못된 인증번호입니다.");
+            return Result.error(VerifyResponse.of(Verification.NOT_VERIFIED, "잘못된 인증번호입니다."));
         }
-        redisEmailUtil.deleteData(key);
+        redisEmailUtil.deleteData(keyEmail);
         loginUserVerification.makeEmailVerification(Verification.VERIFIED);
         userVerificationJpaRepository.save(loginUserVerification);
-        return VerifyResponse.of(loginUserVerification.getVerificationEmail(), "인증 성공");
+        return Result.success(VerifyResponse.of(loginUserVerification.getVerificationEmail(), "인증 성공"));
     }
 
     /*     메일 내용 작성 로직     */
-    public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException {
-        log.info("보내는 대상 : " + to);
-        log.info("인증 번호 : " + ePw);
+    public MimeMessage createMessage(String to, String ePw) throws MessagingException, UnsupportedEncodingException {
+        redisEmailUtil.deleteData(ePw);
         MimeMessage message = javaMailSender.createMimeMessage();
 
         message.addRecipients(MimeMessage.RecipientType.TO, to);
-        message.setSubject("멋쟁이 채소처럼 정회원 등록 이메일 인증 코드: ");
+        message.setSubject("멋쟁이 채소처럼 정회원 등록 이메일 인증 코드");
 
         String msg = "";
         msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
