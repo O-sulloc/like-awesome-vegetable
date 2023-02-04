@@ -45,4 +45,10 @@ public class UserVerification {
         this.verificationBusiness = verificationEnum;
     }
 
+    public static UserVerification makeUserVerification(User user) {
+        UserVerification userVerification = new UserVerification();
+        userVerification.user = user;
+        return userVerification;
+    }
+
 }

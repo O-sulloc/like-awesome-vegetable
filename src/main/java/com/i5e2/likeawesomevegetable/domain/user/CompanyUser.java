@@ -61,6 +61,7 @@ public class CompanyUser {
                 .companyOpenDate(verifyCompanyUserRequest.getCompanyOpenDate())
                 .companyInfo(verifyCompanyUserRequest.getCompanyInfo())
                 .companyLineInfo(verifyCompanyUserRequest.getCompanyLineInfo())
+                .companyAddress(verifyCompanyUserRequest.getCompanyAddress())
                 .companyRegisteredAt(LocalDateTime.now())
                 .companyMajorItem(verifyCompanyUserRequest.getCompanyMajorItem())
                 .build();
