@@ -1,6 +1,9 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.i5e2.likeawesomevegetable.domain.Result;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
+import com.i5e2.likeawesomevegetable.domain.point.dto.DepositAvailableStatus;
 import com.i5e2.likeawesomevegetable.domain.point.dto.DepositTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
@@ -51,6 +54,17 @@ public class UserPointService {
 
     public DepositTotalBalanceDto getTotalDepositBalanceByUser(Long userId) {
         return userPointDepositJpaRepository.getDepositTotalBalance(userId);
+    }
+
+    public Result<DepositAvailableStatus> comparePointDeposit(PaymentInfoRequest paymentInfoRequest) {
+        //TODO: view 전체 데이터 응답으로 변경
+        User findUser = getUser(paymentInfoRequest.getUserId());
+        UserPoint userPointDeposit = userPointJpaRepository.findByUser(findUser)
+                .orElseThrow(() -> new NotFoundException("사용자 포인트 정보가 존재하지 않습니다."));
+
+        return (userPointDeposit.getPointTotalBalance() >= paymentInfoRequest.getRequestDepositAmount())
+                ? Result.success(DepositAvailableStatus.DEPOSIT_AVAILABLE)
+                : Result.success(DepositAvailableStatus.DEPOSIT_NOT_AVAILABLE);
     }
 
     private User getUser(Long userId) {

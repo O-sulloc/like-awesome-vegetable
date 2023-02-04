@@ -2,8 +2,11 @@ package com.i5e2.likeawesomevegetable.controller;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.payment.api.PaymentApiService;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
+import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
+import com.i5e2.likeawesomevegetable.domain.point.dto.DepositAvailableStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/payment")
 public class PaymentApiController {
     private final PaymentApiService paymentApiService;
+    private final UserPointService userPointService;
 
-    @GetMapping("/company")
-    public String checkMyPoint() {
-        //userId, post_order_id, payment_order_post, payment_order_amount
-        //point_total_balance, 모집금액 혹은 입찰가
+    @GetMapping("/point-info")
+    public String checkMyPoint(@RequestBody PaymentInfoRequest paymentInfoRequest) {
+        Result<DepositAvailableStatus> depositAvailableStatusResult = userPointService.comparePointDeposit(paymentInfoRequest);
+        log.info("depositAvailableStatusResult: {}", depositAvailableStatusResult.getData());
         return "market/company-gather-write-payment";
     }
 
