@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>계약서 생성</title>
+
+    <script src="https://www.eformsign.com/plugins/jquery/jquery.min.js"></script>
+    <script src="https://www.eformsign.com/lib/js/efs_embedded_v2.js"></script>
+
+</head>
+
+
+<body>
+
+<!-- Start Dashboard Section -->
+<div class="container">
+    <iframe id="eformsign_iframe" width="1440" height="1024"></iframe>
+</div>
+<!-- End Dashboard Section -->
+
+
+<!-- ========================= JS here ========================= -->
+<script th:inline="javascript">
+    var eformsign = new EformSignDocument();
+
+    var document_option = {
+        "company": {
+            "id": "5a74ada340a1404c85cd23e643c8c3a5",            // Company ID 입력
+            "country_code": "kr",
+            "user_key": "bujjaf@gmail.com"
+        },
+        "user": {
+            "type": "01",         // 사용자 구분 (01: 멤버, 02: 외부자)
+            "id": "bujjaf@gmail.com", // 사용자 ID(이메일)
+            "access_token": /*[[${accessToken}]]*/ null,
+            "refresh_token": /*[[${refreshToken}]]*/ null
+        },
+        "mode": {
+            "type": "01",      // 모드 (01: 새 문서 작성, 02: 문서 처리, 03: 문서 미리보기)
+            "template_id": "4aad269d2202499da308e8eaf0ae5be3" // template id 입력
+        },
+        "layout": {
+            "lang_code": "ko" // 이폼사인 언어. ko, en, ja
+        },
+        "prefill": {
+            "fields": [
+                {
+                    "id": "veg_name",       // 필드명
+                    "value": /*[[${data.vegName}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "apply_quantity",       // 필드명
+                    "value": /*[[${data.applyQuantity}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "shipping",       // 필드명
+                    "value": /*[[${data.shipping}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "receiver_address",       // 필드명
+                    "value": /*[[${data.receiverAddress}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "per_quantity",       // 필드명
+                    "value": /*[[${data.pricePerQuantity}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "final_price",       // 필드명
+                    "value": /*[[${data.finalPrice}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "company_name1",       // 필드명
+                    "value": /*[[${data.companyName}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                },
+                {
+                    "id": "farmer_name1",       // 필드명
+                    "value": /*[[${data.farmerName}]]*/ null,    // 필드값 (게시글에서 거래품목명 받아서 가져와야돼)
+                    "enabled": false,   // 활성화 여부
+                    "required": true   // 필수 여부
+                }
+            ],
+            "recipients": [
+                {
+                    "step_idx": "2",       // 워크플로우 순서. 수신자가 있을 경우 2부터 시작 (기업에 보내줘야해)
+                    "step_type": "05",      // 단계 종류. 05: 참여자, 06: 검토자
+                    "name": /*[[${data.companyName}]]*/ null,        // 수신자 이름. (계약서 요청한 기업 이름이 들어와야 돼)
+                    "id": /*[[${data.companyEmail}]]*/ null, // 수신자 ID/이메일 (기업 이메일 받아서 넣어줘야 돼)
+                    "sms": /*[[${data.companyPhone}]]*/ null,   // 수신자 핸드폰 번호 (기업 폰번호 받아서 넣어줘야 돼)
+                    "use_mail": true,       // 이메일 알림 사용 여부
+                    "use_sms": true        // SMS 알림 사용 여부
+                },
+                {
+                    "step_idx": "3",       // 워크플로우 순서. 수신자가 있을 경우 2부터 시작 (기업에 보내줘야해)
+                    "step_type": "05",      // 단계 종류. 05: 참여자, 06: 검토자
+                    "name": /*[[${data.farmerName}]]*/ null,
+                    "id": /*[[${data.farmerEmail}]]*/ null,
+                    "sms": /*[[${data.farmerPhone}]]*/ null,
+                    "use_mail": true,       // 이메일 알림 사용 여부
+                    "use_sms": true        // SMS 알림 사용 여부
+                }
+            ],
+            "comment": "안녕하세요. 멋쟁이 채소처럼에서 생성된 계약서입니다. 확인 후 서명해주시기 바랍니다."     // 메시지
+        },
+        "return_fields": ['김멋채']           // Success Callback에서 값을 확인할 수 있도록 넘겨줄 필드명
+    };
+
+    console.log(document_option);
+
+    //callback option
+    var success_callback = function (response) {
+
+        alert("계약서가 생성되었습니다. 가입시 입력하신 이메일로 계약서를 발송하였으니 서명 후 제출해주십시오.");
+        window.location = '/contract/mail-success';
+    };
+
+    var error_callback = function (response) {
+        alert("에러가 발생했습니다. 계약서를 다시 생성해주세요.");
+    };
+
+    eformsign.document(document_option, "eformsign_iframe", success_callback, error_callback);
+    eformsign.open();
+</script>
+</body>
+
+</html>
