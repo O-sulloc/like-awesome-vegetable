@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
-import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderRequest;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.user.User;
@@ -12,12 +12,12 @@ import java.util.UUID;
 
 @Slf4j
 public class UserPaymentOrderFactory {
-    public static UserPaymentOrder createUserPaymentOrder(User getUser, UserPaymentOrderRequest userPaymentOrderRequest) {
+    public static UserPaymentOrder createUserPaymentOrder(User getUser, PaymentInfoRequest paymentInfoRequest) {
         return UserPaymentOrder.builder()
                 .user(getUser)
                 .postOrderId(makePostOrderNumber(getUser.getUserType().name()))
-                .paymentOrderPost(userPaymentOrderRequest.getPostTitle())
-                .paymentOrderAmount(userPaymentOrderRequest.getPaymentOrderAmount())
+                .paymentOrderPost(paymentInfoRequest.getPostTitle())
+                .paymentOrderAmount(paymentInfoRequest.getPaymentOrderAmount())
                 .build();
     }
 
@@ -35,8 +35,8 @@ public class UserPaymentOrderFactory {
     public static UserPaymentOrderResponse of(UserPaymentOrder userPaymentOrder) {
         return new UserPaymentOrderResponse(
                 userPaymentOrder.getPaymentOrderAmount()
-                , userPaymentOrder.getUser().getManagerName()
                 , userPaymentOrder.getPostOrderId()
+                , userPaymentOrder.getUser().getManagerName()
                 , userPaymentOrder.getPaymentOrderPost()
         );
     }

@@ -61,36 +61,39 @@
                             <h2>참여 정보</h2>
                             <span>
                                 <span>OrderNumber:</span>
-                                <span id="orderId">POST-F-ORDER-2023-02-02-42ca49bb-c1a9-4e83-8393-0a556d0b6ff1</span>
+                                <span id="orderId" th:text="${userPaymentOrderResponse.postOrderId}"></span>
                             </span><br>
                             <span>
                                 <span>참여게시물 타이틀:</span>
-                                <span id="orderName">비트 5톤 모집합니다</span>
+                                <span id="orderName" th:text="${userPaymentOrderResponse.orderName}"></span>
                             </span><br>
                             <span>
                                 <span>참여자:</span>
-                                <span id="customerName">장서윤</span>
+                                <span id="customerName" th:text="${userPaymentOrderResponse.customerName}"></span>
                             </span>
                         </div>
 
                         <div class="contant-inner-title">
                             <h2>현재 잔여포인트 확인</h2>
                             <span>현재 잔여포인트:</span>
-                            <span id="total-amount">12000</span><br>
+                            <span id="total-amount" th:text="${paymentOrderPointResponse.totalPointBalanceByUser}"></span><br>
 
                             <span>부족한 포인트:</span>
-                            <span id="amount">15000</span>
+                            <span id="amount" th:text="${paymentOrderPointResponse.chargePointPayment}"></span>
                         </div>
-
-                        <p th:if="${amount != null}">앗! 포인트 충전이 필요합니다!</p>
-
                     </div>
 
                     <div class="d-grid gap-2 m-t-20">
-                        <button id="payment_card_button" class="btn btn-warning size-h-65 payment-btn" type="button">포인트
-                            충전 바로가기
+                        <p>앗! 포인트 충전이 필요합니다!</p>
+                        <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_NOT_AVAILABLE')}" id="payment_card_button" class="btn btn-warning size-h-65 payment-btn" type="button">
+                            포인트 충전 바로가기
+                        </button>
+                        <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_AVAILABLE')}"
+                                id="payment_deposit_button" class="btn btn-warning size-h-65 payment-btn" type="button" formaction="">
+                            보증금 예치 바로가기
                         </button>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -118,13 +121,17 @@
     var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
     var tossPayments = TossPayments(clientKey);
     var button = document.getElementById('payment_card_button');
+    let amount = document.getElementById('amount').innerText;
+    let orderId = document.getElementById('orderId').innerText;
+    let orderName = document.getElementById('orderName').innerText;
+    let customerName = document.getElementById('customerName').innerText;
 
     button.addEventListener('click', function () {
         tossPayments.requestPayment('카드', { // 결제 수단 파라미터
-            amount: 15000,
-            orderId: 'POST-C-ORDER-2023-02-04-8ce3e9ab-1ee0-49e8-acb0-1c34ad932ee5',
-            orderName: '사과 1톤 모집합니다',
-            customerName: '한건주',
+            amount: amount,
+            orderId: orderId,
+            orderName: orderName,
+            customerName: customerName,
             successUrl: 'http://localhost:8080/success',
             failUrl: 'http://localhost:8080/fail',
         })
