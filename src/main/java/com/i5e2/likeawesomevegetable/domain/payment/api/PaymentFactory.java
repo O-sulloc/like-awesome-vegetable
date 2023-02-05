@@ -6,7 +6,7 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 
 public class PaymentFactory {
     public static Payment createPayment(PaymentCardResponse paymentCardResponse, UserPaymentOrder userPaymentOrder) {
-        return Payment.builder()
+        return Payment.addUserPaymentOrder()
                 .id(paymentCardResponse.getPaymentKey())
                 .userPaymentOrder(userPaymentOrder)
                 .paymentAmount(paymentCardResponse.getTotalAmount())

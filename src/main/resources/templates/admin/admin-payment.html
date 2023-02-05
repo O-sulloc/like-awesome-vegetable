@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="ko">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>관리자 정산페이지</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/images/favicon.svg}"/>
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- Web Font -->
+    <link
+            th:href="@{https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}"
+            rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Lato&display=swap}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css}">
+
+    <!-- ========================= CSS here ========================= -->
+    <link th:href="@{/awesome/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/LineIcons.2.0.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/apply-bidding-detail.css}" rel="stylesheet" type="text/css">
+
+    <script src="https://js.tosspayments.com/v1/payment"></script>
+</head>
+
+<body>
+
+<!-- Start Header Area -->
+<div th:replace="fragments/header :: header"/>
+<!-- End Header Area -->
+
+<!-- Start Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">I5E2 정산 Info 페이지</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Breadcrumbs -->
+
+<!-- Start Contact Area -->
+<section id="contact-us" class="contact-us section">
+    <div class="container">
+        <div class="contact-head wow fadeInUp" data-wow-delay=".4s">
+            <div class="">
+                <div class="">
+                    <div class="single-head t-center">
+
+                        <div class="contant-inner-title">
+                            <h2>정산 대상</h2>
+                            <span>
+                                <span>받는 분:</span>
+                                <span id="transferUserName">장서윤</span>
+                            </span><br>
+                            <span>
+                                <span>입금계좌:</span>
+                                <span id="accountNumber">60440203-012-2343235</span>
+                            </span><br>
+                            <span>
+                                <span>은행:</span>
+                                <span id="bankName">국민</span>
+                            </span><br>
+                            <span>
+                                <span>이체금액:</span>
+                                <span id="transferAmount">15000</span>
+                            </span>
+                        </div>
+
+                        <div class="contant-inner-title">
+                            <h2>Payment Order 정보</h2>
+                            <span>
+                                <span>이체 금액:</span>
+                                <span id="amount">15000</span>
+                            </span><br>
+                            <span>
+                                <span>UserOrderNumber:</span>
+                                <span id="orderId">ADMIN-sldkfjsdf-2022-02-05</span>
+                            </span><br>
+                            <span>
+                                <span>이체 내역:</span>
+                                <span id="orderName">FINAL-CONTRACT-PAYMENT</span>
+                            </span><br>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 m-t-20">
+                        <p class="t-center">[멋쟁이채소처럼]은 위 정산 대상 내역을 확인했습니다.</p>
+                        <button id="payment_transfer_button" class="btn btn-warning size-h-65 payment-btn" type="button">
+                            계좌이체 정산 진행
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+<!-- Start Footer Area -->
+<div th:replace="fragments/footer :: footer" />
+<!--/ End Footer Area -->
+
+<!-- ========================= scroll-top ========================= -->
+<a href="#" class="scroll-top btn-hover">
+    <i class="lni lni-chevron-up"></i>
+</a>
+
+<!-- ========================= JS here ========================= -->
+<script th:src="@{/awesome/js/bootstrap.min.js}"></script>
+<script th:src="@{/awesome/js/wow.min.js}"></script>
+<script th:src="@{/awesome/js/tiny-slider.js}"></script>
+<script th:src="@{/awesome/js/glightbox.min.js}"></script>
+<script th:src="@{/awesome/js/main.js}"></script>
+<script type="text/javascript">
+    var clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
+    var tossPayments = TossPayments(clientKey);
+    var button = document.getElementById('payment_transfer_button');
+
+    button.addEventListener('click', function () {
+        tossPayments.requestPayment('계좌이체', { // 결제 수단 파라미터
+            amount: 15000,
+            orderId: 'B-gR4_6rO5SzB7YC3wys1234',
+            orderName: '토스 티셔츠 외 2건',
+            successUrl: 'http://localhost:8080/success',
+            failUrl: 'http://localhost:8080/fail',
+        })
+            .catch(function (error) {
+                if (error.code === 'USER_CANCEL') {
+                    // 결제 고객이 결제창을 닫았을 때 에러 처리
+                } else if (error.code === 'INVALID_CARD_COMPANY') {
+                    // 유효하지 않은 카드 코드에 대한 에러 처리
+                }
+            })
+    });
+</script>
+</body>
+
+</html>

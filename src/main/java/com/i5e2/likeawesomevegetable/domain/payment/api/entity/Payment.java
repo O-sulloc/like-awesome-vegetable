@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api.entity;
 
+import com.i5e2.likeawesomevegetable.domain.admin.AdminPaymentOrder;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,10 @@ public class Payment {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_payment_order_id")
     private UserPaymentOrder userPaymentOrder;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_payment_order_id")
+    private AdminPaymentOrder adminPaymentOrder;
 
     @Column(name = "payment_amount")
     private Long paymentAmount;
@@ -42,7 +47,7 @@ public class Payment {
     @Column(name = "payment_order_name")
     private String paymentOrderName;
 
-    @Builder
+    @Builder(builderMethodName = "addUserPaymentOrder")
     public Payment(String id, UserPaymentOrder userPaymentOrder, Long paymentAmount, String paymentMethod
             , String paymentStatus, String paymentType, String paymentRequestedAt
             , String paymentApprovedAt, String paymentLastTransactionKey, String paymentOrderName) {

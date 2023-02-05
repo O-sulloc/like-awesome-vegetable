@@ -36,8 +36,8 @@ public class UserPaymentOrderFactory {
         return new UserPaymentOrderResponse(
                 userPaymentOrder.getPaymentOrderAmount()
                 , userPaymentOrder.getPostOrderId()
-                , userPaymentOrder.getUser().getManagerName()
                 , userPaymentOrder.getPaymentOrderPost()
+                , userPaymentOrder.getUser().getManagerName()
         );
     }
 
