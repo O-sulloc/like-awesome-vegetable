@@ -58,6 +58,7 @@ public class ContractInfo {
     @Column(name = "buyer_address", length = 300)
     private String buyerAddress;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "contract_status")
     private ContractStatus contractStatus;
 

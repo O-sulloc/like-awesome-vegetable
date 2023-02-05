@@ -30,21 +30,21 @@ public class ContractSignature {
         PrivateKey privateKey = keyFact.generatePrivate(psks8KeySpec);
 
         //execution_time - 서버 현재 시간
-        long execution_time = new Date().getTime();
-        String execution_time_str = String.valueOf(execution_time);
+        long executionTime = new Date().getTime();
+        String executionTimeStr = String.valueOf(executionTime);
 
         //eformsign_signature 생성
         Signature ecdsa = Signature.getInstance("SHA256withECDSA");
         ecdsa.initSign(privateKey);
-        ecdsa.update(execution_time_str.getBytes("UTF-8"));
+        ecdsa.update(executionTimeStr.getBytes("UTF-8"));
         String eformsign_signature = new BigInteger(ecdsa.sign()).toString(16);
 
         //현재 시간 및 현재 시간 서명값
-        log.info("execution_time:{}", execution_time);
+        log.info("execution_time:{}", executionTime);
         log.info("eformsign_signature:{}", eformsign_signature);
 
         this.signature = eformsign_signature;
-        this.executionTime = String.valueOf(execution_time);
+        this.executionTime = String.valueOf(executionTime);
 
         return signature;
     }
