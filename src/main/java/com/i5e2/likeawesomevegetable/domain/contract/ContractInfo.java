@@ -16,7 +16,7 @@ public class ContractInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "document_id")
-    private Long id;
+    private String documentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
