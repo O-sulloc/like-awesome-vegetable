@@ -21,6 +21,7 @@ public class DepositApiController {
     @PostMapping("/deposit-pending")
     public ResponseEntity<Result<DepositPendingResponse>> addUserPendingDeposit(@RequestBody DepositPendingRequest depositPendingRequest) {
         Result<DepositPendingResponse> depositPendingResponse = depositService.addUserPendingDeposit(depositPendingRequest);
+        //TODO: 모집 게시글 활성화 여부 업데이트
         return ResponseEntity.ok().body(depositPendingResponse);
     }
 }

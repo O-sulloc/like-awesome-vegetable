@@ -88,7 +88,8 @@
                         <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_NOT_AVAILABLE')}" id="payment_card_button" class="btn btn-warning size-h-65 payment-btn" type="button">
                             포인트 충전 바로가기
                         </button>
-                        <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_AVAILABLE')}" id="payment_deposit_button" class="btn btn-warning size-h-65 payment-btn" type="button">
+                        <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_AVAILABLE')}"
+                                id="payment_deposit_button" class="btn btn-warning size-h-65 payment-btn" type="button" formaction="">
                             보증금 예치 바로가기
                         </button>
                     </div>

@@ -30,6 +30,6 @@ public class PaymentApiController {
         log.info("paymentOrderPointResponse:{}", paymentOrderPointResponse);
         model.addAttribute("userPaymentOrderResponse", userPaymentOrderResponse);
         model.addAttribute("paymentOrderPointResponse", paymentOrderPointResponse);
-        return "market/company-gather-write-payment";
+        return "point/point-check-payment";
     }
 }
