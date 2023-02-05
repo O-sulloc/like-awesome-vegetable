@@ -12,10 +12,13 @@ import java.time.Duration;
 public class RedisEmailUtil {
     private final StringRedisTemplate stringRedisTemplate;
 
-    // key를 통해 value 리턴
-    public String getData(String key) {
+    public boolean hasKey(String email) {
+        return stringRedisTemplate.hasKey(email);
+    }
+
+    public String getEmailCode(String email) {
         ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
-        return valueOperations.get(key);
+        return valueOperations.get(email);
     }
 
     // 유효 시간 동안(key, value)저장

@@ -42,6 +42,9 @@ public class CompanyUser {
     @Column(name = "company_line_info", length = 100)
     private String companyLineInfo;
 
+    @Column(name = "company_address", length = 300)
+    private String companyAddress;
+
     @Column(name = "company_registered_at")
     private LocalDateTime companyRegisteredAt;
 
@@ -58,6 +61,7 @@ public class CompanyUser {
                 .companyOpenDate(verifyCompanyUserRequest.getCompanyOpenDate())
                 .companyInfo(verifyCompanyUserRequest.getCompanyInfo())
                 .companyLineInfo(verifyCompanyUserRequest.getCompanyLineInfo())
+                .companyAddress(verifyCompanyUserRequest.getCompanyAddress())
                 .companyRegisteredAt(LocalDateTime.now())
                 .companyMajorItem(verifyCompanyUserRequest.getCompanyMajorItem())
                 .build();
