@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserPaymentOrderResponse {
     private Long paymentOrderAmount;
-    private String orderName;
-    private String postOrderId;
-    private String paymentOrderTitle;
+    private String postOrderId;//생성한 order number
+    private String orderName;//post title
+    private String customerName; //manager name
 }
