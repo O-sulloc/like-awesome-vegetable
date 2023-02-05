@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Table(name = "t_contract_info")
 public class ContractInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "document_id")
     private String documentId;
 
