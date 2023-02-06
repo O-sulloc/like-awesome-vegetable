@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
-public enum MapErrorCode {
+public enum AddressErrorCode {
     COMPANY_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "기업 주소가 존재하지않습니다."),
     FARM_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "농가 주소가 존재하지않습니다.");
 

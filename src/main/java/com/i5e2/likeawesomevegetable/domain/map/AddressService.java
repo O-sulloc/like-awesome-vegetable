@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.map;
 
-import com.i5e2.likeawesomevegetable.domain.map.exception.MapErrorCode;
-import com.i5e2.likeawesomevegetable.domain.map.exception.MapException;
+import com.i5e2.likeawesomevegetable.domain.map.exception.AddressErrorCode;
+import com.i5e2.likeawesomevegetable.domain.map.exception.AddressException;
 import com.i5e2.likeawesomevegetable.repository.CompanyUserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class AddressService {
         List<AddressInfo> addressInfos = new ArrayList<>();
 
         if (addresses == null || addresses.isEmpty()) {
-            throw new MapException(MapErrorCode.COMPANY_ADDRESS_NOT_FOUND, MapErrorCode.COMPANY_ADDRESS_NOT_FOUND.getMessage());
+            throw new AddressException(AddressErrorCode.COMPANY_ADDRESS_NOT_FOUND, AddressErrorCode.COMPANY_ADDRESS_NOT_FOUND.getMessage());
         }
 
         for (CompanyAddress address : addresses) {
@@ -92,7 +92,7 @@ public class AddressService {
         List<AddressInfo> addressInfos = new ArrayList<>();
 
         if (addresses == null || addresses.isEmpty()) {
-            throw new MapException(MapErrorCode.FARM_ADDRESS_NOT_FOUND, MapErrorCode.FARM_ADDRESS_NOT_FOUND.getMessage());
+            throw new AddressException(AddressErrorCode.FARM_ADDRESS_NOT_FOUND, AddressErrorCode.FARM_ADDRESS_NOT_FOUND.getMessage());
         }
 
         for (FarmAddress address : addresses) {

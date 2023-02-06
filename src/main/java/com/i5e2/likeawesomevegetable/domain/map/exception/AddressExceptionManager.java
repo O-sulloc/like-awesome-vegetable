@@ -1,4 +1,4 @@
-package com.i5e2.likeawesomevegetable.domain.apply.exception;
+package com.i5e2.likeawesomevegetable.domain.map.exception;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
 import org.springframework.http.ResponseEntity;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ApplyExceptionManager {
+public class AddressExceptionManager {
 
-    @ExceptionHandler(ApplyException.class)
-    public ResponseEntity<?> appExceptionHandler(ApplyException e) {
+    @ExceptionHandler(AddressException.class)
+    public ResponseEntity<?> mapExceptionHandler(AddressException e) {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus())
-                .body(Result.error(new ApplyErrorResponse(e.getErrorCode(), e.getMessage())));
+                .body(Result.error(new AddressErrorResponse(e.getErrorCode(), e.getMessage())));
     }
 }
