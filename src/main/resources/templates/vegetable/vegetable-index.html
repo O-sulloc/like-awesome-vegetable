@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="ko">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>멋쟁이 채소처럼</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/images/favicon.svg}"/>
+    <!-- Place favicon.ico in the root directory -->
+
+    <!-- Web Font -->
+    <link
+            th:href="@{https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap}"
+            rel="stylesheet">
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Lato&display=swap}" rel="stylesheet">
+
+    <!-- ========================= CSS here ========================= -->
+    <link th:href="@{/awesome/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/LineIcons.2.0.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/vegetable/css/vegetable-index.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/vegetable/css/vegetable-map.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<!-- Start Header Area -->
+<div th:replace="fragments/header :: header"/>
+<!-- End Header Area -->
+
+<!-- ========== section start ========== -->
+<section class="section">
+    <div class="container">
+        <!-- ========== title-wrapper start ========== -->
+        <div class="title-wrapper pt-30">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="title mb-30">
+                        <h2>멋쟁이채소처럼 실시간 농산물 정보</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- ========== title-wrapper end ========== -->
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="image m-r-20 border-r-10">
+                        <img
+                                src="assets/images/products/product-mini-1.jpg"
+                                alt=""
+                        />
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">Best 채소</h6>
+                        <h3 class="text-bold mb-10">배추</h3>
+                        <p class="text-sm text-success">
+                            <i class="lni lni-arrow-up"></i> +2.00%
+                            <span class="text-gray">(30 days)</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <!-- End Col -->
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="image m-r-20 border-r-10">
+                        <img
+                                src="assets/images/products/product-mini-1.jpg"
+                                alt=""
+                        />
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">Best 과일</h6>
+                        <h3 class="text-bold mb-10">딸기</h3>
+                        <p class="text-sm text-success">
+                            <i class="lni lni-arrow-up"></i> +5.45%
+                            <span class="text-gray">Increased</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <!-- End Col -->
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="image m-r-20 border-r-10">
+                        <img
+                                src="assets/images/products/product-mini-1.jpg"
+                                alt=""
+                        />
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">최신 등록 채소</h6>
+                        <h3 class="text-bold mb-10">비트</h3>
+                        <p class="text-sm text-danger">
+                            <i class="lni lni-arrow-down"></i> -2.00%
+                            <span class="text-gray">Expense</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <!-- End Col -->
+            <div class="col-xl-3 col-lg-4 col-sm-6">
+                <div class="icon-card mb-30">
+                    <div class="image m-r-20 border-r-10">
+                        <img
+                                src="assets/images/products/product-mini-1.jpg"
+                                alt=""
+                        />
+                    </div>
+                    <div class="content">
+                        <h6 class="mb-10">최신 등록 과일</h6>
+                        <h3 class="text-bold mb-10">딸기</h3>
+                        <p class="text-sm text-danger">
+                            <i class="lni lni-arrow-down"></i> -25.00%
+                            <span class="text-gray"> Earning</span>
+                        </p>
+                    </div>
+                </div>
+                <!-- End Icon Cart -->
+            </div>
+            <!-- End Col -->
+        </div>
+
+        <!-- End Row -->
+        <div class="">
+            <div class="">
+                <div class="card-style mb-30">
+                    <div
+                            class="
+                    title
+                    d-flex
+                    justify-content-between
+                    align-items-center
+                  "
+                    >
+                        <div class="">
+                            <h6 class="text-medium mb-30">등록된 농가/기업</h6>
+                        </div>
+                    </div>
+                    <!-- End Title -->
+
+                    <div id="container">
+                        <div id="rvWrapper">
+                            <div id="roadview" style="width:100%;height:100%;"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+                            <div id="close" title="로드뷰닫기" onclick="closeRoadview()"><span class="img"></span></div>
+                        </div>
+                        <div id="mapWrapper">
+                            <div id="map" style="width: 100%; height: 400px"></div> <!-- 지도를 표시할 div 입니다 -->
+                            <div id="roadviewControl" onclick="setRoadviewRoad()"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Start Footer Area -->
+<div th:replace="fragments/footer :: footer"/>
+<!--/ End Footer Area -->
+
+<!-- ========================= scroll-top ========================= -->
+<a href="#" class="scroll-top btn-hover"><i class="lni lni-chevron-up"></i></a>
+
+<!-- ========================= JS here ========================= -->
+<script th:src="@{/awesome/js/bootstrap.min.js}"></script>
+<script th:src="@{/awesome/js/wow.min.js}"></script>
+<script th:src="@{/awesome/js/tiny-slider.js}"></script>
+<script th:src="@{/awesome/js/glightbox.min.js}"></script>
+<script th:src="@{/awesome/js/main.js}"></script>
+<script type="text/javascript"
+        src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=fe13ca7949317749e1ea11cd1a8574d3&libraries=services,drawing,clusterer"></script>
+<script
+        src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
+<script>
+    var overlayOn = false, // 지도 위에 로드뷰 오버레이가 추가된 상태를 가지고 있을 변수
+        container = document.getElementById('container'), // 지도와 로드뷰를 감싸고 있는 div 입니다
+        mapWrapper = document.getElementById('mapWrapper'), // 지도를 감싸고 있는 div 입니다
+        mapContainer = document.getElementById('map'), // 지도를 표시할 div 입니다
+        rvContainer = document.getElementById('roadview'); //로드뷰를 표시할 div 입니다
+
+    var mapCenter = new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표
+        mapOption = {
+            center: mapCenter, // 지도의 중심좌표
+            level: 13 // 지도의 확대 레벨
+        };
+
+    // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    // 로드뷰 객체를 생성합니다
+    var rv = new kakao.maps.Roadview(rvContainer);
+
+    // 좌표로부터 로드뷰 파노라마 ID를 가져올 로드뷰 클라이언트 객체를 생성합니다
+    var rvClient = new kakao.maps.RoadviewClient();
+
+    // 로드뷰에 좌표가 바뀌었을 때 발생하는 이벤트를 등록합니다
+    kakao.maps.event.addListener(rv, 'position_changed', function() {
+
+        // 현재 로드뷰의 위치 좌표를 얻어옵니다
+        var rvPosition = rv.getPosition();
+
+        // 지도의 중심을 현재 로드뷰의 위치로 설정합니다
+        map.setCenter(rvPosition);
+
+        // 지도 위에 로드뷰 도로 오버레이가 추가된 상태이면
+        if(overlayOn) {
+            // 마커의 위치를 현재 로드뷰의 위치로 설정합니다
+            marker.setPosition(rvPosition);
+        }
+    });
+
+    // 마커 이미지를 생성합니다
+    var markImage = new kakao.maps.MarkerImage(
+        'https://t1.daumcdn.net/localimg/localimages/07/2018/pc/roadview_minimap_wk_2018.png',
+        new kakao.maps.Size(26, 46),
+        {
+            // 스프라이트 이미지를 사용합니다.
+            // 스프라이트 이미지 전체의 크기를 지정하고
+            spriteSize: new kakao.maps.Size(1666, 168),
+            // 사용하고 싶은 영역의 좌상단 좌표를 입력합니다.
+            // background-position으로 지정하는 값이며 부호는 반대입니다.
+            spriteOrigin: new kakao.maps.Point(705, 114),
+            offset: new kakao.maps.Point(13, 46)
+        }
+    );
+
+    // 드래그가 가능한 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        image : markImage,
+        position: mapCenter,
+        draggable: true
+    });
+
+    // 마커에 dragend 이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'dragend', function(mouseEvent) {
+
+        // 현재 마커가 놓인 자리의 좌표입니다
+        var position = marker.getPosition();
+
+        // 마커가 놓인 위치를 기준으로 로드뷰를 설정합니다
+        toggleRoadview(position);
+    });
+
+    //지도에 클릭 이벤트를 등록합니다
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent){
+
+        // 지도 위에 로드뷰 도로 오버레이가 추가된 상태가 아니면 클릭이벤트를 무시합니다
+        if(!overlayOn) {
+            return;
+        }
+
+        // 클릭한 위치의 좌표입니다
+        var position = mouseEvent.latLng;
+
+        // 마커를 클릭한 위치로 옮깁니다
+        marker.setPosition(position);
+
+        // 클락한 위치를 기준으로 로드뷰를 설정합니다
+        toggleRoadview(position);
+    });
+
+    // 전달받은 좌표(position)에 가까운 로드뷰의 파노라마 ID를 추출하여
+    // 로드뷰를 설정하는 함수입니다
+    function toggleRoadview(position){
+        rvClient.getNearestPanoId(position, 50, function(panoId) {
+            // 파노라마 ID가 null 이면 로드뷰를 숨깁니다
+            if (panoId === null) {
+                toggleMapWrapper(true, position);
+            } else {
+                toggleMapWrapper(false, position);
+
+                // panoId로 로드뷰를 설정합니다
+                rv.setPanoId(panoId, position);
+            }
+        });
+    }
+
+    // 지도를 감싸고 있는 div의 크기를 조정하는 함수입니다
+    function toggleMapWrapper(active, position) {
+        if (active) {
+
+            // 지도를 감싸고 있는 div의 너비가 100%가 되도록 class를 변경합니다
+            container.className = '';
+
+            // 지도의 크기가 변경되었기 때문에 relayout 함수를 호출합니다
+            map.relayout();
+
+            // 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
+            map.setCenter(position);
+        } else {
+
+            // 지도만 보여지고 있는 상태이면 지도의 너비가 50%가 되도록 class를 변경하여
+            // 로드뷰가 함께 표시되게 합니다
+            if (container.className.indexOf('view_roadview') === -1) {
+                container.className = 'view_roadview';
+
+                // 지도의 크기가 변경되었기 때문에 relayout 함수를 호출합니다
+                map.relayout();
+
+                // 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
+                map.setCenter(position);
+            }
+        }
+    }
+
+    // 지도 위의 로드뷰 도로 오버레이를 추가,제거하는 함수입니다
+    function toggleOverlay(active) {
+        if (active) {
+            overlayOn = true;
+
+            // 지도 위에 로드뷰 도로 오버레이를 추가합니다
+            map.addOverlayMapTypeId(kakao.maps.MapTypeId.ROADVIEW);
+
+            // 지도 위에 마커를 표시합니다
+            marker.setMap(map);
+
+            // 마커의 위치를 지도 중심으로 설정합니다
+            marker.setPosition(map.getCenter());
+
+            // 로드뷰의 위치를 지도 중심으로 설정합니다
+            toggleRoadview(map.getCenter());
+        } else {
+            overlayOn = false;
+
+            // 지도 위의 로드뷰 도로 오버레이를 제거합니다
+            map.removeOverlayMapTypeId(kakao.maps.MapTypeId.ROADVIEW);
+
+            // 지도 위의 마커를 제거합니다
+            marker.setMap(null);
+        }
+    }
+
+    // 지도 위의 로드뷰 버튼을 눌렀을 때 호출되는 함수입니다
+    function setRoadviewRoad() {
+        var control = document.getElementById('roadviewControl');
+
+        // 버튼이 눌린 상태가 아니면
+        if (control.className.indexOf('active') === -1) {
+            control.className = 'active';
+
+            // 로드뷰 도로 오버레이가 보이게 합니다
+            toggleOverlay(true);
+        } else {
+            control.className = '';
+
+            // 로드뷰 도로 오버레이를 제거합니다
+            toggleOverlay(false);
+        }
+    }
+
+    // 로드뷰에서 X버튼을 눌렀을 때 로드뷰를 지도 뒤로 숨기는 함수입니다
+    function closeRoadview() {
+        var position = marker.getPosition();
+        toggleMapWrapper(true, position);
+    }
+
+    // 마커 클러스터러를 생성합니다
+    var clusterer = new kakao.maps.MarkerClusterer({
+        map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+        averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+        minLevel: 10 // 클러스터 할 최소 지도 레벨
+    });
+
+    // 기업 마커의 이미지를 생성합니다
+    var CompanyImage = "https://img.icons8.com/doodle/48/null/phone-office-.png", // 마커이미지의 주소입니다
+        CompanyImageSize = new kakao.maps.Size(48, 48), // 마커이미지의 크기입니다
+        CompanyImageOption = {offset: new kakao.maps.Point(24, 48)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 농가 마커의 이미지를 생성합니다
+    var FarmImage = "https://img.icons8.com/doodle/48/null/user-location.png", // 마커이미지의 주소입니다
+        FarmImageSize = new kakao.maps.Size(48, 48), // 마커이미지의 크기입니다
+        FarmImageOption = {offset: new kakao.maps.Point(24, 48)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+    // 데이터를 가져오기 위해 jQuery를 사용합니다
+    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
+    $.get("api/v1/company-address", function(data) {
+        // 데이터에서 좌표 값을 가지고 마커를 표시합니다
+        // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
+        var markers = $(data.positions).map(function(i, position) {
+            var close = true;
+
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(position.y, position.x),
+                image: new kakao.maps.MarkerImage(CompanyImage, CompanyImageSize, CompanyImageOption)
+            });
+
+            // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            var content =
+                '<div class="customoverlay">' +
+                '  <a href="" target="_blank">' +
+                '    <span class="title">' + position.name + '</span>' +
+                '  </a>' +
+                '</div>';
+
+            var overlay = new kakao.maps.CustomOverlay({
+                content: content,
+                position: new kakao.maps.LatLng(position.y, position.x),
+                removable: true
+            });
+
+            // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                if (close) {
+                    overlay.setMap(map);
+                    close = false;
+                } else {
+                    overlay.setMap(null);
+                    close = true;
+                }
+            });
+
+            return marker;
+        });
+
+        // 클러스터러에 마커들을 추가합니다
+        clusterer.addMarkers(markers);
+    });
+
+    // 데이터를 가져오기 위해 jQuery를 사용합니다
+    // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
+    $.get("api/v1/farm-address", function(data) {
+        var markers = $(data.positions).map(function(i, position) {
+            var close = true;
+
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(position.y, position.x),
+                image: new kakao.maps.MarkerImage(FarmImage, FarmImageSize, FarmImageOption)
+            });
+
+            // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+            var content = '<div class="customoverlay">' +
+                '  <a href="" target="_blank">' +
+                '    <span class="title">' + position.name + '</span>' +
+                '  </a>' +
+                '</div>';
+
+            var overlay = new kakao.maps.CustomOverlay({
+                content: content,
+                position: new kakao.maps.LatLng(position.y, position.x),
+                removable: true
+            });
+
+            // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+            kakao.maps.event.addListener(marker, 'click', function() {
+                if (close) {
+                    overlay.setMap(map);
+                    close = false;
+                } else {
+                    overlay.setMap(null);
+                    close = true;
+                }
+            });
+
+            return marker;
+        });
+
+        // 클러스터러에 마커들을 추가합니다
+        clusterer.addMarkers(markers);
+    });
+</script>
+</body>
+</html>
