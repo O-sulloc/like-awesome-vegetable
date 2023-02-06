@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.contract;
 
-import com.i5e2.likeawesomevegetable.domain.admin.AdminUser;
+import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
 import lombok.*;
 
 import javax.persistence.*;

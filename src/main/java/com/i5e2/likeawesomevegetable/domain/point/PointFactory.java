@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
+import com.i5e2.likeawesomevegetable.domain.admin.dto.TransferEventDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
@@ -23,7 +24,18 @@ public class PointFactory {
                 .pointApprovedAt(payment.getPaymentApprovedAt())
                 .pointUserId(payment.getUserPaymentOrder().getUser().getId())
                 .build();
+    }
 
+    public static PointEventLog createTransferEventLog(Payment payment) {
+        return PointEventLog.builder()
+                .payment(payment)
+                .paymentType(payment.getPaymentType())
+                .pointEventHistory(payment.getPaymentOrderName())
+                .pointEventAmount(payment.getPaymentAmount())
+                .pointRequestAt(payment.getPaymentRequestedAt())
+                .pointApprovedAt(payment.getPaymentApprovedAt())
+                .pointUserId(payment.getAdminPaymentOrder().getAdminUser().getId())
+                .build();
     }
 
     public static PointEventDetailResponse of(PointEventLog pointEventLog) {
@@ -38,6 +50,18 @@ public class PointFactory {
                 .build();
     }
 
+    public static TransferEventDetailResponse form(PointEventLog transferEventLog) {
+        return TransferEventDetailResponse.builder()
+                .transferEventLogId(transferEventLog.getId())
+                .transferTargetUserId(transferEventLog.getPointTargetUserId())
+                .transferDetailHistory(transferEventLog.getPointEventHistory())
+                .transferDetailStatus(transferEventLog.getPayment().getPaymentStatus())
+                .transferUserId(transferEventLog.getPointUserId())
+                .transferEventAmount(transferEventLog.getPointEventAmount())
+                .transferUsedEventAt(transferEventLog.getPointUsedEventAt())
+                .build();
+    }
+
     public static UserPoint of(User user, Long userTotalPoint) {
         return new UserPoint(user, userTotalPoint);
     }
@@ -46,6 +70,7 @@ public class PointFactory {
         return UserPointResponse.builder()
                 .userPointId(userPoint.getId())
                 .userTotalBalance(userPoint.getPointTotalBalance())
+                .userDepositBalance(userPoint.getDepositTotalBalance())
                 .userId(userPoint.getUser().getId())
                 .managerName(userPoint.getUser().getManagerName())
                 .userType(userPoint.getUser().getUserType())

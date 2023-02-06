@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
+import com.i5e2.likeawesomevegetable.domain.admin.dto.DepositTransferResponse;
 import com.i5e2.likeawesomevegetable.domain.point.dto.DepositPendingRequest;
 import com.i5e2.likeawesomevegetable.domain.point.dto.DepositPendingResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
@@ -26,6 +27,20 @@ public class DepositFactory {
                 .depositCommission(calculatorCommission(userPointDeposit.getDepositAmount()))
                 .depositType(userPointDeposit.getDepositType())
                 .depositPendingAt(userPointDeposit.getDepositPendingAt())
+                .build();
+    }
+
+    public static DepositTransferResponse createTransferResponse(UserPointDeposit userPointDeposit) {
+        return DepositTransferResponse.builder()
+                .userPointDepositId(userPointDeposit.getId())
+                .pointUserId(userPointDeposit.getUserPoint().getId())
+                .depositAmount(userPointDeposit.getDepositAmount())
+                //.depositTargetPostId() TODO: 게시글 아이디
+                .depositStatus(userPointDeposit.getDepositStatus().toString())
+                .depositCommission(userPointDeposit.getDepositCommission())
+                .depositType(userPointDeposit.getDepositType())
+                .depositPendingAt(userPointDeposit.getDepositPendingAt())
+                .depositTransferAt(userPointDeposit.getDepositTransferAt())
                 .build();
     }
 

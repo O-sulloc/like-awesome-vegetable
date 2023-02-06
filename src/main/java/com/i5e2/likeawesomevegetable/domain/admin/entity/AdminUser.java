@@ -1,10 +1,11 @@
-package com.i5e2.likeawesomevegetable.domain.admin;
+package com.i5e2.likeawesomevegetable.domain.admin.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@ToString
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -41,6 +41,15 @@ public class UserPointService {
         }
     }
 
+    public UserPointResponse updateUserPointInfo(Long userId, Long deposit) {
+        User getUser = getUser(userId);
+        UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
+                .orElseThrow(() -> new NotFoundException("사용자 포인트 정보가 존재하지 않습니다."));
+        userPoint.updateDepositTotalBalance(userPoint.getDepositTotalBalance() - deposit);
+        UserPoint updateDepositResult = userPointJpaRepository.save(userPoint);
+        return PointFactory.from(updateDepositResult);
+    }
+
     public DepositTotalBalanceDto getTotalDepositBalanceByUser(Long userId) {
         return userPointDepositJpaRepository.getDepositTotalBalance(userId);
     }

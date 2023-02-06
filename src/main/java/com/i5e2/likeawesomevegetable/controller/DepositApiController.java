@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class DepositApiController {
-
     private final DepositService depositService;
 
     @PostMapping("/deposit-pending")

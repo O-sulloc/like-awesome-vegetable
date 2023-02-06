@@ -1,6 +1,6 @@
-.btn-deposit{
+.btn-deposit {
     background: #3c934e !important;
-    color: #fff ;
+    color: #fff;
     border: 1px solid #3c934e;
 }
 
@@ -8,3 +8,14 @@
 .btn-deposit:hover {
     border-color: #fff;
 }
+
+.btn-transfer {
+    background: #3c934e !important;
+    color: #fff;
+    border: 1px solid #3c934e;
+}
+
+.btn-deposit:hover {
+    border-color: #fff;
+}
+
