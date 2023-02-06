@@ -4,9 +4,7 @@ import com.i5e2.likeawesomevegetable.domain.map.AddressService;
 import com.i5e2.likeawesomevegetable.domain.map.Positions;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -15,9 +13,6 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 public class MapController {
-
-    @Value("${kakao.appKey}")
-    private String appKey;
 
     private final AddressService addressService;
 
@@ -34,8 +29,7 @@ public class MapController {
     }
 
     @GetMapping("/vegetable")
-    public String testIndex(Model model) {
-        model.addAttribute("appKey", appKey);
+    public String testIndex() {
         return "vegetable/vegetable-index";
     }
 }
