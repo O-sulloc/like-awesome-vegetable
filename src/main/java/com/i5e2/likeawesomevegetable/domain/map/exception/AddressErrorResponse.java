@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class MapException extends RuntimeException {
-    private MapErrorCode mapErrorCode;
-    private String message;
+public class AddressErrorResponse {
+    AddressErrorCode ErrorCode;
+    String message;
 }
