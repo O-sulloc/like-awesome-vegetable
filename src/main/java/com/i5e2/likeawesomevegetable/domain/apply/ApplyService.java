@@ -3,7 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.apply;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.*;
@@ -37,10 +37,10 @@ public class ApplyService {
     public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail) {
 
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
 
         User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ErrorCode.USER_NOT_FOUND, ErrorCode.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.USER_NOT_FOUND, ApplyErrorCode.USER_NOT_FOUND.getMessage()));
 
         Apply savedApply = applyJpaRepository
                 .save(request.toEntity(request.getApplyQuantity(), companyBuying, user, ComapnyBuyingStatus.IN_PROGRESS));

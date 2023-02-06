@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ExceptionManager {
+public class ApplyExceptionManager {
 
     @ExceptionHandler(ApplyException.class)
     public ResponseEntity<?> appExceptionHandler(ApplyException e) {
-        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+        return ResponseEntity.status(e.getApplyErrorCode().getHttpStatus())
                 .body(e.getMessage());
     }
 }
