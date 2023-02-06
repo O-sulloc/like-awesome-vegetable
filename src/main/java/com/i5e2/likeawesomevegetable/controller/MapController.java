@@ -16,6 +16,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class MapController {
 
+    @Value("${kakao.appKey}")
+    private String appKey;
+
     private final AddressService addressService;
 
     @ResponseBody
@@ -31,7 +34,8 @@ public class MapController {
     }
 
     @GetMapping("/vegetable")
-    public String testIndex() {
+    public String testIndex(Model model) {
+        model.addAttribute("appKey", appKey);
         return "vegetable/vegetable-index";
     }
 }
