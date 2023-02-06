@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -42,6 +43,7 @@ public class SmsService {
     private final RedisSmsUtil redisSmsUtil;
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
+    private final String SMS_USER_ID = "SMS_USER_ID";
 
     @Value("${sens.serviceId}")
     private String serviceId;
@@ -161,15 +163,16 @@ public class SmsService {
     }
 
     // 인증번호 검증
-    public void verifySms(InfoRequest request, String userEmail) {
+    public void verifySms(InfoRequest request, String userEmail, HttpSession session) {
 
-        userJpaRepository.findByEmail(userEmail)
+        User user = userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
 
         if (!isVerify(request)) {
             throw new ApplyException(ApplyErrorCode.AUTHENTICATION_FAILED, ApplyErrorCode.AUTHENTICATION_FAILED.getMessage());
         }
         redisSmsUtil.deleteSmsAuth(request.getPhone());
+        session.setAttribute(SMS_USER_ID, user.getId());
     }
 
     // 인증번호 일치 여부

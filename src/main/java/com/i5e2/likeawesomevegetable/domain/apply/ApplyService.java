@@ -14,8 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,6 +29,7 @@ public class ApplyService {
     private final ApplyJpaRepository applyJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
+    private final String SMS_USER_ID = "SMS_USER_ID";
 
     // 모집 참여 조회
     public Page<ApplyResponse> list(Long companyBuyingId, Pageable pageable) {
@@ -34,7 +38,11 @@ public class ApplyService {
     }
 
     // 모집 참여 신청하기
-    public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail) {
+    public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail, HttpSession session) {
+
+        // 세션 확인
+        Optional.ofNullable(session.getAttribute(SMS_USER_ID))
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
 
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
@@ -51,6 +59,7 @@ public class ApplyService {
 
         savedApply.setApplyNumber(applyNumber);
 
+        session.removeAttribute(SMS_USER_ID);
         return ApplyResponse.fromEntity(savedApply);
     }
 }
