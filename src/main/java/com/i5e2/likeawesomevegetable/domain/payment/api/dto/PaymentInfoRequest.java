@@ -12,7 +12,6 @@ public class PaymentInfoRequest {
         point_total_balance, 모집금액 혹은 입찰가*/
     private Long userId;
     private String postTitle;
-    private String postOrderId;
     private Long paymentOrderPostId;
     private Long paymentOrderAmount;
     private Long pointTotalBalance;

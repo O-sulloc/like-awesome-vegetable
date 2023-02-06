@@ -1,9 +1,10 @@
-package com.i5e2.likeawesomevegetable.domain.admin;
+package com.i5e2.likeawesomevegetable.domain.admin.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,4 +29,12 @@ public class AdminPaymentOrder {
 
     @Column(name = "admin_transfer_amount")
     private Long adminTransferAmount;
+
+    @Builder
+    public AdminPaymentOrder(AdminUser adminUser, String adminOrderId, String adminOrderInfo, Long adminTransferAmount) {
+        this.adminUser = adminUser;
+        this.adminOrderId = adminOrderId;
+        this.adminOrderInfo = adminOrderInfo;
+        this.adminTransferAmount = adminTransferAmount;
+    }
 }

@@ -13,9 +13,14 @@ public class AdminController {
         return "admin/admin-index";
     }
 
+    @GetMapping("/transfer-pending")
+    public String getTransferPendingList() {
+        return "admin/admin-transfer-pending-list";
+    }
+
     @GetMapping("/transfer")
     public String checkAdminTransferInfo() {
+        //order 요청 정보 보내기
         return "admin/admin-payment";
     }
-    
 }

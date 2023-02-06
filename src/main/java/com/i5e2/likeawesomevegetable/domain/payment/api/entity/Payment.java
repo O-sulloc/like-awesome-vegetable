@@ -1,13 +1,15 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api.entity;
 
-import com.i5e2.likeawesomevegetable.domain.admin.AdminPaymentOrder;
+import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import lombok.*;
 
 import javax.persistence.*;
 
+@ToString
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @EqualsAndHashCode
 @Table(name = "t_payment")
 public class Payment {
@@ -19,7 +21,7 @@ public class Payment {
     @JoinColumn(name = "user_payment_order_id")
     private UserPaymentOrder userPaymentOrder;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_payment_order_id")
     private AdminPaymentOrder adminPaymentOrder;
 
@@ -47,7 +49,7 @@ public class Payment {
     @Column(name = "payment_order_name")
     private String paymentOrderName;
 
-    @Builder(builderMethodName = "addUserPaymentOrder")
+    @Builder(builderClassName = "AddUserPaymentOrder", builderMethodName = "AddUserPaymentOrder")
     public Payment(String id, UserPaymentOrder userPaymentOrder, Long paymentAmount, String paymentMethod
             , String paymentStatus, String paymentType, String paymentRequestedAt
             , String paymentApprovedAt, String paymentLastTransactionKey, String paymentOrderName) {
@@ -62,4 +64,22 @@ public class Payment {
         this.paymentLastTransactionKey = paymentLastTransactionKey;
         this.paymentOrderName = paymentOrderName;
     }
+
+    @Builder(builderClassName = "AddAdminPaymentOrder", builderMethodName = "AddAdminPaymentOrder")
+    public Payment(String id, AdminPaymentOrder adminPaymentOrder, Long paymentAmount, String paymentMethod
+            , String paymentStatus, String paymentType, String paymentRequestedAt
+            , String paymentApprovedAt, String paymentLastTransactionKey, String paymentOrderName) {
+        this.id = id;
+        this.adminPaymentOrder = adminPaymentOrder;
+        this.paymentAmount = paymentAmount;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
+        this.paymentType = paymentType;
+        this.paymentRequestedAt = paymentRequestedAt;
+        this.paymentApprovedAt = paymentApprovedAt;
+        this.paymentLastTransactionKey = paymentLastTransactionKey;
+        this.paymentOrderName = paymentOrderName;
+    }
+
+
 }

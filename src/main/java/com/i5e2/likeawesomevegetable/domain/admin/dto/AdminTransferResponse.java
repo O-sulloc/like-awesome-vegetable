@@ -1,5 +1,6 @@
-package com.i5e2.likeawesomevegetable.domain.payment.api.dto;
+package com.i5e2.likeawesomevegetable.domain.admin.dto;
 
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.Receipt;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentCardResponse {
+public class AdminTransferResponse {
     private String paymentKey; //결제 키 값
     private String type; //결제 타입 정보 NORMAL(일반 결제), BILLING(자동 결제), BRANDPAY(브랜드페이)
     private String orderId; //주문 ID
@@ -23,6 +24,6 @@ public class PaymentCardResponse {
     private String lastTransactionKey; //마지막 거래 키 값
     private Long vat; //부가세
     private boolean isPartialCancelable; //부분 취소 가능 여부
-    private Card card; //카드 정보
+    private Transfer transfer; //카드 정보
     private Receipt url; //영수증 확인 주소
 }

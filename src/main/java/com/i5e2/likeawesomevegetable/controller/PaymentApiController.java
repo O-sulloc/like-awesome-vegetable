@@ -27,7 +27,6 @@ public class PaymentApiController {
     public String checkMyPoint(@ModelAttribute PaymentInfoRequest paymentInfoRequest, Model model) {
         UserPaymentOrderResponse userPaymentOrderResponse = paymentApiService.addUserPaymentToOrder(paymentInfoRequest);
         PaymentOrderPointResponse paymentOrderPointResponse = userPointService.comparePointDeposit(paymentInfoRequest);
-        log.info("paymentOrderPointResponse:{}", paymentOrderPointResponse);
         model.addAttribute("userPaymentOrderResponse", userPaymentOrderResponse);
         model.addAttribute("paymentOrderPointResponse", paymentOrderPointResponse);
         return "point/point-check-payment";

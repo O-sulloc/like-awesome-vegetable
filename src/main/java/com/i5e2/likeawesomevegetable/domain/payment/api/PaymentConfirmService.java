@@ -27,10 +27,11 @@ public class PaymentConfirmService {
     private final UserPaymentOrderJpaRepository userPaymentOrderJpaRepository;
     private final ObjectMapper objectMapper;
 
-    @Transactional(timeout = 2)
-    public void verifySuccessRequest(String orderId) {
+    @Transactional(readOnly = true, timeout = 2)
+    public void verifySuccessRequest(String orderId, Long requestOrderAmount) {
         userPaymentOrderJpaRepository.findByPostOrderId(orderId)
-                .orElseThrow(() -> new NotFoundException("사용자 요청 데이터가 존재하지 않습니다"));
+                .filter(userPaymentOrder -> userPaymentOrder.getPaymentOrderAmount().equals(requestOrderAmount))
+                .orElseThrow(() -> new NotFoundException("사용자 결제 요청을 찾을 수 없습니다"));
     }
 
     @Transactional(timeout = 300, rollbackFor = Exception.class)
@@ -51,8 +52,6 @@ public class PaymentConfirmService {
         HttpResponse<String> response = HttpClient
                 .newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
-
-        PaymentCardResponse paymentCardResponse = objectMapper.readValue(response.body(), PaymentCardResponse.class);
-        return paymentCardResponse;
+        return objectMapper.readValue(response.body(), PaymentCardResponse.class);
     }
 }

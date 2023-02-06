@@ -3,6 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.payment.api;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
+import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserType;
 import lombok.extern.slf4j.Slf4j;
@@ -12,12 +13,12 @@ import java.util.UUID;
 
 @Slf4j
 public class UserPaymentOrderFactory {
-    public static UserPaymentOrder createUserPaymentOrder(User getUser, PaymentInfoRequest paymentInfoRequest) {
+    public static UserPaymentOrder createUserPaymentOrder(User getUser, PaymentInfoRequest paymentInfoRequest, UserPoint userPoint) {
         return UserPaymentOrder.builder()
                 .user(getUser)
                 .postOrderId(makePostOrderNumber(getUser.getUserType().name()))
                 .paymentOrderPost(paymentInfoRequest.getPostTitle())
-                .paymentOrderAmount(paymentInfoRequest.getPaymentOrderAmount())
+                .paymentOrderAmount(calculationAmount(paymentInfoRequest.getPaymentOrderAmount(), userPoint))
                 .build();
     }
 
@@ -39,6 +40,10 @@ public class UserPaymentOrderFactory {
                 , userPaymentOrder.getPaymentOrderPost()
                 , userPaymentOrder.getUser().getManagerName()
         );
+    }
+
+    private static Long calculationAmount(Long paymentOrderAmount, UserPoint userPoint) {
+        return (paymentOrderAmount - (userPoint.getPointTotalBalance() - userPoint.getDepositTotalBalance()));
     }
 
 }

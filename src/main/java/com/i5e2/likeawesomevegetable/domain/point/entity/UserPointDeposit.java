@@ -55,4 +55,9 @@ public class UserPointDeposit {
         this.depositType = depositType;
         this.depositPendingAt = LocalDateTime.now();
     }
+
+    public void updateDepositStatus(DepositStatus depositStatus) {
+        this.depositStatus = depositStatus;
+        this.depositTransferAt = LocalDateTime.now();
+    }
 }
