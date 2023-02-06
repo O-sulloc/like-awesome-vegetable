@@ -86,6 +86,7 @@ public class CompanyBuying {
     @Column(name = "buying_deleted_at")
     private LocalDateTime buyingDeletedAt;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "post_point_activate")
     private PostPointActivateEnum PostPointActivate;
 

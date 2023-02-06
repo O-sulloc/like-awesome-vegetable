@@ -84,6 +84,7 @@ public class FarmAuction {
     @Column(name = "auction_deleted_at")
     private String auctionDeletedAt;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "post_point_activate")
     private PostPointActivateEnum PostPointActivate;
 
