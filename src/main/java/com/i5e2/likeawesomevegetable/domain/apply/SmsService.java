@@ -7,7 +7,7 @@ import com.i5e2.likeawesomevegetable.domain.apply.dto.MessageRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -42,6 +43,7 @@ public class SmsService {
     private final RedisSmsUtil redisSmsUtil;
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
+    private final String SMS_USER_ID = "SMS_USER_ID";
 
     @Value("${sens.serviceId}")
     private String serviceId;
@@ -60,7 +62,7 @@ public class SmsService {
 
         // 휴대폰 번호 확인
         User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
-                .orElseThrow(() -> new ApplyException(ErrorCode.PHONE_DISCORD, ErrorCode.PHONE_DISCORD.getMessage()));
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
 
         log.info("농가 사용자 검증");
 
@@ -68,12 +70,12 @@ public class SmsService {
         Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
 
         if (farmUser.isEmpty()) {
-            throw new ApplyException(ErrorCode.NOT_FARM_USER, ErrorCode.NOT_FARM_USER.getMessage());
+            throw new ApplyException(ApplyErrorCode.NOT_FARM_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
         }
 
         // 모집 게시글이 있는지 확인
         companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
     }
 
     // 인증번호 발송
@@ -161,15 +163,16 @@ public class SmsService {
     }
 
     // 인증번호 검증
-    public void verifySms(InfoRequest request, String userEmail) {
+    public void verifySms(InfoRequest request, String userEmail, HttpSession session) {
 
-        userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ErrorCode.PHONE_DISCORD, ErrorCode.PHONE_DISCORD.getMessage()));
+        User user = userJpaRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
 
         if (!isVerify(request)) {
-            throw new ApplyException(ErrorCode.AUTHENTICATION_FAILED, ErrorCode.AUTHENTICATION_FAILED.getMessage());
+            throw new ApplyException(ApplyErrorCode.AUTHENTICATION_FAILED, ApplyErrorCode.AUTHENTICATION_FAILED.getMessage());
         }
         redisSmsUtil.deleteSmsAuth(request.getPhone());
+        session.setAttribute(SMS_USER_ID, user.getId());
     }
 
     // 인증번호 일치 여부

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
@@ -33,9 +34,9 @@ public class SmsController {
 
     // 인증번호 검증
     @PostMapping("/confirm")
-    public ResponseEntity<Result<String>> verification(@RequestBody InfoRequest request, Authentication authentication) {
+    public ResponseEntity<Result<String>> verification(@RequestBody InfoRequest request, Authentication authentication, HttpSession session) {
 
-        smsService.verifySms(request, authentication.getName());
+        smsService.verifySms(request, authentication.getName(), session);
         return ResponseEntity.ok(Result.success("인증이 완료되었습니다."));
     }
 }

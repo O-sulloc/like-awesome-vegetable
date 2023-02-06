@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/api/v1/{companyBuyingId}")
 @RequiredArgsConstructor
@@ -33,9 +35,9 @@ public class ApplyController {
     // 참여 신청
     @PostMapping("/apply")
     public ResponseEntity<Result<String>> quantityInput(
-            @RequestBody ApplyRequest request, @PathVariable Long companyBuyingId, Authentication authentication) {
+            @RequestBody ApplyRequest request, @PathVariable Long companyBuyingId, Authentication authentication, HttpSession session) {
 
-        applyService.apply(request, companyBuyingId, authentication.getName());
+        applyService.apply(request, companyBuyingId, authentication.getName(), session);
         return ResponseEntity.ok().body(Result.success("신청 성공"));
     }
 }

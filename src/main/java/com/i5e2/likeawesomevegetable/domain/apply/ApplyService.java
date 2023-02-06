@@ -3,7 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.apply;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ErrorCode;
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.*;
@@ -14,8 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,6 +29,7 @@ public class ApplyService {
     private final ApplyJpaRepository applyJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
+    private final String SMS_USER_ID = "SMS_USER_ID";
 
     // 모집 참여 조회
     public Page<ApplyResponse> list(Long companyBuyingId, Pageable pageable) {
@@ -34,13 +38,17 @@ public class ApplyService {
     }
 
     // 모집 참여 신청하기
-    public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail) {
+    public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail, HttpSession session) {
+
+        // 세션 확인
+        Optional.ofNullable(session.getAttribute(SMS_USER_ID))
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
 
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ErrorCode.POST_NOT_FOUND, ErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
 
         User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ErrorCode.USER_NOT_FOUND, ErrorCode.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.USER_NOT_FOUND, ApplyErrorCode.USER_NOT_FOUND.getMessage()));
 
         Apply savedApply = applyJpaRepository
                 .save(request.toEntity(request.getApplyQuantity(), companyBuying, user, ComapnyBuyingStatus.IN_PROGRESS));
@@ -51,6 +59,7 @@ public class ApplyService {
 
         savedApply.setApplyNumber(applyNumber);
 
+        session.removeAttribute(SMS_USER_ID);
         return ApplyResponse.fromEntity(savedApply);
     }
 }
