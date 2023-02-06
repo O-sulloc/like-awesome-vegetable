@@ -25,6 +25,7 @@ public class PaymentApiController {
 
     @PostMapping("/point-info")
     public String checkMyPoint(@ModelAttribute PaymentInfoRequest paymentInfoRequest, Model model) {
+        userPointService.checkUserPointInfo(paymentInfoRequest.getUserId());
         UserPaymentOrderResponse userPaymentOrderResponse = paymentApiService.addUserPaymentToOrder(paymentInfoRequest);
         PaymentOrderPointResponse paymentOrderPointResponse = userPointService.comparePointDeposit(paymentInfoRequest);
         model.addAttribute("userPaymentOrderResponse", userPaymentOrderResponse);

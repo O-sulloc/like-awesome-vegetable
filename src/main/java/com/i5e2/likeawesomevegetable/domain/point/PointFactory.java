@@ -1,10 +1,10 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.i5e2.likeawesomevegetable.domain.admin.dto.TransferEventDetailResponse;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositAvailableStatus;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositAvailableStatus;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointEventDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.PointEventLog;
@@ -17,7 +17,7 @@ public class PointFactory {
     public static PointEventLog createPointEventLog(Payment payment) {
         return PointEventLog.builder()
                 .payment(payment)
-                .paymentType(payment.getPaymentType())
+                .pointEventStatus(payment.getPaymentType())
                 .pointEventHistory(payment.getPaymentOrderName())
                 .pointEventAmount(payment.getPaymentAmount())
                 .pointRequestAt(payment.getPaymentRequestedAt())
@@ -29,7 +29,7 @@ public class PointFactory {
     public static PointEventLog createTransferEventLog(Payment payment) {
         return PointEventLog.builder()
                 .payment(payment)
-                .paymentType(payment.getPaymentType())
+                .pointEventStatus("ADMIN-TRANSFER")
                 .pointEventHistory(payment.getPaymentOrderName())
                 .pointEventAmount(payment.getPaymentAmount())
                 .pointRequestAt(payment.getPaymentRequestedAt())
@@ -62,8 +62,8 @@ public class PointFactory {
                 .build();
     }
 
-    public static UserPoint of(User user, Long userTotalPoint) {
-        return new UserPoint(user, userTotalPoint);
+    public static UserPoint of(User user) {
+        return new UserPoint(user, 0L, 0L);
     }
 
     public static UserPointResponse from(UserPoint userPoint) {

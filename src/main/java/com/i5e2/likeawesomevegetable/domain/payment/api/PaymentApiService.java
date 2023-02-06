@@ -24,6 +24,7 @@ public class PaymentApiService {
     private final UserPaymentOrderJpaRepository userPaymentOrderJpaRepository;
 
     public UserPaymentOrderResponse addUserPaymentToOrder(PaymentInfoRequest paymentInfoRequest) {
+
         User getUser = getUserOne(paymentInfoRequest.getUserId());
 
         UserPoint userPoint = userPointJpaRepository.findByUser(getUser)

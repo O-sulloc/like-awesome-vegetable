@@ -1,10 +1,10 @@
-package com.i5e2.likeawesomevegetable.domain.point;
+package com.i5e2.likeawesomevegetable.domain.deposit;
 
 import com.i5e2.likeawesomevegetable.domain.admin.dto.DepositTransferResponse;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositPendingRequest;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositPendingResponse;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositPendingRequest;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositPendingResponse;
+import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
-import com.i5e2.likeawesomevegetable.domain.point.entity.UserPointDeposit;
 
 public class DepositFactory {
     public static UserPointDeposit createPendingDeposit(DepositPendingRequest depositPendingRequest, UserPoint userPoint) {

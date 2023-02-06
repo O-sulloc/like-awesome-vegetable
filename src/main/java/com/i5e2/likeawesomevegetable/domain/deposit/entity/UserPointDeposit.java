@@ -1,6 +1,7 @@
-package com.i5e2.likeawesomevegetable.domain.point.entity;
+package com.i5e2.likeawesomevegetable.domain.deposit.entity;
 
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositStatus;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositStatus;
+import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import lombok.*;
 
 import javax.persistence.*;

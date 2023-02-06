@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.repository;
 
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositTotalBalanceDto;
-import com.i5e2.likeawesomevegetable.domain.point.entity.UserPointDeposit;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositTotalBalanceDto;
+import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

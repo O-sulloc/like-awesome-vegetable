@@ -2,9 +2,9 @@ package com.i5e2.likeawesomevegetable.domain.admin;
 
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.DepositTransferResponse;
-import com.i5e2.likeawesomevegetable.domain.point.DepositFactory;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositStatus;
-import com.i5e2.likeawesomevegetable.domain.point.entity.UserPointDeposit;
+import com.i5e2.likeawesomevegetable.domain.deposit.DepositFactory;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositStatus;
+import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
 import com.i5e2.likeawesomevegetable.repository.UserPointDepositJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class DepositApiService {
         UserPointDeposit userPointDeposit = userPointDepositJpaRepository.findByUserPointId(pointUserId)
                 .orElseThrow(() -> new NotFoundException("해당 유저의 보증금 내역이 존재하지 않습니다."));
         userPointDeposit.updateDepositStatus(DepositStatus.TRANSFER);
-        UserPointDeposit updateDeposit = userPointDepositJpaRepository.save(userPointDeposit);
+        userPointDepositJpaRepository.save(userPointDeposit);
         return DepositFactory.createTransferResponse(userPointDeposit);
     }
 }

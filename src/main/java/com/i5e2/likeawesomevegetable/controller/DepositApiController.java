@@ -1,9 +1,9 @@
 package com.i5e2.likeawesomevegetable.controller;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
-import com.i5e2.likeawesomevegetable.domain.point.DepositService;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositPendingRequest;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositPendingResponse;
+import com.i5e2.likeawesomevegetable.domain.deposit.DepositService;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositPendingRequest;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositPendingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,4 +24,5 @@ public class DepositApiController {
         //TODO: 모집 게시글 활성화 여부 업데이트
         return ResponseEntity.ok().body(depositPendingResponse);
     }
+
 }

@@ -27,6 +27,7 @@ public class AdminConfirmController {
 
     @PostMapping("/transfer-order")
     private ResponseEntity<Result<AdminPaymentOrderResponse>> createAdminPaymentOrder(@RequestBody AdminPaymentOrderRequest adminPaymentOrderRequest) {
+        log.info("adminPaymentOrderRequest 음수 변경:{}", adminPaymentOrderRequest);
         Result<AdminPaymentOrderResponse> adminTransferOrder = adminConfirmService.createAdminTransferOrder(adminPaymentOrderRequest);
         return ResponseEntity.ok().body(adminTransferOrder);
     }
@@ -35,6 +36,7 @@ public class AdminConfirmController {
     public ResponseEntity<Result<DepositToTransferResponse>> transferSuccess(@RequestParam("paymentKey") String paymentKey
             , @RequestParam("orderId") String orderId
             , @RequestParam("amount") Long amount) throws IOException, InterruptedException {
+
         log.info("paymentKey:{}, orderId:{}, amount:{}", paymentKey, orderId, amount);
         adminConfirmService.adminVerifySuccessRequest(orderId, amount);
         AdminTransferResponse adminTransferResponse = adminConfirmService.requestFinalTransfer(paymentKey, orderId, amount);
@@ -42,7 +44,7 @@ public class AdminConfirmController {
 
         //사용자 포인트 예치금 업데이트
         UserPointResponse userPointResponse
-                = userPointService.updateUserPointInfo(transferEventDetailResponse.getTransferUserId(), transferEventDetailResponse.getTransferEventAmount());
+                = userPointService.updateUserPointInfo(transferEventDetailResponse.getTransferUserId());
 
         //예치금 디테일 상태 변경
         DepositTransferResponse depositTransferResponse = depositApiService.updateDepositStatus(userPointResponse.getUserPointId());

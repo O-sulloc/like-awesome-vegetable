@@ -1,9 +1,9 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
@@ -23,9 +23,10 @@ import java.util.Optional;
 @Transactional
 public class UserPointService {
     private final UserPointJpaRepository userPointJpaRepository;
+
+    private final UserPointDepositJpaRepository userPointDepositJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final PointEventLogJpaRepository pointEventLogJpaRepository;
-    private final UserPointDepositJpaRepository userPointDepositJpaRepository;
 
     public UserPointResponse checkUserPointInfo(Long userId) {
         User getUser = getUser(userId);
@@ -35,23 +36,24 @@ public class UserPointService {
             UserPoint updateUserPoint = updateUserTotalPoint(userId, userPoint.get());
             return PointFactory.from(updateUserPoint);
         } else {
-            PointTotalBalanceDto totalPointBalanceByUser = getTotalPointBalanceByUser(userId);
-            UserPoint addUserPoint = addUserPointInfo(getUser, totalPointBalanceByUser.getUserTotalBalance());
+            getTotalPointBalanceByUser(userId);
+            UserPoint addUserPoint = addUserPointInfo(getUser);
             return PointFactory.from(addUserPoint);
         }
     }
 
-    public UserPointResponse updateUserPointInfo(Long userId, Long deposit) {
+    public UserPointResponse updateUserPointInfo(Long userId) {
         User getUser = getUser(userId);
         UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
                 .orElseThrow(() -> new NotFoundException("사용자 포인트 정보가 존재하지 않습니다."));
-        userPoint.updateDepositTotalBalance(userPoint.getDepositTotalBalance() - deposit);
+
+        UserPointDeposit userPointDeposit = userPointDepositJpaRepository.findByUserPointId(userId)
+                .orElseThrow(() -> new NotFoundException("해당 유저의 보증금 정보가 존재하지 않습니다"));
+
+        userPoint.updateDepositTotalBalance(userPoint.getDepositTotalBalance() - userPointDeposit.getDepositAmount());
+        userPoint.updatePointTotalBalance(userPoint.getPointTotalBalance() - userPointDeposit.getDepositAmount());
         UserPoint updateDepositResult = userPointJpaRepository.save(userPoint);
         return PointFactory.from(updateDepositResult);
-    }
-
-    public DepositTotalBalanceDto getTotalDepositBalanceByUser(Long userId) {
-        return userPointDepositJpaRepository.getDepositTotalBalance(userId);
     }
 
     public PointTotalBalanceDto getTotalPointBalanceByUser(Long userId) {
@@ -65,8 +67,8 @@ public class UserPointService {
         return PointFactory.of(paymentInfoRequest, userPointDeposit);
     }
 
-    private UserPoint addUserPointInfo(User user, Long userTotalPoint) {
-        return userPointJpaRepository.save(PointFactory.of(user, userTotalPoint));
+    private UserPoint addUserPointInfo(User user) {
+        return userPointJpaRepository.save(PointFactory.of(user));
     }
 
     private UserPoint updateUserTotalPoint(Long userId, UserPoint userPoint) {

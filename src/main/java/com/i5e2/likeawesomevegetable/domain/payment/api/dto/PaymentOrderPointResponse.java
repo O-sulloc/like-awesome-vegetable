@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api.dto;
 
-import com.i5e2.likeawesomevegetable.domain.point.dto.DepositAvailableStatus;
+import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositAvailableStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
