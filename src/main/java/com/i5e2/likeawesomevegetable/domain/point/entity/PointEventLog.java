@@ -22,7 +22,7 @@ public class PointEventLog {
     private Payment payment;
 
     @Column(name = "point_event_status")
-    private String paymentType;
+    private String pointEventStatus;
 
     @Column(name = "point_event_history")
     private String PointEventHistory;
@@ -46,11 +46,11 @@ public class PointEventLog {
     private LocalDateTime pointUsedEventAt;
 
     @Builder
-    public PointEventLog(Payment payment, String paymentType, String pointEventHistory, Long pointEventAmount
-            , String pointRequestAt, String pointApprovedAt, Long pointUserId) {
+    public PointEventLog(Payment payment, String pointEventStatus, String pointEventHistory
+            , Long pointEventAmount, String pointRequestAt, String pointApprovedAt, Long pointUserId) {
         this.payment = payment;
-        this.paymentType = paymentType;
-        PointEventHistory = pointEventHistory;
+        this.pointEventStatus = pointEventStatus;
+        this.PointEventHistory = pointEventHistory;
         this.pointEventAmount = pointEventAmount;
         this.pointRequestAt = pointRequestAt;
         this.pointApprovedAt = pointApprovedAt;

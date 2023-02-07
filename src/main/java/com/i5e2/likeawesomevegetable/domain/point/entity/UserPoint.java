@@ -27,9 +27,10 @@ public class UserPoint {
     @Column(name = "deposit_total_balance")
     private Long depositTotalBalance;
 
-    public UserPoint(User user, Long pointTotalBalance) {
+    public UserPoint(User user, Long pointTotalBalance, Long depositTotalBalance) {
         this.user = user;
         this.pointTotalBalance = pointTotalBalance;
+        this.depositTotalBalance = depositTotalBalance;
     }
 
     public void updatePointTotalBalance(Long pointTotalBalance) {

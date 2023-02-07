@@ -43,6 +43,10 @@ public class UserPaymentOrderFactory {
     }
 
     private static Long calculationAmount(Long paymentOrderAmount, UserPoint userPoint) {
+        if (userPoint.getPointTotalBalance() == 0) {
+            return paymentOrderAmount;
+        }
+        
         return (paymentOrderAmount - (userPoint.getPointTotalBalance() - userPoint.getDepositTotalBalance()));
     }
 
