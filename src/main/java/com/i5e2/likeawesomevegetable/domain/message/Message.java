@@ -4,6 +4,7 @@ import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,18 +18,41 @@ public class Message {
     @Column(name = "message_id")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "message_content_id")
     private MessageContent messageContent;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    User user;
+    private User user;
 
     @Column(name = "other_id")
-    private Long otherId;
+    private String otherUser;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "message_type", length = 20)
     private MessageType messageType;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "message_checked", length = 20)
+    private MessageChecked messageChecked;
+
+    @Column(name = "message_registered_at")
+    private LocalDateTime messageRegisteredAt;
+
+    public static Message makeMessage(MessageContent messageContent, User loginUser, String toUserEmail, MessageType messageType) {
+        return Message.builder()
+                .messageContent(messageContent)
+                .user(loginUser)
+                .otherUser(toUserEmail)
+                .messageType(messageType)
+                .messageChecked(MessageChecked.MESSAGE_UNCHECKED)
+                .messageRegisteredAt(LocalDateTime.now())
+                .build();
+    }
+
+    // 확인된 쪽지 상태 변경
+    public void makeMessageChecked() {
+        this.messageChecked = MessageChecked.MESSAGE_CHECKED;
+    }
 }

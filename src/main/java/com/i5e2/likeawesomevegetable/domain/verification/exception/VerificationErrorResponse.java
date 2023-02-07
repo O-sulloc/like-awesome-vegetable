@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class VerificationErrorResponse {
+    private VerificationErrorCode errorCode;
     private String contents;
 }
