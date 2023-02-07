@@ -4,6 +4,7 @@ import com.amazonaws.services.kms.model.NotFoundException;
 import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
@@ -54,6 +55,14 @@ public class UserPointService {
         userPoint.updatePointTotalBalance(userPoint.getPointTotalBalance() - userPointDeposit.getDepositAmount());
         UserPoint updateDepositResult = userPointJpaRepository.save(userPoint);
         return PointFactory.from(updateDepositResult);
+    }
+
+    public UserPointResponse refundPoint(PaymentRefundResponse paymentRefundResponse, Long cancelUserId) {
+        UserPoint cancelUserPoint = userPointJpaRepository.findByUser(getUser(cancelUserId))
+                .orElseThrow(() -> new NotFoundException("해당 유저의 포인트 정보가 존재하지 않습니다"));
+        cancelUserPoint.updatePointTotalBalance(cancelUserPoint.getPointTotalBalance() - paymentRefundResponse.getTotalAmount());
+        userPointJpaRepository.save(cancelUserPoint);
+        return PointFactory.from(cancelUserPoint);
     }
 
     public PointTotalBalanceDto getTotalPointBalanceByUser(Long userId) {

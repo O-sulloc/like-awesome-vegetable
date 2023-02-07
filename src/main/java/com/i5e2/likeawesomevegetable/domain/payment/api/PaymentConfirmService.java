@@ -3,6 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.payment.api;
 import com.amazonaws.services.kms.model.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +54,27 @@ public class PaymentConfirmService {
                 .newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
         return objectMapper.readValue(response.body(), PaymentCardResponse.class);
+    }
+
+    @Transactional(timeout = 300, rollbackFor = Exception.class)
+    public PaymentRefundResponse requestRefundPayment(String cancelReason, String paymentKey) throws IOException, InterruptedException {
+        testSecretApiKey = testSecretApiKey + ":";
+        String authKey = new String(Base64.getEncoder().encode(testSecretApiKey.getBytes(StandardCharsets.UTF_8)));
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.tosspayments.com/v1/payments/" + paymentKey + "/cancel"))
+                .header("Authorization", "Basic " + authKey)
+                .header("Content-Type", "application/json")
+                .method("POST"
+                        , HttpRequest
+                                .BodyPublishers
+                                .ofString("{\"cancelReason\":\"" + cancelReason + "\"}"))
+                .build();
+
+        HttpResponse<String> response = HttpClient
+                .newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+        log.info("response:{}", response.body());
+        return objectMapper.readValue(response.body(), PaymentRefundResponse.class);
     }
 }

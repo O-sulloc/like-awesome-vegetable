@@ -26,6 +26,18 @@ public class PointFactory {
                 .build();
     }
 
+    public static PointEventLog createCancelEventLog(Payment cancel) {
+        return PointEventLog.builder()
+                .payment(cancel)
+                .pointEventStatus(cancel.getPaymentType())
+                .pointEventHistory(cancel.getPaymentOrderName())
+                .pointEventAmount(changeOperator(cancel.getPaymentAmount()))
+                .pointRequestAt(cancel.getPaymentRequestedAt())
+                .pointApprovedAt(cancel.getPaymentApprovedAt())
+                .pointUserId(cancel.getUserPaymentOrder().getUser().getId())
+                .build();
+    }
+
     public static PointEventLog createTransferEventLog(Payment payment) {
         return PointEventLog.builder()
                 .payment(payment)
@@ -93,5 +105,9 @@ public class PointFactory {
         return (userPointTotalBalance >= paymentInfoRequest.getPaymentOrderAmount())
                 ? DepositAvailableStatus.DEPOSIT_AVAILABLE
                 : DepositAvailableStatus.DEPOSIT_NOT_AVAILABLE;
+    }
+
+    private static Long changeOperator(Long getPaymentAmount) {
+        return getPaymentAmount * (-1);
     }
 }

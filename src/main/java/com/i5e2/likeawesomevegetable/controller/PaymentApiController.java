@@ -1,18 +1,15 @@
 package com.i5e2.likeawesomevegetable.controller;
 
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.payment.api.PaymentApiService;
-import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
-import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
-import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.*;
 import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @Slf4j
@@ -31,5 +28,11 @@ public class PaymentApiController {
         model.addAttribute("userPaymentOrderResponse", userPaymentOrderResponse);
         model.addAttribute("paymentOrderPointResponse", paymentOrderPointResponse);
         return "point/point-check-payment";
+    }
+
+    @PostMapping("/cancel-info")
+    public ResponseEntity<Result<UserCancelOrderResponse>> checkMyPoint(@RequestBody CancelInfoRequest cancelInfoRequest) {
+        UserCancelOrderResponse userCancelOrderResponse = paymentApiService.cancelUserPaymentToOrder(cancelInfoRequest);
+        return ResponseEntity.ok().body(Result.success(userCancelOrderResponse));
     }
 }

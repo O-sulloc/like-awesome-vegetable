@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
@@ -33,6 +34,17 @@ public class PointManagerService {
         PointEventLog pointEventLog = PointFactory.createPointEventLog(payment);
         PointEventLog pointDetailResult = pointEventLogJpaRepository.save(pointEventLog);
         return PointFactory.of(pointDetailResult);
+    }
+
+    @Transactional(timeout = 2, rollbackFor = Exception.class)
+    public PointEventDetailResponse cancelPaymentAndPoint(PaymentRefundResponse paymentRefundResponse) {
+        Optional<UserPaymentOrder> userByCancelOrder = userPaymentOrderJpaRepository.findByPostOrderId(paymentRefundResponse.getOrderId());
+        Payment cancel = PaymentFactory.createCancel(paymentRefundResponse, userByCancelOrder.get());
+        paymentJpaRepository.save(cancel);
+
+        PointEventLog pointEventLog = PointFactory.createCancelEventLog(cancel);
+        PointEventLog cancelDetailResult = pointEventLogJpaRepository.save(pointEventLog);
+        return PointFactory.of(cancelDetailResult);
     }
 
 }
