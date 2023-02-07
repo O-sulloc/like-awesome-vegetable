@@ -42,13 +42,13 @@ public class ApplyService {
     // 모집 참여 신청하기
     public ApplyResponse apply(ApplyRequest request, Long companyBuyingId, String userEmail, HttpSession session) {
 
-        // 로그인한 사용자인지 확인
-        User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
-
         // 모집 게시글이 있는지 확인
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+
+        // 로그인한 사용자인지 확인
+        User user = userJpaRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 신청자가 농가 사용자인지 확인
         Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
