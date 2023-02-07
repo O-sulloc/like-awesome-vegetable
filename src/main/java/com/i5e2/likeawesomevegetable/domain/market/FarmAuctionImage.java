@@ -21,14 +21,14 @@ public class FarmAuctionImage {
     @JoinColumn(name = "farm_auction_id")
     private FarmAuction farmAuction;
 
-    //    @Column(name = "link")
-//    private String link;
     @Column(name = "auction_image_link")
     private String auctionImageLink;
-    
-    // 추가
+
     @Column(name = "auction_image_name")
     private String auctionImageName;
 
-
+    public FarmAuctionImage(String auctionImageLink, String auctionImageName) {
+        this.auctionImageLink = auctionImageLink;
+        this.auctionImageName = auctionImageName;
+    }
 }

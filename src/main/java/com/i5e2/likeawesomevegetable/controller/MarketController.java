@@ -1,27 +1,27 @@
 package com.i5e2.likeawesomevegetable.controller;
 
-import com.i5e2.likeawesomevegetable.domain.market.AuctionRequest;
-import com.i5e2.likeawesomevegetable.domain.market.AuctionService;
-import com.i5e2.likeawesomevegetable.domain.market.BuyingRequest;
-import com.i5e2.likeawesomevegetable.domain.market.BuyingService;
+import com.i5e2.likeawesomevegetable.domain.Result;
+import com.i5e2.likeawesomevegetable.domain.market.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import java.io.IOException;
+
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/market")
+@Slf4j
 public class MarketController {
-
     private final AuctionService auctionService;
     private final BuyingService buyingService;
+    private final ImgUploadService imgUploadService;
 
     @GetMapping("/auction")
     public String writeAuctionFrom(Model model, AuctionRequest auctionRequest) {
@@ -29,7 +29,7 @@ public class MarketController {
     }
 
     @PostMapping("/auction")
-    public String add(@Valid @ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result) {
+    public String add(@ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result) {
         if (result.hasErrors()) {
             return "farmer/farmer-gather-writeform";
         }
@@ -45,18 +45,42 @@ public class MarketController {
     }
 
     @PostMapping("/buying")
-    public String add(@Valid BuyingRequest buyingRequest, BindingResult result) {
+    public String add(BuyingRequest buyingRequest, BindingResult result) {
         if (result.hasErrors()) {
             return "company/company-gather-writeform";
         }
         buyingService.creatBuying(buyingRequest);
 
+
         return "company/company-detail";
     }
 
-    //test
-    @GetMapping("")
-    public String view(){
-        return "company/smart";
+    //이미지업로드
+
+    @PostMapping("/farm/img")
+    @ResponseBody
+    public ResponseEntity<Result<FarmAuctionImageResponse>> farmImgUpload(@RequestPart("file") MultipartFile img) throws IOException {
+        log.info(img.getOriginalFilename() + "업로드 완료");
+
+        FarmAuctionImageResponse farmAuctionImageResponse = imgUploadService.farmUploadImg(img);
+
+
+        return ResponseEntity.ok().body(Result.success(farmAuctionImageResponse));
     }
+
+//    @PostMapping("/company/img")
+//    @ResponseBody
+//    public ResponseEntity<Result<CompanyBuyingResponse>> companyImgUpload(@RequestPart("file") MultipartFile img) throws IOException {
+//        log.info(img.getOriginalFilename() + "업로드 완료");
+//
+//        CompanyBuyingResponse companyBuyingResponse = imgUploadService.companyUploadImg(img);
+//
+//        return ResponseEntity.ok().body(Result.success(companyBuyingResponse));
+//    }
+
+
+    //    @GetMapping("/img")
+//    public String viewfile() {
+//        return "company/smart";
+//    }
 }
