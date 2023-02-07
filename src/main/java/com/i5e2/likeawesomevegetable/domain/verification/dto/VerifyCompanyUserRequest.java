@@ -17,5 +17,5 @@ public class VerifyCompanyUserRequest {
     private String companyInfo;
     private String companyLineInfo;
     private String companyAddress;
-    private Integer companyMajorItem;
+    private String companyMajorItem;
 }
