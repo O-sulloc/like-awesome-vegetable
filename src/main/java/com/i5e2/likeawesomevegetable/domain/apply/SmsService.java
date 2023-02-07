@@ -12,7 +12,7 @@ import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
-import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
+import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class SmsService {
     private final RedisSmsUtil redisSmsUtil;
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
-    private final FarmUserRepository farmUserRepository;
+    private final FarmAuctionJpaRepository farmAuctionJpaRepository;
     private final String SMS_USER_ID = "SMS_USER_ID";
 
     @Value("${sens.serviceId}")
@@ -65,6 +65,10 @@ public class SmsService {
             throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
             JsonProcessingException {
 
+        // 모집 게시글이 있는지 확인
+        companyBuyingJpaRepository.findById(companyBuyingId)
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+
         // 휴대폰 번호 확인
         User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
@@ -76,10 +80,6 @@ public class SmsService {
             throw new ApplyException(ApplyErrorCode.NOT_FARM_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
         }
 
-        // 모집 게시글이 있는지 확인
-        companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
-
         sendSms(request);
     }
 
@@ -87,6 +87,10 @@ public class SmsService {
     public void auctionSms(MessageRequest request, Long farmAuctionId, String userEmail)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
             JsonProcessingException {
+
+        // 경매 게시글이 있는지 확인
+        farmAuctionJpaRepository.findById(farmAuctionId)
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
 
         // 휴대폰 번호 확인
         User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
@@ -98,10 +102,6 @@ public class SmsService {
         if (companyUser.isEmpty()) {
             throw new ApplyException(ApplyErrorCode.NOT_COMPANY_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
         }
-
-        // 경매 게시글이 있는지 확인
-        farmUserRepository.findById(farmAuctionId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
 
         sendSms(request);
     }

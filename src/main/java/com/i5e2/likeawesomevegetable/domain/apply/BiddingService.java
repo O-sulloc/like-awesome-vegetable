@@ -37,13 +37,13 @@ public class BiddingService {
     // 입찰 신청하기
     public BiddingResponse bidding(BiddingRequest request, Long farmAuctionId, String userEmail, HttpSession session) {
 
-        // 로그인한 사용자인지 확인
-        User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
-
         // 경매 게시글이 있는지 확인
         FarmAuction farmAuction = farmAuctionJpaRepository.findById(farmAuctionId)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+
+        // 로그인한 사용자인지 확인
+        User user = userJpaRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 신청자가 기업 사용자인지 확인
         Optional<CompanyUser> companyUser = Optional.ofNullable(user.getCompanyUser());
