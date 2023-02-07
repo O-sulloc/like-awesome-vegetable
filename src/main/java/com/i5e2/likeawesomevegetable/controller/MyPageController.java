@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class MyPageController {
+
     @GetMapping("/pending-deposit")
     public String mypagePendingPost() {
         return "user/mypage/mypage-deposit-pending-list";
