@@ -18,4 +18,10 @@ public class MessageContent {
 
     @Column(name = "message_content", length = 200)
     private String messageContent;
+
+    public static MessageContent makeMessageContent(String content) {
+        return MessageContent.builder()
+                .messageContent(content)
+                .build();
+    }
 }
