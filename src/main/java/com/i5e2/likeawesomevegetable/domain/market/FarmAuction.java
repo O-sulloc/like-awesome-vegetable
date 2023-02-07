@@ -86,7 +86,7 @@ public class FarmAuction {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "post_point_activate")
-    private PostPointActivateEnum postPointActivateEnum;
+    private PostPointActivateEnum postPointActivate;
 
     @PrePersist
 //      String으로 바꾸기
