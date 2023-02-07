@@ -1,7 +1,9 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
 import com.amazonaws.services.kms.model.NotFoundException;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.CancelInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserCancelOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
@@ -24,7 +26,6 @@ public class PaymentApiService {
     private final UserPaymentOrderJpaRepository userPaymentOrderJpaRepository;
 
     public UserPaymentOrderResponse addUserPaymentToOrder(PaymentInfoRequest paymentInfoRequest) {
-
         User getUser = getUserOne(paymentInfoRequest.getUserId());
 
         UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
@@ -33,6 +34,14 @@ public class PaymentApiService {
         userPaymentOrderJpaRepository.save(userPaymentOrder);
 
         return UserPaymentOrderFactory.of(userPaymentOrder);
+    }
+
+    public UserCancelOrderResponse cancelUserPaymentToOrder(CancelInfoRequest cancelInfoRequest) {
+        User getUser = getUserOne(cancelInfoRequest.getCancelUserId());
+        UserPaymentOrder userCancelOrder = UserPaymentOrderFactory.createUserCancelOrder(cancelInfoRequest, getUser);
+        userPaymentOrderJpaRepository.save(userCancelOrder);
+
+        return UserPaymentOrderFactory.from(userCancelOrder);
     }
 
     private User getUserOne(Long userId) {

@@ -3,6 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.payment.api;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminTransferResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,20 @@ public class PaymentFactory {
                 .paymentRequestedAt(adminTransferResponse.getRequestedAt())
                 .paymentApprovedAt(adminTransferResponse.getApprovedAt())
                 .paymentOrderName(adminTransferResponse.getOrderName())
+                .build();
+    }
+
+    public static Payment createCancel(PaymentRefundResponse paymentRefundResponse, UserPaymentOrder userCancelOrder) {
+        return Payment.AddUserPaymentOrder()
+                .id(paymentRefundResponse.getPaymentKey())
+                .userPaymentOrder(userCancelOrder)
+                .paymentAmount(paymentRefundResponse.getTotalAmount())
+                .paymentMethod(paymentRefundResponse.getMethod())
+                .paymentStatus(paymentRefundResponse.getStatus())
+                .paymentType(paymentRefundResponse.getType())
+                .paymentRequestedAt(paymentRefundResponse.getRequestedAt())
+                .paymentApprovedAt(paymentRefundResponse.getApprovedAt())
+                .paymentOrderName(paymentRefundResponse.getOrderName())
                 .build();
     }
 }
