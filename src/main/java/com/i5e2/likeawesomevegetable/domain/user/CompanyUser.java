@@ -49,7 +49,7 @@ public class CompanyUser {
     private LocalDateTime companyRegisteredAt;
 
     @Column(name = "company_major_item")
-    private Integer companyMajorItem;
+    private String companyMajorItem;
 
     public static CompanyUser makeCompanyUser(VerifyCompanyUserRequest verifyCompanyUserRequest) {
         return CompanyUser.builder()
