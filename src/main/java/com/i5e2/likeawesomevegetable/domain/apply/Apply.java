@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
+import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingStatus;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -33,7 +34,7 @@ public class Apply {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "buying_status")
-    private ComapnyBuyingStatus companyBuyingStatus;
+    private CompanyBuyingStatus companyBuyingStatus;
 
     @Column(name = "apply_quantity")
     private Long applyQuantity;
@@ -50,9 +51,5 @@ public class Apply {
 
     public void setApplyNumber(String applyNumber) {
         this.applyNumber = applyNumber;
-    }
-
-    public void setCompanyBuyingEnd() {
-        this.companyBuyingStatus = ComapnyBuyingStatus.END;
     }
 }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/api/v1/{companyBuyingId}")
+@RequestMapping("/api/v1/buying/{companyBuyingId}")
 @RequiredArgsConstructor
 public class ApplyController {
 
@@ -32,12 +32,12 @@ public class ApplyController {
         return ResponseEntity.ok().body(Result.success(applyResponsePage));
     }
 
-    // 참여 신청
+    // 모집 참여 신청
     @PostMapping("/apply")
-    public ResponseEntity<Result<String>> quantityInput(
+    public ResponseEntity<Result<ApplyResponse>> quantityInput(
             @RequestBody ApplyRequest request, @PathVariable Long companyBuyingId, Authentication authentication, HttpSession session) {
 
-        applyService.apply(request, companyBuyingId, authentication.getName(), session);
-        return ResponseEntity.ok().body(Result.success("신청 성공"));
+        ApplyResponse applyResponse = applyService.apply(request, companyBuyingId, authentication.getName(), session);
+        return ResponseEntity.ok().body(Result.success(applyResponse));
     }
 }
