@@ -4,7 +4,6 @@ import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,6 +13,10 @@ import java.time.LocalDateTime;
 @Table(name = "t_contract_info")
 public class ContractInfo {
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "document_id")
     private String documentId;
 
@@ -25,7 +28,7 @@ public class ContractInfo {
     private String buyerName;
 
     @Column(name = "buyer_id", length = 30)
-    private String buyerID;
+    private String buyerId;
 
     @Column(name = "buyer_phone_no", length = 50)
     private String buyerPhoneNo;
@@ -49,7 +52,7 @@ public class ContractInfo {
     private Long contractQuantity;
 
     @Column(name = "contract_date")
-    private LocalDateTime contractDate;
+    private String contractDate;
 
     @Column(name = "farm_address", length = 300)
     private String farmAddress;
@@ -69,4 +72,32 @@ public class ContractInfo {
 
     @Column(name = "account_owner_name", length = 30)
     private String accountOwnerName;
+
+    public ContractInfo(String documentId, String buyerId, String sellerId, String contractItem, Long contractQuantity,
+                        Long finalPrice) {
+        this.documentId = documentId;
+        this.buyerId = buyerId;
+        this.sellerId = sellerId;
+        this.contractItem = contractItem;
+        this.contractQuantity = contractQuantity;
+        this.contractStatus = ContractStatus.SIGN;
+        this.contractTotalPrice = finalPrice;
+    }
+
+    public void updateContractInfo(String buyerAddress, String buyerName, String buyerPhoneNo, String accountNo, String bankName, String accountOwnerName,
+                                   String farmAddress, String sellerName, String sellerPhoneNo, String contractDate) {
+        this.buyerName = buyerName;
+        this.buyerPhoneNo = buyerPhoneNo;
+        this.sellerName = sellerName;
+        this.sellerPhoneNo = sellerPhoneNo;
+        this.contractDate = contractDate;
+        this.farmAddress = farmAddress;
+        this.buyerAddress = buyerAddress;
+        this.contractStatus = ContractStatus.COMPLETED;
+        this.accountNo = accountNo;
+        this.bankName = bankName;
+        this.accountOwnerName = accountOwnerName;
+    }
+
+
 }

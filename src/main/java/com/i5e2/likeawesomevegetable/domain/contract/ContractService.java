@@ -26,6 +26,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -40,7 +42,7 @@ public class ContractService {
     private final FarmAuctionJpaRepository farmAuctionJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final ApplyJpaRepository applyJpaRepository;
-
+    private final ContractInfoJpaRepository contractInfoJpaRepository;
     private final StandByJpaRepository standByJpaRepository;
     private String accessToken;
     private String refreshToken;
@@ -111,9 +113,11 @@ public class ContractService {
         data.put("receiverAddress", companyBuying.get().getReceiverAddress()); // 수취인 주소
         data.put("receiverName", companyBuying.get().getReceiverName()); // 수취인 이름
         data.put("receiverPhoneNo", companyBuying.get().getReceiverPhoneNo()); // 수취인 폰번호
+        data.put("companyId", companyBuying.get().getCompanyUser().getId());
         data.put("companyName", companyBuying.get().getCompanyUser().getCompanyName()); // 모집글 올린 기업 정보
         data.put("companyEmail", companyInfo.get().getEmail());
         data.put("companyPhone", companyInfo.get().getManaverPhoneNo());
+        data.put("farmerId", apply.get().getUser().getFarmUser().getId());
         data.put("farmerName", apply.get().getUser().getFarmUser().getFarmName()); // 참여 농가 정보
         data.put("farmerEmail", apply.get().getUser().getEmail());
         data.put("farmerPhone", apply.get().getUser().getManaverPhoneNo());
@@ -145,22 +149,37 @@ public class ContractService {
         data.put("farmerName", farmInfo.get().getFarmUser().getFarmName()); // 경매글 올린 농가 정보
         data.put("farmerEmail", farmInfo.get().getEmail());
         data.put("farmerPhone", farmInfo.get().getManaverPhoneNo());
+        data.put("farmerId", farmInfo.get().getFarmUser().getId()); // farm_user 테이블에서 ID
 
         data.put("companyName", standby.get().getUser().getCompanyUser().getCompanyName()); // 입찰한 기업 정보
         data.put("companyEmail", companyInfo.get().getEmail());
         data.put("companyPhone", companyInfo.get().getManaverPhoneNo());
+        data.put("companyId", standby.get().getUser().getCompanyUser().getId()); // company_user 테이블에서 id
 
         return data;
     }
 
     // 계약서 Document id 저장
     @Transactional
-    public void saveContractDB() {
+    public void saveContractDB(Map request) {
+        log.info("서비스 옴:{}", request.get("documentId"));
+
+        String documentId = (String) request.get("documentId");
+        String buyerId = (String) request.get("buyerId");
+        String sellerId = (String) request.get("sellerId");
+        String contractItem = (String) request.get("contractItem");
+        Long contractQuantity = Long.valueOf((String) request.get("contractQuantity"));
+        Long finalPrice = Long.valueOf((String) request.get("finalPrice"));
+
+        ContractInfo contractInfo = new ContractInfo(documentId, buyerId, sellerId, contractItem, contractQuantity, finalPrice);
+
+        contractInfoJpaRepository.save(contractInfo);
 
     }
 
-    // 계약 완료 후 계좌 정보 가져오기
-    public HashMap<String, String> getContractInfo(String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
+    // 계약 단계별로 계약서 정보 저장
+    @Transactional
+    public void getContractInfo(String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
 
         // RestTemplate 객체 생성
         RestTemplate restTemplate = new RestTemplate();
@@ -177,16 +196,64 @@ public class ContractService {
 
         JSONParser parser = new JSONParser();
         JSONObject info1 = (JSONObject) parser.parse(response.getBody());
-        JSONArray info2 = (JSONArray) info1.get("fields");
-        JSONObject account1 = (JSONObject) info2.get(6);
-        JSONObject account2 = (JSONObject) info2.get(7);
-        JSONObject account3 = (JSONObject) info2.get(8);
+        JSONArray fields = (JSONArray) info1.get("fields");
+        JSONObject status = (JSONObject) info1.get("current_status");
+        String step = (String) status.get("step_index"); //step 2면 아무도 서명 X, 3이면 한 명 서명, 4면 계약 완료
+        String stepStatus = (String) status.get("step_name"); //name 기업이면 기업 서명 기다리는 중, 농가면 농가 서명 기다리는 중, 완료면 계약 완료
 
-        HashMap<String, String> accountInfo = new HashMap<>();
-        accountInfo.put("accountNo", (String) account1.get("value"));
-        accountInfo.put("accountName", (String) account2.get("value"));
-        accountInfo.put("accountOwnerName", (String) account3.get("value"));
+        if (step.equals("2")) {
+            if (stepStatus.equals("기업")) {
+                log.info("기업 서명 대기중"); // 모집: 기업 서명중 (step = 2, status = 기업)
 
-        return accountInfo;
+            } else if (stepStatus.equals("농가")) {
+                log.info("농가 서명 대기중"); // 경매: 농가 서명중 (step = 2, status = 농가)
+            }
+        }
+
+        if (step.equals("3")) {
+            if (stepStatus.equals("농가")) {
+                log.info("기업 서명 완료. 농가 서명 대기중"); // 모집: 농가 서명중 (step = 3, status = 농가)
+
+            } else if (stepStatus.equals("농가")) {
+                log.info("농가 서명 완료. 기업 서명 대기중"); // 경매: 기업 서명중 (step = 3, status = 기업)
+            }
+        }
+
+        if (step.equals("4")) {
+            // 계약 완료
+
+            JSONObject buyerAddress1 = (JSONObject) fields.get(3);
+            JSONObject buyerName1 = (JSONObject) fields.get(12);
+            JSONObject buyerPhoneNo1 = (JSONObject) fields.get(11);
+            JSONObject accountNo1 = (JSONObject) fields.get(6);
+            JSONObject accountName1 = (JSONObject) fields.get(7);
+            JSONObject accountOwnerName1 = (JSONObject) fields.get(8);
+            JSONObject farmAddress1 = (JSONObject) fields.get(16);
+            JSONObject sellerName1 = (JSONObject) fields.get(19);
+            JSONObject sellerPhoneNo1 = (JSONObject) fields.get(19);
+            JSONObject contractDate1 = (JSONObject) fields.get(21);
+
+            String buyerAddress = (String) buyerAddress1.get("value");
+            String buyerName = (String) buyerName1.get("value");
+            String buyerPhoneNo = (String) buyerPhoneNo1.get("value");
+            String accountNo = (String) accountNo1.get("value");
+            String bankName = (String) accountName1.get("value");
+            String accountOwnerName = (String) accountOwnerName1.get("value");
+            String farmAddress = (String) farmAddress1.get("value");
+            String sellerName = (String) sellerName1.get("value");
+            String sellerPhoneNo = (String) sellerPhoneNo1.get("value");
+            String contractDate = (String) contractDate1.get("value");
+
+            ContractInfo contractInfo = contractInfoJpaRepository.findByDocumentId(documentId)
+                    .orElseThrow(() -> new NoSuchElementException("없는 계약서"));
+
+            contractInfo.updateContractInfo(buyerAddress, buyerName, buyerPhoneNo, accountNo, bankName, accountOwnerName, farmAddress,
+                    sellerName, sellerPhoneNo, contractDate);
+
+            // 동시성 처리 redis
+
+            contractInfoJpaRepository.save(contractInfo);
+        }
+
     }
 }
