@@ -1,8 +1,10 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -34,6 +36,8 @@ public class AuctionRequest {
     @NotNull(message = "가격을 입력해 주세요")
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer limitPrice;
+
+    private List<MultipartFile> uploadImages;
 
 //    private User user;
 
