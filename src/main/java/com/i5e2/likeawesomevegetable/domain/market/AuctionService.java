@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 public class AuctionService {
     private final FarmAuctionJpaRepository auctionJpaRepository;
 
-    public String creatAuction(AuctionRequest auctionRequest) {
+    public FarmAuction creatAuction(AuctionRequest auctionRequest) {
 
         FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest);
         auctionJpaRepository.save(farmAuction);
 
-        return null;
+        return farmAuction;
     }
 }

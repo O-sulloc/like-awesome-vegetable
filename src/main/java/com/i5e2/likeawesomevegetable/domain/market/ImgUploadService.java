@@ -31,7 +31,7 @@ public class ImgUploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public FarmAuctionImageResponse farmUploadImg(MultipartFile multipartFile) throws IOException {
+    public FarmAuctionImageResponse farmUploadImg(MultipartFile multipartFile,FarmAuction farmAuction) throws IOException {
 
         log.info("서비스에서 파일 확인 : " + multipartFile.getOriginalFilename());
 
@@ -58,7 +58,7 @@ public class ImgUploadService {
         }
 
         String storeFileUrl = amazonS3Client.getUrl(bucket, key).toString();
-        FarmAuctionImage farmAuctionImage = new FarmAuctionImage(storeFileUrl, originalFilename);
+        FarmAuctionImage farmAuctionImage = new FarmAuctionImage(storeFileUrl, originalFilename,farmAuction);
         farmAuctionImageRepository.save(farmAuctionImage);
 
 

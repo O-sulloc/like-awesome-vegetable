@@ -33,11 +33,11 @@ public class MarketController {
         if (result.hasErrors()) {
             return "farmer/farmer-gather-writeform";
         }
-        auctionService.creatAuction(auctionRequest);
+        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest);
 
         for (MultipartFile img : auctionRequest.getUploadImages()){
             System.out.println(img.getOriginalFilename());
-            imgUploadService.farmUploadImg(img);
+            imgUploadService.farmUploadImg(img,farmAuction);
         }
 
         return "farmer/farmer-detail";
@@ -61,17 +61,17 @@ public class MarketController {
     }
 
     //이미지업로드
-
-    @PostMapping("/farm/img")
-    @ResponseBody
-    public ResponseEntity<Result<FarmAuctionImageResponse>> farmImgUpload(@RequestPart("file") MultipartFile img) throws IOException {
-        log.info(img.getOriginalFilename() + "업로드 완료");
-
-        FarmAuctionImageResponse farmAuctionImageResponse = imgUploadService.farmUploadImg(img);
-
-
-        return ResponseEntity.ok().body(Result.success(farmAuctionImageResponse));
-    }
+//
+//    @PostMapping("/farm/img")
+//    @ResponseBody
+//    public ResponseEntity<Result<FarmAuctionImageResponse>> farmImgUpload(@RequestPart("file") MultipartFile img) throws IOException {
+//        log.info(img.getOriginalFilename() + "업로드 완료");
+//
+//        FarmAuctionImageResponse farmAuctionImageResponse = imgUploadService.farmUploadImg(img);
+//
+//
+//        return ResponseEntity.ok().body(Result.success(farmAuctionImageResponse));
+//    }
 
 //    @PostMapping("/company/img")
 //    @ResponseBody
