@@ -5,9 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
@@ -16,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/v1/contract")
@@ -61,11 +60,21 @@ public class ContractController {
         return mv;
     }
 
-    @GetMapping("/saveContractDB")
-    public void saveContractDB() {
-        log.info("요청왔다");
+    @PostMapping("/saveContractDB")
+    public void saveContractDB(@RequestBody Map<String, String> request) {
+        log.info("요청온 데이터:{}", String.valueOf(request.get("documentId")));
 
-        contractService.saveContractDB();
+        contractService.saveContractDB(request);
     }
 
+    @GetMapping("/mail-success")
+    public String getMailSend() {
+        return "contract/mail-success";
+    }
+
+    // 계약 진행 상황 조회
+    @GetMapping("/{documentId}/status")
+    public void getStatus(@PathVariable String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
+        contractService.getContractInfo(documentId);
+    }
 }

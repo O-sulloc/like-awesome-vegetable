@@ -107,8 +107,7 @@
                 },
             ],
             "comment": "안녕하세요. 멋쟁이 채소처럼에서 생성된 계약서입니다. 확인 후 서명해주시기 바랍니다."     // 메시지
-        },
-        "return_fields": ['김멋채']           // Success Callback에서 값을 확인할 수 있도록 넘겨줄 필드명
+        }
     };
 
     console.log(document_option);
@@ -116,31 +115,34 @@
     //callback option
     var success_callback = function (response) {
         console.log(response.code);
-        if( response.code == "-1"){
+
+        if (response.code == "-1") {
             //문서 작성 성공
 
             $.ajax({
-                url : "/api/v1/contract/saveContractDB",
-                type : "post",
-                contentType : "application/json",
-                data : {documentId: response.document_id},
-                dataType : "json",
-                success : function(result){
-                    console.log("success contract db insert");
-                },
-                error : function(XHR, status, error) {
+                url: "/api/v1/contract/saveContractDB",
+                type: "post",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    documentId: response.document_id,
+                    buyerId: /*[[${data.companyId}]]*/ null,
+                    sellerId: /*[[${data.farmerId}]]*/ null,
+                    contractItem: /*[[${data.vegName}]]*/ null,
+                    contractQuantity: /*[[${data.auctionQuantity}]]*/ null,
+                    finalPrice: /*[[${data.finalPrice}]]*/ null
+                }),
+                dataType: "json",
+
+                error: function (XHR, status, error) {
                     console.error(status + " : " + error);
                 }
             });
 
             console.log(response.document_id);
-            // return_fields에 넘긴 데이터를 조회 가능함. fields는 폼을 작성할 때 만든 입력 컴포넌트의 id를 의미함.
-            console.log(response.field_values["company_name"]);
-            console.log(response.field_values["position"]);
         }
 
         alert("계약서가 생성되었습니다. 가입시 입력하신 이메일로 계약서를 발송하였으니 서명 후 제출해주십시오.");
-        window.location = '/contract/mail-success';
+        window.location = '/api/v1/contract/mail-success';
     };
 
     var error_callback = function (response) {
