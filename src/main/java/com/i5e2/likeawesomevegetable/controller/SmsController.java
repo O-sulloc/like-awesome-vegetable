@@ -16,19 +16,29 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 @RestController
-@RequestMapping("/api/v1/{companyBuyingId}/sms")
+@RequestMapping("/api/v1/sms")
 @RequiredArgsConstructor
 public class SmsController {
 
     private final SmsService smsService;
 
-    // 인증번호 발송
-    @PostMapping("/send")
-    public ResponseEntity<Result<String>> sendSms(@RequestBody MessageRequest request, @PathVariable Long companyBuyingId, Authentication authentication)
+    // 모집 참여 인증번호 발송
+    @PostMapping("/buying/{companyBuyingId}")
+    public ResponseEntity<Result<String>> applySms(@RequestBody MessageRequest request, @PathVariable Long companyBuyingId, Authentication authentication)
             throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
             JsonProcessingException {
 
-        smsService.sendSms(request, companyBuyingId, authentication.getName());
+        smsService.applySms(request, companyBuyingId, authentication.getName());
+        return ResponseEntity.ok(Result.success("인증번호가 발송되었습니다."));
+    }
+
+    // 입찰 인증번호 발송
+    @PostMapping("/auction/{farmAuctionId}")
+    public ResponseEntity<Result<String>> auctionSms(@RequestBody MessageRequest request, @PathVariable Long farmAuctionId, Authentication authentication)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
+            JsonProcessingException {
+
+        smsService.auctionSms(request, farmAuctionId, authentication.getName());
         return ResponseEntity.ok(Result.success("인증번호가 발송되었습니다."));
     }
 

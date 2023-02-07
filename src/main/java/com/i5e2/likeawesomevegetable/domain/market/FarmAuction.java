@@ -71,7 +71,7 @@ public class FarmAuction {
 
     @Column(name = "auction_status")
     @Enumerated(value = EnumType.STRING)
-    private StatusEnum auctionStatus;
+    private FarmAuctionStatus farmAuctionStatus;
 
     @CreatedDate
     @Column(name = "auction_registered_at", updatable = false)

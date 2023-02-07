@@ -1,8 +1,8 @@
 package com.i5e2.likeawesomevegetable.domain.apply.dto;
 
 import com.i5e2.likeawesomevegetable.domain.apply.Apply;
-import com.i5e2.likeawesomevegetable.domain.apply.ComapnyBuyingStatus;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
+import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class ApplyResponse {
     private Long applyQuantity;
     private Long companyBuyingId;
     private Long userId;
-    private ComapnyBuyingStatus companyBuyingStatus;
+    private CompanyBuyingStatus companyBuyingStatus;
     private CompanyBuying companyBuying;
     private String buyingTitle;
     private String applyNumber;

@@ -8,9 +8,11 @@ import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsResponse;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +45,7 @@ public class SmsService {
     private final RedisSmsUtil redisSmsUtil;
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
+    private final FarmUserRepository farmUserRepository;
     private final String SMS_USER_ID = "SMS_USER_ID";
 
     @Value("${sens.serviceId}")
@@ -57,14 +60,14 @@ public class SmsService {
     @Value("${sens.senderPhone}")
     private String senderPhone;
 
-    // 권한 확인
-    public void checkPermission(MessageRequest request, Long companyBuyingId, String userEmail) {
+    // 참여 권한 확인 후 문자 발송
+    public void applySms(MessageRequest request, Long companyBuyingId, String userEmail)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
+            JsonProcessingException {
 
         // 휴대폰 번호 확인
         User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
-
-        log.info("농가 사용자 검증");
 
         // 신청자가 농가 사용자인지 확인
         Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
@@ -76,14 +79,37 @@ public class SmsService {
         // 모집 게시글이 있는지 확인
         companyBuyingJpaRepository.findById(companyBuyingId)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+
+        sendSms(request);
+    }
+
+    // 입찰 권한 확인 후 문자 발송
+    public void auctionSms(MessageRequest request, Long farmAuctionId, String userEmail)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
+            JsonProcessingException {
+
+        // 휴대폰 번호 확인
+        User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
+
+        // 신청자가 기업 사용자인지 확인
+        Optional<CompanyUser> companyUser = Optional.ofNullable(user.getCompanyUser());
+
+        if (companyUser.isEmpty()) {
+            throw new ApplyException(ApplyErrorCode.NOT_COMPANY_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
+        }
+
+        // 경매 게시글이 있는지 확인
+        farmUserRepository.findById(farmAuctionId)
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+
+        sendSms(request);
     }
 
     // 인증번호 발송
-    public void sendSms(MessageRequest request, Long companyBuyingId, String userEmail)
-            throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException,
-            URISyntaxException {
-
-        checkPermission(request, companyBuyingId, userEmail);
+    public void sendSms(MessageRequest request)
+            throws UnsupportedEncodingException, NoSuchAlgorithmException, URISyntaxException, InvalidKeyException,
+            JsonProcessingException {
 
         Long time = System.currentTimeMillis();
         String smsCode = makeCode();
@@ -171,6 +197,7 @@ public class SmsService {
         if (!isVerify(request)) {
             throw new ApplyException(ApplyErrorCode.AUTHENTICATION_FAILED, ApplyErrorCode.AUTHENTICATION_FAILED.getMessage());
         }
+
         redisSmsUtil.deleteSmsAuth(request.getPhone());
         session.setAttribute(SMS_USER_ID, user.getId());
     }
