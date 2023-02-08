@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.repository;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
+import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmAuctionByUser;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,15 @@ public interface CompanyBuyingJpaRepository extends JpaRepository<CompanyBuying,
             "GROUP BY t.company_buying_id\n" +
             "ORDER BY count(tt.company_buying_id) DESC")
     List<CompanyBuying> findAllByPostPointActivatewithHot(Pageable pageable);
+
+    @Query(value = "select company.id as companyBuyingId" +
+            ", company.buyingTitle as buyingTitle" +
+            ", company.buyingItem as buyingItemCode" +
+            ", company.companyUser.companyAddress as companyAddress" +
+            ", company.buyingPrice as buyingPrice" +
+            ", company.buyingRegisteredAt as buyingRegisteredAt" +
+            ", company.postPointActivate as postPointActivate " +
+            "from CompanyBuying company " +
+            "where company.companyUser.id = :companyUserId")
+    List<FarmAuctionByUser> findByCompanyBuyings(Long companyUserId, Pageable pageable);
 }
