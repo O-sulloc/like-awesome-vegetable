@@ -38,7 +38,7 @@ public class PostService {
                         .buyingQuantity(buying.getBuyingQuantity())
                         .buyingPrice(buying.getBuyingPrice())
                         .buyingTag(buying.getBuyingTag())
-                        .companyBuyingStatus(buying.getCompanyBuyingStatus())
+                        .companyBuyingStatus(buying.getParticipationStatus())
                         .postPointActivate(buying.getPostPointActivate())
                         .build()
         );
@@ -86,7 +86,7 @@ public class PostService {
                         .buyingQuantity(buying.getBuyingQuantity())
                         .buyingPrice(buying.getBuyingPrice())
                         .buyingTag(buying.getBuyingTag())
-                        .companyBuyingStatus(buying.getCompanyBuyingStatus())
+                        .companyBuyingStatus(buying.getParticipationStatus())
                         .postPointActivate(buying.getPostPointActivate())
                         .build()
         );
