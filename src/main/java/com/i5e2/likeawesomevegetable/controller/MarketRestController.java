@@ -24,12 +24,6 @@ public class MarketRestController {
         AuctionResponse auctionResponse = auctionService.createAuctionResponse(auctionRequest,authentication.getName());
         Result<AuctionResponse> response = new Result<>("SUCCESS",auctionResponse);
 
-        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest, authentication.getName());
-        for (MultipartFile img : auctionRequest.getUploadImages()) {
-            System.out.println(img.getOriginalFilename());
-            imgUploadService.farmUploadImg(img, farmAuction);
-        }
-
         return ResponseEntity.ok().body(response);
     }
 }

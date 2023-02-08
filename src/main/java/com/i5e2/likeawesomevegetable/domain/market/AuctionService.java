@@ -7,8 +7,10 @@ import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +19,7 @@ public class AuctionService {
     private final FarmAuctionJpaRepository auctionJpaRepository;
     private final FarmUserRepository farmUserRepository;
     private final UserJpaRepository userJpaRepository;
+    private final ImgUploadService imgUploadService;
 
 
 
@@ -27,13 +30,17 @@ public class AuctionService {
 
         return farmAuction;
     }
-    public FarmAuction creatAuction(AuctionRequest auctionRequest, String email) {
+    public FarmAuction creatAuction(AuctionRequest auctionRequest, String email) throws IOException {
 
         User user = userJpaRepository.findByEmail(email).get();
         FarmUser farmUser = user.getFarmUser();
 
         FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest,farmUser);
         auctionJpaRepository.save(farmAuction);
+
+        for (MultipartFile img : auctionRequest.getUploadImages()){
+            imgUploadService.farmUploadImg(img,farmAuction);
+        }
 
         return farmAuction;
     }
