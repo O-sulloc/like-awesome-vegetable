@@ -2,7 +2,7 @@ package com.i5e2.likeawesomevegetable.domain.apply.dto;
 
 import com.i5e2.likeawesomevegetable.domain.apply.BiddingResult;
 import com.i5e2.likeawesomevegetable.domain.market.Standby;
-import com.i5e2.likeawesomevegetable.domain.market.FarmAuctionStatus;
+import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +17,7 @@ public class BiddingResponse {
     private Long biddingPrice;
     private Long farmAuctionId;
     private Long userId;
-    private FarmAuctionStatus farmAuctionStatus;
+    private ParticipationStatus participationStatus;
     private BiddingResult biddingResult;
     private String auctionTitle;
     private String biddingNumber;
@@ -27,7 +27,7 @@ public class BiddingResponse {
                 .biddingPrice(savedBidding.getBiddingPrice())
                 .farmAuctionId(savedBidding.getFarmAuction().getId())
                 .userId(savedBidding.getUser().getId())
-                .farmAuctionStatus(savedBidding.getFarmAuctionStatus())
+                .participationStatus(savedBidding.getParticipationStatus())
                 .biddingResult(savedBidding.getBiddingResult())
                 .auctionTitle(savedBidding.getAuctionTitle())
                 .biddingNumber(savedBidding.getBiddingNumber())

@@ -36,7 +36,7 @@ public class Standby {
     private Long biddingPrice;
 
     @Column(name = "auction_status")
-    private FarmAuctionStatus farmAuctionStatus;
+    private ParticipationStatus participationStatus;
 
     @CreatedDate
     @Column(name = "bidding_time")

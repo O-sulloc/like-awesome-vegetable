@@ -20,7 +20,7 @@ public class BiddingRequest {
     public Standby toEntity(Long biddingPrice, FarmAuction farmAuction, User user, BiddingResult biddingResult) {
         return Standby.builder()
                 .farmAuction(farmAuction)
-                .farmAuctionStatus(farmAuction.getFarmAuctionStatus())
+                .participationStatus(farmAuction.getParticipationStatus())
                 .biddingResult(biddingResult)
                 .biddingPrice(biddingPrice)
                 .auctionTitle(farmAuction.getAuctionTitle())

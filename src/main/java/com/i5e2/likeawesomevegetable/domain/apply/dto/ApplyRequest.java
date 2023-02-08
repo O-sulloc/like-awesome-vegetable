@@ -19,7 +19,7 @@ public class ApplyRequest {
     public Apply toEntity(Long applyQuantity, CompanyBuying companyBuying, User user) {
         return Apply.builder()
                 .companyBuying(companyBuying)
-                .companyBuyingStatus(companyBuying.getCompanyBuyingStatus())
+                .participationStatus(companyBuying.getParticipationStatus())
                 .applyQuantity(applyQuantity)
                 .buyingTitle(companyBuying.getBuyingTitle())
                 .user(user)
