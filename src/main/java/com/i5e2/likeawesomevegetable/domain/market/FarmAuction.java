@@ -70,8 +70,7 @@ public class FarmAuction {
     private String auctionShipping;
 
     @Column(name = "auction_status")
-    @Enumerated(value = EnumType.STRING)
-    private FarmAuctionStatus farmAuctionStatus;
+    private ParticipationStatus participationStatus;
 
     @CreatedDate
     @Column(name = "auction_registered_at", updatable = false)
