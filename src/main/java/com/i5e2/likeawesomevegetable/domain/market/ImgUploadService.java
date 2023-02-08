@@ -31,9 +31,7 @@ public class ImgUploadService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public FarmAuctionImageResponse farmUploadImg(MultipartFile multipartFile) throws IOException {
-
-        log.info("서비스에서 파일 확인 : " + multipartFile.getOriginalFilename());
+    public FarmAuctionImageResponse farmUploadImg(MultipartFile multipartFile, FarmAuction farmAuction) throws IOException {
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
@@ -58,16 +56,15 @@ public class ImgUploadService {
         }
 
         String storeFileUrl = amazonS3Client.getUrl(bucket, key).toString();
-        FarmAuctionImage farmAuctionImage = new FarmAuctionImage(storeFileUrl, originalFilename);
+        FarmAuctionImage farmAuctionImage = new FarmAuctionImage(storeFileUrl, originalFilename, farmAuction);
         farmAuctionImageRepository.save(farmAuctionImage);
 
 
-        log.info("서비스 끝 & 저장된 파일 이름  : " + upLoadFileName);
+        log.info("저장된 파일 이름  : " + upLoadFileName);
         log.info("저장 경로  : " + key);
 
         return FarmAuctionImageResponse.of(originalFilename, "파일 등록 성공");
     }
-
 
 
 //    public CompanyBuyingResponse companyUploadImg(MultipartFile multipartFile) throws IOException {

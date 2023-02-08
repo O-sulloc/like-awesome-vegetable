@@ -69,6 +69,7 @@ public class FarmAuction {
     @Column(name = "auction_shipping")
     private String auctionShipping;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "auction_status")
     private ParticipationStatus participationStatus;
 

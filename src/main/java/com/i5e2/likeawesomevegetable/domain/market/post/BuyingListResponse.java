@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market.post;
 
-import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingStatus;
+import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import com.i5e2.likeawesomevegetable.domain.market.PostPointActivateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class BuyingListResponse {
     private Integer buyingQuantity;
     private Integer buyingPrice;
     private String buyingTag;
-    private CompanyBuyingStatus companyBuyingStatus;
+    private ParticipationStatus companyBuyingStatus;
     private PostPointActivateEnum postPointActivate;
 
 }

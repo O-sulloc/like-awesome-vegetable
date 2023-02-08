@@ -1,14 +1,16 @@
 package com.i5e2.likeawesomevegetable.controller;
 
-import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.market.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,16 +26,21 @@ public class MarketController {
     private final ImgUploadService imgUploadService;
 
     @GetMapping("/auction")
-    public String writeAuctionFrom(Model model, AuctionRequest auctionRequest) {
+    public String writeAuctionFrom(Model model, AuctionRequest auctionRequest, Authentication authentication) {
         return "farmer/farmer-gather-writeform";
     }
 
     @PostMapping("/auction")
-    public String add(@ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result) {
+    public String add(@ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result, Authentication authentication) throws IOException {
         if (result.hasErrors()) {
             return "farmer/farmer-gather-writeform";
         }
-        auctionService.creatAuction(auctionRequest);
+        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest, authentication);
+
+        for (MultipartFile img : auctionRequest.getUploadImages()) {
+            System.out.println(img.getOriginalFilename());
+            imgUploadService.farmUploadImg(img, farmAuction);
+        }
 
         return "farmer/farmer-detail";
     }
@@ -56,17 +63,17 @@ public class MarketController {
     }
 
     //이미지업로드
-
-    @PostMapping("/farm/img")
-    @ResponseBody
-    public ResponseEntity<Result<FarmAuctionImageResponse>> farmImgUpload(@RequestPart("file") MultipartFile img) throws IOException {
-        log.info(img.getOriginalFilename() + "업로드 완료");
-
-        FarmAuctionImageResponse farmAuctionImageResponse = imgUploadService.farmUploadImg(img);
-
-
-        return ResponseEntity.ok().body(Result.success(farmAuctionImageResponse));
-    }
+//
+//    @PostMapping("/farm/img")
+//    @ResponseBody
+//    public ResponseEntity<Result<FarmAuctionImageResponse>> farmImgUpload(@RequestPart("file") MultipartFile img) throws IOException {
+//        log.info(img.getOriginalFilename() + "업로드 완료");
+//
+//        FarmAuctionImageResponse farmAuctionImageResponse = imgUploadService.farmUploadImg(img);
+//
+//
+//        return ResponseEntity.ok().body(Result.success(farmAuctionImageResponse));
+//    }
 
 //    @PostMapping("/company/img")
 //    @ResponseBody

@@ -1,8 +1,14 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -10,7 +16,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionRequest {
-    //TODO : 1. 후입력(price,time,userid,time) 2.이미지 업로드 3.category 다양화 4.날짜형식 & 유효성 검증 추가 5.limit
+    //TODO : 1. 후입력(price,time,userid,time) 3.category 다양화
 
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
@@ -28,6 +34,8 @@ public class AuctionRequest {
     @Min(value = 3, message = "3t이상 모집이 가능합니다.")
     @Positive(message = "숫자만 입력해 주세요.")
     private Integer quantity;
+    @Min(value = 1, message = "운임 방법을 선택해 주세요")
+    private int shipping; //int -> string으로 변환
     @NotNull(message = "가격을 입력해 주세요")
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer startPrice;
@@ -35,7 +43,8 @@ public class AuctionRequest {
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer limitPrice;
 
-//    private User user;
+    private List<MultipartFile> uploadImages;
+
 
     public FarmAuction toEntity(AuctionRequest auctionRequest) {
         return FarmAuction.builder()
@@ -49,14 +58,14 @@ public class AuctionRequest {
 //                .auctionHighestPrice() 종료가격 입력
                 .auctionLimitPrice(auctionRequest.getLimitPrice())
                 .auctionDescription(auctionRequest.getDescription())
-//                .auctionTag() 추가추가
-//                .auctionShipping()
-//                .auctionStatus()
+                .auctionShipping(shippingConvert(auctionRequest.getShipping()))
+                .participationStatus(ParticipationStatus.valueOf(status(auctionRequest.getRegisteredAt())))
 //                .auctionRegisteredAt
 //                .auctionModifiedAt()
 //                .auctionDeletedAt()
                 .build();
     }
+
     private String shippingConvert(int value) {
         if (value == 1) {
             return "BOXING";
@@ -67,5 +76,21 @@ public class AuctionRequest {
         }
         return "0";
     }
+
+    private String status(String registeredAt) {
+        String[] arrToday = LocalDateTime.now().toString().substring(0, 10).split("-");
+        int today = Integer.parseInt(arrToday[0] + arrToday[1] + arrToday[2]);
+
+        String[] arrRegisteredAt = registeredAt.toString().substring(0, 10).split("-");
+        int intRegisteredAt = Integer.parseInt(arrRegisteredAt[0] + arrRegisteredAt[1] + arrRegisteredAt[2]);
+
+        if (today >= intRegisteredAt) {
+            return "UNDERWAY";
+        } else {
+            return "BEFORE";
+        }
+
+    }
+
 
 }

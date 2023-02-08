@@ -27,7 +27,8 @@ public class FarmAuctionImage {
     @Column(name = "auction_image_name")
     private String auctionImageName;
 
-    public FarmAuctionImage(String auctionImageLink, String auctionImageName) {
+    public FarmAuctionImage(String auctionImageLink, String auctionImageName,FarmAuction farmAuction) {
+        this.farmAuction = farmAuction;
         this.auctionImageLink = auctionImageLink;
         this.auctionImageName = auctionImageName;
     }

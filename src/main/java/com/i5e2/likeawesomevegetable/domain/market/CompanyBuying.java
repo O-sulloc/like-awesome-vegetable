@@ -70,6 +70,7 @@ public class CompanyBuying {
     @Column(name = "receiver_address", length = 300)
     private String receiverAddress;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "company_buying_status")
     private ParticipationStatus participationStatus;
 
