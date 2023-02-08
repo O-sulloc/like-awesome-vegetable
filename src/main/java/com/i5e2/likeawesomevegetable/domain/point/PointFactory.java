@@ -2,6 +2,7 @@ package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.i5e2.likeawesomevegetable.domain.admin.dto.TransferEventDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositAvailableStatus;
+import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypagePointEvenLogResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
@@ -71,6 +72,23 @@ public class PointFactory {
                 .transferUserId(transferEventLog.getPointUserId())
                 .transferEventAmount(transferEventLog.getPointEventAmount())
                 .transferUsedEventAt(transferEventLog.getPointUsedEventAt())
+                .build();
+    }
+
+    public static MypagePointEvenLogResponse createUserPointEventLog(PointEventLog pointEventLog) {
+        return MypagePointEvenLogResponse.builder()
+                .pointEventLogId(pointEventLog.getId())
+                .paymentMethod(pointEventLog.getPayment().getPaymentMethod())
+                .paymentType(pointEventLog.getPayment().getPaymentType())
+                .paymentRequestedAt(pointEventLog.getPayment().getPaymentRequestedAt())
+                .pointEventStatus(pointEventLog.getPointEventStatus())
+                .pointEventHistory(pointEventLog.getPointEventHistory())
+                .pointTargetUserId(pointEventLog.getPointTargetUserId())
+                .pointEventAmount(pointEventLog.getPointEventAmount())
+                .pointRequestAt(pointEventLog.getPointRequestAt())
+                .pointApprovedAt(pointEventLog.getPointApprovedAt())
+                .pointUserId(pointEventLog.getPointUserId())
+                .pointUsedEventAt(pointEventLog.getPointUsedEventAt())
                 .build();
     }
 

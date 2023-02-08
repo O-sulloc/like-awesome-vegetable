@@ -25,7 +25,7 @@ public class PointEventLog {
     private String pointEventStatus;
 
     @Column(name = "point_event_history")
-    private String PointEventHistory;
+    private String pointEventHistory;
 
     @Column(name = "point_target_user")
     private Long pointTargetUserId;
@@ -50,7 +50,7 @@ public class PointEventLog {
             , Long pointEventAmount, String pointRequestAt, String pointApprovedAt, Long pointUserId) {
         this.payment = payment;
         this.pointEventStatus = pointEventStatus;
-        this.PointEventHistory = pointEventHistory;
+        this.pointEventHistory = pointEventHistory;
         this.pointEventAmount = pointEventAmount;
         this.pointRequestAt = pointRequestAt;
         this.pointApprovedAt = pointApprovedAt;
