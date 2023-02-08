@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 
@@ -31,11 +32,11 @@ public class MarketController {
     }
 
     @PostMapping("/auction")
-    public String add(@ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result, Authentication authentication) throws IOException {
+    public String add(@Valid @ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result, Authentication authentication) throws IOException {
         if (result.hasErrors()) {
             return "farmer/farmer-gather-writeform";
         }
-        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest, authentication);
+        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest, authentication.getName());
 
         for (MultipartFile img : auctionRequest.getUploadImages()) {
             System.out.println(img.getOriginalFilename());
@@ -52,7 +53,7 @@ public class MarketController {
     }
 
     @PostMapping("/buying")
-    public String add(BuyingRequest buyingRequest, BindingResult result) {
+    public String add(@Valid BuyingRequest buyingRequest, BindingResult result) {
         if (result.hasErrors()) {
             return "company/company-gather-writeform";
         }

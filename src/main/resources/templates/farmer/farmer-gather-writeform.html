@@ -338,7 +338,10 @@
                                                         </div>
                                                     </div>
 
-                                                    <input type="file" multiple="multiple" th:field="*{uploadImages}">
+                                                    <input type="file" multiple="multiple" th:field="*{uploadImages}" th:class="${#fields.hasErrors('uploadImages')}? 'error'">
+                                                    <div th:each="msg : ${#fields.errors('uploadImages')}">
+                                                        <p style="color: red" th:text="${msg}"></p>
+                                                    </div>
 
                                                     <!--                                                    <div class="dropzone"></div>-->
 

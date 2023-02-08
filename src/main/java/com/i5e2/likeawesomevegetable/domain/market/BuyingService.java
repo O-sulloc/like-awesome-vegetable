@@ -19,13 +19,4 @@ public class BuyingService {
         return null;
     }
 
-    public String creatAuction(AuctionRequest auctionRequest) {
-
-        FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest);
-//        farmAuctionJpaRepository.save(auctionRequest);
-
-        return null;
-    }
-
-
 }

@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,10 +44,11 @@ public class AuctionRequest {
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer limitPrice;
 
+    @NotNull(message = "파일을 업로드 해주세요")
     private List<MultipartFile> uploadImages;
 
 
-    public FarmAuction toEntity(AuctionRequest auctionRequest) {
+    public FarmAuction toEntity(AuctionRequest auctionRequest, FarmUser farmUser) {
         return FarmAuction.builder()
                 .auctionTitle(auctionRequest.getTitle())
                 .auctionStartTime(auctionRequest.getRegisteredAt())
@@ -63,6 +65,7 @@ public class AuctionRequest {
 //                .auctionRegisteredAt
 //                .auctionModifiedAt()
 //                .auctionDeletedAt()
+                .farmUser(farmUser)
                 .build();
     }
 
