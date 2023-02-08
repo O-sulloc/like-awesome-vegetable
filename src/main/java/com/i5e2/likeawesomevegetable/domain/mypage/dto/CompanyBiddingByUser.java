@@ -18,7 +18,7 @@ public class CompanyBiddingByUser {
     private String auctionTitle;
     private String auctionStartTime;
     private String auctionEndTime;
-    private Integer auctionItemCategory;
+    private String auctionItemCategory;
     private Integer auctionQuantity;
     private String auctionDescription;
     private String auctionRegisteredAt;

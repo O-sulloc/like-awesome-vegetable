@@ -37,7 +37,6 @@ public class PostService {
                         .buyingItem(buying.getBuyingItem())
                         .buyingQuantity(buying.getBuyingQuantity())
                         .buyingPrice(buying.getBuyingPrice())
-                        .buyingTag(buying.getBuyingTag())
                         .companyBuyingStatus(buying.getParticipationStatus())
                         .postPointActivate(buying.getPostPointActivate())
                         .build()
@@ -62,7 +61,6 @@ public class PostService {
                         .auctionItem(auction.getAuctionItem())
                         .auctionQuantity(auction.getAuctionQuantity())
                         .auctionHighestPrice(auction.getAuctionHighestPrice())
-                        .auctionTag(auction.getAuctionTag())
                         .postPointActivate(auction.getPostPointActivate())
                         .build()
         );
@@ -85,7 +83,6 @@ public class PostService {
                         .buyingItem(buying.getBuyingItem())
                         .buyingQuantity(buying.getBuyingQuantity())
                         .buyingPrice(buying.getBuyingPrice())
-                        .buyingTag(buying.getBuyingTag())
                         .companyBuyingStatus(buying.getParticipationStatus())
                         .postPointActivate(buying.getPostPointActivate())
                         .build()
@@ -110,7 +107,6 @@ public class PostService {
                         .auctionItem(auction.getAuctionItem())
                         .auctionQuantity(auction.getAuctionQuantity())
                         .auctionHighestPrice(auction.getAuctionHighestPrice())
-                        .auctionTag(auction.getAuctionTag())
                         .postPointActivate(auction.getPostPointActivate())
                         .build()
         );

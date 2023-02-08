@@ -17,11 +17,10 @@ public class BuyingListResponse {
     private String buyingTitle;
     private String buyingStartTime;
     private String buyingEndTime;
-    private Integer buyingItemCategory;
+    private String buyingItemCategory;
     private String buyingItem;
     private Integer buyingQuantity;
     private Integer buyingPrice;
-    private String buyingTag;
     private ParticipationStatus companyBuyingStatus;
     private PostPointActivateEnum postPointActivate;
 

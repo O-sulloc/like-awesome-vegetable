@@ -19,7 +19,7 @@ public class FarmApplyByUser {
     private String buyingTitle;
     private String buyingStartTime;
     private String buyingEndTime;
-    private Integer buyingItemCategory;
+    private String buyingItemCategory;
     private Integer buyingQuantity;
     private String buyingDescription;
     private String buyingRegisteredAt;
