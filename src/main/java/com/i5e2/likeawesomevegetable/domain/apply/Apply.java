@@ -32,7 +32,6 @@ public class Apply {
     @JoinColumn(name = "company_buying_id")
     private CompanyBuying companyBuying;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "buying_status")
     private ParticipationStatus participationStatus;
 
