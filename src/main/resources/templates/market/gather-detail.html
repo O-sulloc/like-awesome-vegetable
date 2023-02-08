@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th = "http://www.thymeleaf.org" class="no-js" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="ko">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
     <title>모집 상세페이지</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/images/favicon.svg}" />
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/images/favicon.svg}"/>
     <!-- Place favicon.ico in the root directory -->
 
     <!-- Web Font -->
@@ -18,189 +18,179 @@
     <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css}">
 
     <!-- ========================= CSS here ========================= -->
-    <link th:href ="@{/awesome/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
-    <link th:href ="@{/awesome/css/LineIcons.2.0.css}" rel="stylesheet" type="text/css">
-    <link th:href ="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
-    <link th:href ="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
-    <link th:href ="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
-    <link th:href ="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/LineIcons.2.0.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-    <!-- Start Header Area -->
-    <div th:replace="fragments/header :: header" />
-    <!-- End Header Area -->
+<!-- Start Header Area -->
+<div th:replace="fragments/header :: header"/>
+<!-- End Header Area -->
 
-    <!-- Start Breadcrumbs -->
-    <div class="breadcrumbs">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="breadcrumbs-content">
-                        <h1 class="page-title">모집</h1>
-                    </div>
+<!-- Start Breadcrumbs -->
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="breadcrumbs-content">
+                    <h1 class="page-title">모집</h1>
                 </div>
             </div>
         </div>
     </div>
-    <!-- End Breadcrumbs -->
+</div>
+<!-- End Breadcrumbs -->
 
-    <!-- Start Item Details -->
-    <section class="item-details section">
-        <div class="container">
-            <div class="top-area">
-                <div class="row">
-                    <div class="col-lg-6 col-md-12 col-12">
-                        <div class="product-images">
-                            <main id="gallery">
-                                <div class="main-img">
-                                    <img src="https://via.placeholder.com/1200x900" id="current" alt="#">
-                                </div>
-                                <div class="images">
-                                    <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
-                                    <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
-                                </div>
-                            </main>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-12">
-                        <div class="product-info">
-                            <h2 class="title">사과즙용 50t 모집합니다.</h2>
-                            <p class="location"><i class="lni lni-map-marker"></i><a href="javascript:void(0)">서울특별시 강남구</a></p>
-                            <h3 class="price">제시 가격</h3>
-                            <div class="list-info">
-                                <h4>모집 정보</h4>
-                                <ul>
-                                    <li><span>모집 가격:</span> KRW 24000</li>
-                                    <li><span>해당 품종 1개월 평균가:</span> KRW 25000</li>
-                                    <li><span>농약 수치:</span> 2343</li>
-                                    <li><span>마감일:</span> 2022/01/23</li>
-                                </ul>
+<!-- Start Item Details -->
+<section class="item-details section">
+    <div class="container">
+        <div class="top-area">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="product-images">
+                        <main id="gallery">
+                            <div class="main-img">
+                                <img src="https://via.placeholder.com/1200x900" id="current" alt="#">
                             </div>
-                            <div class="contact-info">
-                                <ul>
-                                    <li>
-                                        <a href="tel:+002562352589" class="call">
-                                            <i class="bi bi-bell-fill"></i>
-                                            모집 참여하기
-                                            <span>지금 바로 참여하기</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="mailto:example@gmail.com" class="mail">
-                                            <i class="bi bi-basket2"></i>
-                                        </a>
-                                    </li>
-                                </ul>
+                            <div class="images">
+                                <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
+                                <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
+                                <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
+                                <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
+                                <img src="https://via.placeholder.com/1200x900" class="img" alt="#">
                             </div>
-                            <div class="social-share">
-                                <h4>모집 공유하기</h4>
-                                <ul>
-                                    <li><a href="javascript:void(0)" class="facebook"><i class="lni lni-facebook-filled"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="twitter"><i class="lni lni-twitter-original"></i></a></li>
-                                    <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
+                        </main>
                     </div>
                 </div>
-            </div>
-            <div class="item-details-blocks">
-                <div class="row">
-                    <div class="col-lg-8 col-md-7 col-12">
-                        <!-- Start Single Block -->
-                        <div class="single-block description">
-                            <h3>상세페이지( 한줄설명 )</h3>
-                            <p>
-                                저희 기업은 ㅇㅇㅇ 기업으로 착즙용 ~~ 사과 ~~ 12345톤이 필요하고
-                                어떠한 품질을 원한다 ~~저희 기업은 ㅇㅇㅇ 기업으로 착즙용 ~~ 사과 ~~ 12345톤이 필요하고
-                                어떠한 품질을 원한다 ~~ 저희 기업은 ㅇㅇㅇ 기업으로 착즙용 ~~ 사과 ~~ 12345톤이 필요하고
-                                어떠한 품질을 원한다 ~~ 저희 기업은 ㅇㅇㅇ 기업으로 착즙용 ~~ 사과 ~~ 12345톤이 필요하고
-                                어떠한 품질을 원한다 ~~
-                            </p>
-                        </div>
-                        <!-- End Single Block -->
-                        <!-- Start Single Block -->
-                        <div class="single-block tags">
-                            <h3>관련 태그</h3>
+                <div class="col-lg-6 col-md-12 col-12">
+                    <div class="product-info">
+                        <h2 class="title"><span th:text="${data.getBuyingTitle()}"></span></h2>
+                        <p class="location"><i class="lni lni-map-marker"></i><a href="javascript:void(0)">
+                            <span th:text="${data.getReceiverAddress()}"></span>
+                        </a></p>
+                        <h3 class="price"><span th:text="${data.getBuyingPrice()}"></span>원</h3>
+                        <div class="list-info">
+                            <h4>모집 정보</h4>
                             <ul>
-                                <li><a href="javascript:void(0)">강원도</a></li>
-                                <li><a href="javascript:void(0)">겨울비트</a></li>
-                                <li><a href="javascript:void(0)">즙용 비트</a></li>
-                                <li><a href="javascript:void(0)">즙용 사과</a></li>
-                                <li><a href="javascript:void(0)">ABC 주스</a></li>
+                                <li><span>모집 수량(톤):</span><span th:text="${data.getBuyingQuantity()}"></span></li>
+                                <li><span>모집 가격:</span> KRW <span th:text="${data.getBuyingPrice()}"></span></li>
+                                <li><span>해당 품종 1개월 평균가:</span> KRW 25000</li>
+                                <li><span>농약 수치:</span> 2343</li>
+                                <li><span>마감일:</span> <span th:text="${data.getBuyingEndTime()}"></span></li>
                             </ul>
                         </div>
-                        <!-- End Single Block -->
-                    </div>
-                    <div class="col-lg-4 col-md-5 col-12">
-                        <div class="item-details-sidebar">
-                            <!-- Start Single Block -->
-                            <div class="single-block author">
-                                <h3>기업</h3>
-                                <div class="content">
-                                    <img src="https://via.placeholder.com/200x200" alt="#">
-                                    <h4>기업명 I5E2</h4>
-                                    <span>Member Since May 15,2023</span>
-                                    <a href="javascript:void(0)" class="see-all">상세페이지 바로가기</a>
-                                </div>
-                            </div>
+                        <div class="contact-info">
+                            <ul>
+                                <li>
+                                    <a th:href="@{/api/v1/buying/(companyBuyingId = ${data.getId()})/apply}" class="call">
+                                        <i class="bi bi-bell-fill"></i>
+                                        모집 참여하기
+                                        <span>지금 바로 참여하기</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:example@gmail.com" class="mail">
+                                        <i class="bi bi-basket2"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="social-share">
+                            <h4>모집 공유하기</h4>
+                            <ul>
+                                <li><a href="javascript:void(0)" class="facebook"><i
+                                        class="lni lni-facebook-filled"></i></a></li>
+                                <li><a href="javascript:void(0)" class="twitter"><i
+                                        class="lni lni-twitter-original"></i></a></li>
+                                <li><a href="javascript:void(0)" class="google"><i class="lni lni-google"></i></a></li>
+                            </ul>
                         </div>
                     </div>
-
-                    <div class="col-lg-8 col-md-7 col-12">
-                        <!-- Start Single Block -->
-                        <div class="single-block description">
-                            <h3>NOTICE</h3>
-                            <p>* 멋쟁이채소처럼은 낙찰일로부터 3년간 낙찰자에 대해서만 보증하며, 사전 고지한 품종에 대해서는 보증책임을 부담하지 않습니다.</p>
-                            <p>* 농산물 특성상 어쩌꾸, 응찰 전 수량과 충분한 저쩌구 확인하여 주시기 바랍니다.
-                                홈페이지에 기재된 컨디션은 상태에 대한 당사의 주관적 의견을 제시하는 것일 뿐이므로, ~ 등을 언급하지 않을 수 있습니다. 실제 상태를 정확하게 반영하지 못할 수 있으며 농산물 색상, 밝기 등이 실물과 다르게 보일 수 있습니다.
-                                실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.
-                            </p>
-                        </div>
-                        <!-- End Single Block -->
                 </div>
             </div>
         </div>
-    </section>
-    <!-- End Item Details -->
+        <div class="item-details-blocks">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-12">
+                    <!-- Start Single Block -->
+                    <div class="single-block description">
+                        <h3>상세페이지( 한줄설명 )</h3>
+                        <p>
+                                <span th:utext="${description}">
+                                </span>
+                        </p>
+                    </div>
+                    <!-- End Single Block -->
 
-    <!-- Start Footer Area -->
-    <div th:replace="fragments/footer :: footer" />
-    <!--/ End Footer Area -->
+                </div>
+                <div class="col-lg-4 col-md-5 col-12">
+                    <div class="item-details-sidebar">
+                        <!-- Start Single Block -->
+                        <div class="single-block author">
+                            <h3>기업</h3>
+                            <div class="content">
+                                <img src="https://via.placeholder.com/200x200" alt="#">
+                                <h4><span th:text="${data.getCompanyUser().getCompanyName()}"></span></h4>
+                                <span>정회원 인증일: <p th:text="${joinDate}"></p></span>
+                                <a href="javascript:void(0)" class="see-all">상세페이지 바로가기</a>
+                                <!--TODO: 회사 디테일 페이지 나오면 연결-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-    <!-- ========================= scroll-top ========================= -->
-    <a href="#" class="scroll-top btn-hover">
-        <i class="lni lni-chevron-up"></i>
-    </a>
+                <div class="col-lg-8 col-md-7 col-12">
+                    <!-- Start Single Block -->
+                    <div class="single-block description">
+                        <h3>NOTICE</h3>
+                        <p>* 멋쟁이채소처럼은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 사전 고지한 품종에 대해서는 보증책임을 부담하지 않습니다.</p>
+                        <p>* 신선식품 특성상 원물마다 크기 및 형태가 일정하지 않을 수 있습니다. </p>
+                        <p>* 실물을 확인하지 않고 발생되는 문제에 대한 책임은 응찰자에게 있으며, 이와 같은 유의사항을 반드시 확인하시고 신중히 응찰해 주시길 바랍니다.</p>
+                    </div>
+                    <!-- End Single Block -->
+                </div>
+            </div>
+        </div>
+</section>
+<!-- End Item Details -->
 
-    <!-- ========================= JS here ========================= -->
-    <script th:src="@{/awesome/js/bootstrap.min.js}"></script>
-    <script th:src="@{/awesome/js/wow.min.js}"></script>
-    <script th:src="@{/awesome/js/tiny-slider.js}"></script>
-    <script th:src="@{/awesome/js/glightbox.min.js}"></script>
-    <script th:src="@{/awesome/js/main.js}"></script>
-    <script type="text/javascript">
-        const current = document.getElementById("current");
-        const opacity = 0.6;
-        const imgs = document.querySelectorAll(".img");
-        imgs.forEach(img => {
-            img.addEventListener("click", (e) => {
-                //reset opacity
-                imgs.forEach(img => {
-                    img.style.opacity = 1;
-                });
-                current.src = e.target.src;
-                //adding class 
-                //current.classList.add("fade-in");
-                //opacity
-                e.target.style.opacity = opacity;
+<!-- Start Footer Area -->
+<div th:replace="fragments/footer :: footer"/>
+<!--/ End Footer Area -->
+
+<!-- ========================= scroll-top ========================= -->
+<a href="#" class="scroll-top btn-hover">
+    <i class="lni lni-chevron-up"></i>
+</a>
+
+<!-- ========================= JS here ========================= -->
+<script th:src="@{/awesome/js/bootstrap.min.js}"></script>
+<script th:src="@{/awesome/js/wow.min.js}"></script>
+<script th:src="@{/awesome/js/tiny-slider.js}"></script>
+<script th:src="@{/awesome/js/glightbox.min.js}"></script>
+<script th:src="@{/awesome/js/main.js}"></script>
+<script type="text/javascript">
+    const current = document.getElementById("current");
+    const opacity = 0.6;
+    const imgs = document.querySelectorAll(".img");
+    imgs.forEach(img => {
+        img.addEventListener("click", (e) => {
+            //reset opacity
+            imgs.forEach(img => {
+                img.style.opacity = 1;
             });
+            current.src = e.target.src;
+            //adding class
+            //current.classList.add("fade-in");
+            //opacity
+            e.target.style.opacity = opacity;
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>
