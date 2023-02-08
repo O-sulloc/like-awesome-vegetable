@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface FarmAuctionJpaRepository extends JpaRepository<FarmAuction, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM like_awesome_vegetable.t_farm_auction \n" +
-            "where post_point_activate = \'Able\'")
+            "where post_point_activate = 'ABLE'")
     List<FarmAuction> findAllByPostPointActivate(Pageable pageable);
 
     @Query(nativeQuery = true, value = "SELECT * FROM like_awesome_vegetable.t_farm_auction t\n" +
             "LEFT OUTER JOIN like_awesome_vegetable.t_farm_auction_like tt ON t.farm_auction_id = tt.farm_auction_id\n" +
-            "WHERE post_point_activate = 'Able'\n" +
+            "WHERE post_point_activate = 'ABLE'\n" +
             "GROUP BY t.farm_auction_id\n" +
             "ORDER BY count(tt.farm_auction_id) DESC")
     List<FarmAuction> findAllByPostPointActivatewithHot(Pageable pageable);
