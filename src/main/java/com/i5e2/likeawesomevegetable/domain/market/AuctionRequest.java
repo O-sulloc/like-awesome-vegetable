@@ -69,6 +69,26 @@ public class AuctionRequest {
                 .build();
     }
 
+    public FarmAuction toEntityNone(AuctionRequest auctionRequest) {
+        return FarmAuction.builder()
+                .auctionTitle(auctionRequest.getTitle())
+                .auctionStartTime(auctionRequest.getRegisteredAt())
+                .auctionEndTime(auctionRequest.getEndTime())
+                .auctionItemCategory(auctionRequest.getCategory())
+                .auctionItem(auctionRequest.getItem())
+                .auctionQuantity(auctionRequest.getQuantity())
+                .auctionStartPrice(auctionRequest.getStartPrice())
+//                .auctionHighestPrice() 종료가격 입력
+                .auctionLimitPrice(auctionRequest.getLimitPrice())
+                .auctionDescription(auctionRequest.getDescription())
+                .auctionShipping(shippingConvert(auctionRequest.getShipping()))
+                .participationStatus(ParticipationStatus.valueOf(status(auctionRequest.getRegisteredAt())))
+//                .auctionRegisteredAt
+//                .auctionModifiedAt()
+//                .auctionDeletedAt()
+                .build();
+    }
+
     private String shippingConvert(int value) {
         if (value == 1) {
             return "BOXING";

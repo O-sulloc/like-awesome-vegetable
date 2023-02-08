@@ -32,11 +32,11 @@ public class MarketController {
     }
 
     @PostMapping("/auction")
-    public String add(@Valid @ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result, Authentication authentication) throws IOException {
+    public String add(@Valid @ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result) throws IOException {
         if (result.hasErrors()) {
             return "farmer/farmer-gather-writeform";
         }
-        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest, authentication.getName());
+        FarmAuction farmAuction = auctionService.creatAuctionNoneAuth(auctionRequest);
 
         for (MultipartFile img : auctionRequest.getUploadImages()) {
             System.out.println(img.getOriginalFilename());
