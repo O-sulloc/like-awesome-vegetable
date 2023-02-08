@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
+import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import lombok.*;
 
 import javax.validation.constraints.*;
@@ -11,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuyingRequest {
-    //TODO : 2.user매핑
 
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
@@ -42,9 +42,8 @@ public class BuyingRequest {
     private String receiverPhoneNo;
     @NotBlank(message = "배송 받을 주소를 입력해 주세요")
     private String receiverAddress;
-//    private User user;
 
-    public CompanyBuying toEntity(BuyingRequest buyingRequest) {
+    public CompanyBuying toEntity(BuyingRequest buyingRequest, CompanyUser companyUser) {
         return CompanyBuying.builder()
                 .buyingTitle(buyingRequest.getTitle())
                 .buyingStartTime(buyingRequest.getStartTime())
@@ -58,7 +57,29 @@ public class BuyingRequest {
                 .receiverName(buyingRequest.getReceiverName())
                 .receiverPhoneNo(buyingRequest.getReceiverPhoneNo())
                 .receiverAddress(buyingRequest.getReceiverAddress())
-//                .user()
+                .companyUser(companyUser)
+                .participationStatus(ParticipationStatus.valueOf(status(buyingRequest.getStartTime())))
+//                .buyingRegisteredAt
+//                .buyingModifiedAt
+//                .buyingDeletedAt
+                .build();
+    }
+
+    public CompanyBuying toEntityNoneAuth(BuyingRequest buyingRequest) {
+        return CompanyBuying.builder()
+                .buyingTitle(buyingRequest.getTitle())
+                .buyingStartTime(buyingRequest.getStartTime())
+                .buyingEndTime(buyingRequest.getEndTime())
+                .buyingItemCategory(buyingRequest.getCategory())
+                .buyingItem(buyingRequest.getItem())
+                .buyingQuantity(buyingRequest.getQuantity())
+                .buyingPrice(buyingRequest.getPrice())
+                .buyingDescription(buyingRequest.getDescription())
+                .buyingShipping(shippingConvert(buyingRequest.getShipping())) //int->string
+                .receiverName(buyingRequest.getReceiverName())
+                .receiverPhoneNo(buyingRequest.getReceiverPhoneNo())
+                .receiverAddress(buyingRequest.getReceiverAddress())
+//                .companyUser(companyUser)
                 .participationStatus(ParticipationStatus.valueOf(status(buyingRequest.getStartTime())))
 //                .buyingRegisteredAt
 //                .buyingModifiedAt
