@@ -94,4 +94,7 @@ public class FarmAuction {
         this.auctionModifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
+    public void updateHighestPrice(Long auctionHighestPrice) {
+        this.auctionHighestPrice = auctionHighestPrice;
+    }
 }
