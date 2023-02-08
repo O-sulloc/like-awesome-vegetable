@@ -10,12 +10,12 @@ import java.util.List;
 
 public interface CompanyBuyingJpaRepository extends JpaRepository<CompanyBuying, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM `like_awesome_vegetable`.t_company_buying \n" +
-            "where post_point_activate = \'Able\'")
+            "where post_point_activate = 'ABLE'")
     List<CompanyBuying> findAllByPostPointActivate(Pageable pageable);
 
     @Query(nativeQuery = true, value = "SELECT * FROM like_awesome_vegetable.t_company_buying t\n" +
             "LEFT OUTER JOIN like_awesome_vegetable.t_company_buying_like tt ON t.company_buying_id = tt.company_buying_id\n" +
-            "WHERE post_point_activate = 'Able'\n" +
+            "WHERE post_point_activate = 'ABLE'\n" +
             "GROUP BY t.company_buying_id\n" +
             "ORDER BY count(tt.company_buying_id) DESC")
     List<CompanyBuying> findAllByPostPointActivatewithHot(Pageable pageable);
