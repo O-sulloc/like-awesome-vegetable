@@ -42,6 +42,7 @@ public class Standby {
     @Column(name = "bidding_time")
     private Long biddingTime;
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "bidding_result")
     private BiddingResult biddingResult;
 
@@ -53,5 +54,9 @@ public class Standby {
 
     public void setBiddingNumber(String biddingNumber) {
         this.biddingNumber = biddingNumber;
+    }
+
+    public void updateBiddingResult(BiddingResult biddingResult){
+        this.biddingResult =  biddingResult;
     }
 }
