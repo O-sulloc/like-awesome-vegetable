@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.NoSuchElementException;
 public class MarketDetailService {
 
     private final CompanyBuyingJpaRepository buyingJpaRepository;
+    private final FarmAuctionJpaRepository auctionJpaRepository;
 
     public CompanyBuyingDetailResponse getGatherDetail(Long buyingId) {
 
@@ -47,5 +49,31 @@ public class MarketDetailService {
         return detailResponse;
     }
 
+    public FarmAuctionDetailResponse getAuctionDetail(Long auctionId) {
+        FarmAuction farmAuction = auctionJpaRepository.findById(auctionId)
+                .orElseThrow(() -> new NoSuchElementException("없는 경매글"));
 
+        FarmAuctionDetailResponse detailResponse = FarmAuctionDetailResponse.builder()
+                .id(farmAuction.getId())
+                .auctionTitle(farmAuction.getAuctionTitle())
+                .auctionDescription(farmAuction.getAuctionDescription())
+                .auctionStartTime(farmAuction.getAuctionStartTime())
+                .auctionEndTime(farmAuction.getAuctionEndTime())
+                .auctionItem(farmAuction.getAuctionItem())
+                .auctionItemCategory(farmAuction.getAuctionItemCategory())
+                .auctionStartPrice(farmAuction.getAuctionStartPrice())
+                .auctionLimitPrice(farmAuction.getAuctionLimitPrice())
+                .auctionHighestPrice(null)
+                .auctionQuantity(farmAuction.getAuctionQuantity())
+                .auctionShipping(farmAuction.getAuctionShipping())
+                .farmUserId(farmAuction.getFarmUser().getId())
+                .auctionStatus(farmAuction.getParticipationStatus())
+                .postPointActivate(farmAuction.getPostPointActivate())
+                .auctionRegisteredAt(farmAuction.getAuctionRegisteredAt())
+                .auctionModifiedAt(farmAuction.getAuctionModifiedAt())
+                .auctionDeletedAt(farmAuction.getAuctionDeletedAt())
+                .build();
+
+        return detailResponse;
+    }
 }

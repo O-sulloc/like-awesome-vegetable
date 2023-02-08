@@ -2,6 +2,7 @@ package com.i5e2.likeawesomevegetable.controller;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingDetailResponse;
+import com.i5e2.likeawesomevegetable.domain.market.FarmAuctionDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.market.MarketDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,13 @@ public class MarketDetailController {
     @GetMapping("/buying/{buyingId}")
     public ResponseEntity<Result<CompanyBuyingDetailResponse>> getBuyingDetail(@PathVariable Long buyingId) {
         CompanyBuyingDetailResponse detailResponse = marketDetailService.getGatherDetail(buyingId);
+
+        return ResponseEntity.ok().body(Result.success(detailResponse));
+    }
+
+    @GetMapping("/auction/{auctionId}")
+    public ResponseEntity<Result<FarmAuctionDetailResponse>> getAuctionDetail(@PathVariable Long auctionId) {
+        FarmAuctionDetailResponse detailResponse = marketDetailService.getAuctionDetail(auctionId);
 
         return ResponseEntity.ok().body(Result.success(detailResponse));
     }
