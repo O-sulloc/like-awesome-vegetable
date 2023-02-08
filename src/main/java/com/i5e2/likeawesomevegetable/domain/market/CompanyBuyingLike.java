@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
@@ -32,4 +31,10 @@ public class CompanyBuyingLike {
     @Column(name = "company_buying_like_registered_at")
     private LocalDateTime companyBuyingLikeRegisteredAt;
 
+    @Builder
+    public CompanyBuyingLike(CompanyBuying companyBuying, User loginUser) {
+        this.companyBuying = companyBuying;
+        this.user = loginUser;
+        this.companyBuyingLikeRegisteredAt = LocalDateTime.now();
+    }
 }
