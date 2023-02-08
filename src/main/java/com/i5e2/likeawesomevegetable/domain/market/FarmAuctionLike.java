@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "t_farm_auction_like")
 public class FarmAuctionLike {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "farm_auction_like_id")
@@ -30,4 +30,12 @@ public class FarmAuctionLike {
 
     @Column(name = "farm_auction_like_registered_at")
     private LocalDateTime farmAuctionLikeRegisteredAt;
+
+    @Builder
+    public FarmAuctionLike(FarmAuction farmAuction, User loginUser) {
+        this.farmAuction = farmAuction;
+        this.user = loginUser;
+        this.farmAuctionLikeRegisteredAt = LocalDateTime.now();
+    }
+
 }
