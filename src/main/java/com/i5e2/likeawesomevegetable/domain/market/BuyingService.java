@@ -1,7 +1,9 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
+import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
+import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
-import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,23 +11,27 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BuyingService {
     private final CompanyBuyingJpaRepository buyingJpaRepository;
-    private final FarmAuctionJpaRepository farmAuctionJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
-    public String creatBuying(BuyingRequest buyingRequest) {
+    public String creatBuyingNoneAuth(BuyingRequest buyingRequest) {
 
-        CompanyBuying companyBuying = buyingRequest.toEntity(buyingRequest);
+        CompanyBuying companyBuying = buyingRequest.toEntityNoneAuth(buyingRequest);
         buyingJpaRepository.save(companyBuying);
 
         return null;
     }
 
-    public String creatAuction(AuctionRequest auctionRequest) {
+    public BuyingResponse creatBuying(BuyingRequest buyingRequest, String email) {
+        User user = userJpaRepository.findByEmail(email).get();
+        CompanyUser companyUser = user.getCompanyUser();
 
-        FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest);
-//        farmAuctionJpaRepository.save(auctionRequest);
+        CompanyBuying companyBuying = buyingRequest.toEntity(buyingRequest, companyUser);
+        buyingJpaRepository.save(companyBuying);
 
-        return null;
+        BuyingResponse buyingResponse = BuyingResponse.builder()
+                .buyingId(companyBuying.getId())
+                .message("모집 게시글 작성 완료")
+                .build();
+        return buyingResponse;
     }
-
-
 }
