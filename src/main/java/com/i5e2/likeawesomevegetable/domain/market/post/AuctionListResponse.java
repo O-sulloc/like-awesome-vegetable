@@ -16,10 +16,9 @@ public class AuctionListResponse {
     private String auctionTitle;
     private String auctionStartTime;
     private String auctionEndTime;
-    private int auctionItemCategory;
+    private String auctionItemCategory;
     private String auctionItem;
     private Integer auctionQuantity;
     private Long auctionHighestPrice;
-    private String auctionTag;
     private PostPointActivateEnum postPointActivate;
 }

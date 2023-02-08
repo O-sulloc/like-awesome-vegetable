@@ -40,7 +40,7 @@ public class FarmAuction {
     private String auctionEndTime;
 
     @Column(name = "auction_item_category")
-    private int auctionItemCategory;
+    private String auctionItemCategory;
 
     @Column(name = "auction_item")
     private String auctionItem;
@@ -61,11 +61,6 @@ public class FarmAuction {
     @Column(name = "auction_description", length = 5000)
     private String auctionDescription;
 
-    // 추가
-    @Column(name = "auction_tag")
-    private String auctionTag;
-
-    // ERD에 ENUM으로 정의되어있음. Enum 맞춰서 수정 필요
     @Column(name = "auction_shipping")
     private String auctionShipping;
 
@@ -89,7 +84,6 @@ public class FarmAuction {
     private PostPointActivateEnum postPointActivate;
 
     @PrePersist
-//      String으로 바꾸기
     public void onPrePersist() {
         this.auctionRegisteredAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.auctionModifiedAt = this.auctionRegisteredAt;

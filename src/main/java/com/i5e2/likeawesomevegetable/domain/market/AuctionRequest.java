@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionRequest {
-    //TODO : 1. 후입력(price,time,userid,time) 3.category 다양화
+    //TODO : 1. 후입력(price,time,userid,time)
 
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
@@ -27,7 +27,7 @@ public class AuctionRequest {
     @NotBlank(message = "품종을 선택해 주세요")
     private String item;
     @Min(value = 1, message = "카테고리를 선택해 주세요")
-    private int category;
+    private String category;
     @NotBlank(message = "내용을 입력해 주세요")
     private String description;
     @NotNull(message = "수량을 입력해 주세요")

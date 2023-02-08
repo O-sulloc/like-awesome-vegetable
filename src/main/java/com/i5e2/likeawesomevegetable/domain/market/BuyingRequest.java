@@ -3,6 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.market;
 import lombok.*;
 
 import javax.validation.constraints.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -10,7 +11,7 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BuyingRequest {
-    //TODO : 1.이미지 업로드 2.user매핑 3.category 4.날짜형식 & 유효성 검증 추가
+    //TODO : 2.user매핑
 
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
@@ -19,7 +20,7 @@ public class BuyingRequest {
     @NotBlank(message = "종료날짜를 달력에서 선택해 주세요")
     private String endTime;
     @Min(value = 0, message = "카테고리를 선택해 주세요")
-    private Integer category;
+    private String category;
     @NotBlank(message = "품종을 선택해 주세요")
     private String item;
     @NotNull(message = "수량을 입력해 주세요")
@@ -53,13 +54,12 @@ public class BuyingRequest {
                 .buyingQuantity(buyingRequest.getQuantity())
                 .buyingPrice(buyingRequest.getPrice())
                 .buyingDescription(buyingRequest.getDescription())
-                .buyingTag(buyingRequest.getTag())
                 .buyingShipping(shippingConvert(buyingRequest.getShipping())) //int->string
                 .receiverName(buyingRequest.getReceiverName())
                 .receiverPhoneNo(buyingRequest.getReceiverPhoneNo())
                 .receiverAddress(buyingRequest.getReceiverAddress())
 //                .user()
-//                .companyBuyingStatus
+                .participationStatus(ParticipationStatus.valueOf(status(buyingRequest.getStartTime())))
 //                .buyingRegisteredAt
 //                .buyingModifiedAt
 //                .buyingDeletedAt
@@ -74,6 +74,21 @@ public class BuyingRequest {
             return "CONTIBOX";
         }
         return "0";
+    }
+
+    private String status(String startTime) {
+        String[] arrToday = LocalDateTime.now().toString().substring(0, 10).split("-");
+        int today = Integer.parseInt(arrToday[0] + arrToday[1] + arrToday[2]);
+
+        String[] arrRegisteredAt = startTime.toString().substring(0, 10).split("-");
+        int intRegisteredAt = Integer.parseInt(arrRegisteredAt[0] + arrRegisteredAt[1] + arrRegisteredAt[2]);
+
+        if (today >= intRegisteredAt) {
+            return "UNDERWAY";
+        } else {
+            return "BEFORE";
+        }
+
     }
 
 }

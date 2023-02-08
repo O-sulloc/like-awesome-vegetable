@@ -37,15 +37,12 @@ public class CompanyBuying {
     @Column(name = "buying_end_time")
     private String buyingEndTime;
 
-    //농산물 API 부류 코드
     @Column(name = "buying_item_category")
-    private Integer buyingItemCategory;
+    private String buyingItemCategory;
 
-    //농산물 API 품목 코드 //erd==int ???
     @Column(name = "buying_item")
     private String buyingItem;
 
-    //quantity -> buyingQuantity
     @Column(name = "buying_quantity")
     private Integer buyingQuantity;
 
@@ -54,9 +51,6 @@ public class CompanyBuying {
 
     @Column(name = "buying_description", length = 5000)
     private String buyingDescription;
-
-    @Column(name = "buying_tag", length = 50)
-    private String buyingTag;
 
     @Column(name = "buying_shipping")
     private String buyingShipping;
@@ -90,7 +84,6 @@ public class CompanyBuying {
     private PostPointActivateEnum postPointActivate;
 
     @PrePersist
-//      String으로 바꾸기
     public void onPrePersist() {
         this.buyingRegisteredAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         this.buyingModifiedAt = this.buyingRegisteredAt;
