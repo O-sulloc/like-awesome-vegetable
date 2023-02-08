@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.item;
 
+import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.repository.ItemJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -198,5 +202,9 @@ public class ItemService {
         }
 
         return prices;
+    }
+
+    public Result<List<ItemLowestPriceResponse>> getItemLowestPriceFive(String itemCode) {
+        return Result.success(itemJpaRepository.getLowestPriceFive(itemCode));
     }
 }
