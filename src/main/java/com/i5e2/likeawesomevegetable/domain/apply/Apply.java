@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
-import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingStatus;
+import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,9 +32,8 @@ public class Apply {
     @JoinColumn(name = "company_buying_id")
     private CompanyBuying companyBuying;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "buying_status")
-    private CompanyBuyingStatus companyBuyingStatus;
+    private ParticipationStatus participationStatus;
 
     @Column(name = "apply_quantity")
     private Long applyQuantity;
