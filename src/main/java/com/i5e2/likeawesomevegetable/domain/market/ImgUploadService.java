@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingImageRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,8 @@ public class ImgUploadService {
     private String bucket;
 
     public FarmAuctionImageResponse farmUploadImg(MultipartFile multipartFile, FarmAuction farmAuction) throws IOException {
+
+        validateFilExists(multipartFile);
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(multipartFile.getContentType());
@@ -103,4 +107,14 @@ public class ImgUploadService {
 //
 //        return CompanyBuyingResponse.of(originalFilename, "파일 등록 성공");
 //    }
+
+
+    private void validateFilExists(MultipartFile multipartFile) {
+        if (multipartFile.isEmpty()) {
+            throw new FileException(
+                    FileErrorCode.FILE_NOT_EXISTS,
+                    FileErrorCode.FILE_NOT_EXISTS.getMessage()
+            );
+        }
+    }
 }
