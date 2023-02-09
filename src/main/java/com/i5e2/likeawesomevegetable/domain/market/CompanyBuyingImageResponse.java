@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyBuyingResponse {
+public class CompanyBuyingImageResponse {
     private String fileName;
     private String message;
 
-    public static CompanyBuyingResponse of(String fileName, String message){
-        return new CompanyBuyingResponse(fileName,message);
+    public static CompanyBuyingImageResponse of(String fileName, String message){
+        return new CompanyBuyingImageResponse(fileName,message);
     }
 }
