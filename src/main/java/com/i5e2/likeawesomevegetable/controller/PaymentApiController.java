@@ -7,13 +7,13 @@ import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/payment")
 public class PaymentApiController {
@@ -21,13 +21,13 @@ public class PaymentApiController {
     private final UserPointService userPointService;
 
     @PostMapping("/point-info")
-    public String checkMyPoint(@ModelAttribute PaymentInfoRequest paymentInfoRequest, Model model) {
+    public ResponseEntity checkMyPoint(@RequestBody PaymentInfoRequest paymentInfoRequest) {
         userPointService.checkUserPointInfo(paymentInfoRequest.getUserId());
         UserPaymentOrderResponse userPaymentOrderResponse = paymentApiService.addUserPaymentToOrder(paymentInfoRequest);
         PaymentOrderPointResponse paymentOrderPointResponse = userPointService.comparePointDeposit(paymentInfoRequest);
-        model.addAttribute("userPaymentOrderResponse", userPaymentOrderResponse);
-        model.addAttribute("paymentOrderPointResponse", paymentOrderPointResponse);
-        return "point/point-check-payment";
+        return ResponseEntity
+                .ok()
+                .body(Result.success(new PaymentApiOrderResponse(userPaymentOrderResponse, paymentOrderPointResponse)));
     }
 
     @PostMapping("/cancel-info")
