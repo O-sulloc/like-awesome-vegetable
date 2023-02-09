@@ -5,6 +5,7 @@ import com.i5e2.likeawesomevegetable.domain.admin.AdminConfirmService;
 import com.i5e2.likeawesomevegetable.domain.admin.DepositApiService;
 import com.i5e2.likeawesomevegetable.domain.admin.TransferManagerService;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.*;
+import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorResponse;
 import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class AdminConfirmController {
     }
 
     @GetMapping("/fail")
-    public String transferFail() {
-        return "";
+    public Result transferFail(@Valid PaymentErrorResponse paymentErrorResponse) {
+        return Result.error(paymentErrorResponse);
     }
 }

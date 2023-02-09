@@ -6,11 +6,11 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserCancelOrderRespo
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
-import com.i5e2.likeawesomevegetable.domain.point.exception.PointErrorCode;
-import com.i5e2.likeawesomevegetable.domain.point.exception.PointException;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.UserException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPointJpaRepository;
@@ -33,8 +33,8 @@ public class PaymentApiService {
 
         UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
                 .orElseThrow(() -> {
-                    throw new PointException(PointErrorCode.NO_POINT_RESULT,
-                            PointErrorCode.NO_POINT_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
+                            AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
         UserPaymentOrder userPaymentOrder = UserPaymentOrderFactory.createUserPaymentOrder(getUser, paymentInfoRequest, userPoint);
         userPaymentOrderJpaRepository.save(userPaymentOrder);
@@ -44,6 +44,17 @@ public class PaymentApiService {
 
     public UserCancelOrderResponse cancelUserPaymentToOrder(CancelInfoRequest cancelInfoRequest, String userEmail) {
         User getUser = getUserOne(userEmail);
+        UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
+                .orElseThrow(() -> {
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
+                            AppErrorCode.NO_POINT_RESULT.getMessage());
+                });
+
+        if (cancelInfoRequest.getCancelOrderAmount() > userPoint.getPointTotalBalance()) {
+            throw new AwesomeVegeAppException(AppErrorCode.REFUND_AMOUNT_ERROR,
+                    AppErrorCode.REFUND_AMOUNT_ERROR.getMessage());
+        }
+
         UserPaymentOrder userCancelOrder = UserPaymentOrderFactory.createUserCancelOrder(cancelInfoRequest, getUser);
         userPaymentOrderJpaRepository.save(userCancelOrder);
 

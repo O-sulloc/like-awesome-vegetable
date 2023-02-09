@@ -61,36 +61,32 @@
                             <h2>참여 정보</h2>
                             <span>
                                 <span>OrderNumber:</span>
-                                <span id="orderId" th:text="${userPaymentOrderResponse.postOrderId}"></span>
+                                <span id="orderId">POST-C-ORDER-2023-02-10-222be942-7462-44cf-9525-c5d9a87a840c</span>
                             </span><br>
                             <span>
                                 <span>참여게시물 타이틀:</span>
-                                <span id="orderName" th:text="${userPaymentOrderResponse.orderName}"></span>
+                                <span id="orderName">사과 1톤 모집합니다</span>
                             </span><br>
                             <span>
                                 <span>참여자:</span>
-                                <span id="customerName" th:text="${userPaymentOrderResponse.customerName}"></span>
+                                <span id="customerName">한건주</span>
                             </span>
                         </div>
 
                         <div class="contant-inner-title">
                             <h2>현재 잔여포인트 확인</h2>
                             <span>현재 잔여포인트:</span>
-                            <span id="total-amount" th:text="${paymentOrderPointResponse.totalPointBalanceByUser}"></span><br>
+                            <span id="total-amount">0</span><br>
 
                             <span>부족한 포인트:</span>
-                            <span id="amount" th:text="${paymentOrderPointResponse.chargePointPayment}"></span>
+                            <span id="amount">15000</span>
                         </div>
                     </div>
 
                     <div class="d-grid gap-2 m-t-20">
                         <p>앗! 포인트 충전이 필요합니다!</p>
-                        <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_NOT_AVAILABLE')}" id="payment_card_button" class="btn btn-warning size-h-65 payment-btn" type="button">
+                        <button id="payment_card_button" class="btn btn-warning size-h-65 payment-btn" type="submit">
                             포인트 충전 바로가기
-                        </button>
-                        <button th:if="${paymentOrderPointResponse.depositAvailableStatus.toString().equals('DEPOSIT_AVAILABLE')}"
-                                id="payment_deposit_button" class="btn btn-warning size-h-65 payment-btn" type="button" formaction="">
-                            보증금 예치 바로가기
                         </button>
                     </div>
 

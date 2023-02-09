@@ -5,10 +5,10 @@ import com.i5e2.likeawesomevegetable.domain.admin.dto.TransferEventDetailRespons
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.payment.api.PaymentFactory;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
-import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorCode;
-import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentException;
 import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
 import com.i5e2.likeawesomevegetable.domain.point.entity.PointEventLog;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.AdminPaymentOrderJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.PaymentJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
@@ -29,8 +29,8 @@ public class TransferManagerService {
     public TransferEventDetailResponse savePaymentAndTransfer(AdminTransferResponse adminTransferResponse, String orderId) {
         AdminPaymentOrder adminPaymentOrder = adminPaymentOrderJpaRepository.findByAdminOrderId(orderId)
                 .orElseThrow(() -> {
-                    throw new PaymentException(PaymentErrorCode.NO_PAYMENT_ORDER_RESULT,
-                            PaymentErrorCode.NO_PAYMENT_ORDER_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_PAYMENT_ORDER_RESULT,
+                            AppErrorCode.NO_PAYMENT_ORDER_RESULT.getMessage());
                 });
 
         Payment transfer = PaymentFactory.createTransfer(adminTransferResponse, adminPaymentOrder);

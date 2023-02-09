@@ -7,10 +7,10 @@ import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminTransferResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
-import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorCode;
-import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentException;
 import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.UserException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.AdminPaymentOrderJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.AdminUserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +53,8 @@ public class AdminConfirmService {
         adminPaymentOrderJpaRepository.findByAdminOrderId(orderId)
                 .filter(order -> order.getAdminTransferAmount().equals(requestAmount))
                 .orElseThrow(() -> {
-                    throw new PaymentException(PaymentErrorCode.INVOICE_AMOUNT_MISMATCH,
-                            PaymentErrorCode.INVOICE_AMOUNT_MISMATCH.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.INVOICE_AMOUNT_MISMATCH,
+                            AppErrorCode.INVOICE_AMOUNT_MISMATCH.getMessage());
                 });
     }
 
