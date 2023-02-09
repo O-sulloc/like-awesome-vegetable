@@ -55,7 +55,7 @@ public class BiddingService {
         Optional<CompanyUser> companyUser = Optional.ofNullable(user.getCompanyUser());
 
         if (companyUser.isEmpty()) {
-            throw new ApplyException(ApplyErrorCode.NOT_FARM_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
+            throw new ApplyException(ApplyErrorCode.NOT_COMPANY_USER, ApplyErrorCode.NOT_COMPANY_USER.getMessage());
         }
 
         // 세션 확인
