@@ -7,10 +7,13 @@ import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -21,18 +24,18 @@ public class PaymentApiController {
     private final UserPointService userPointService;
 
     @PostMapping("/point-info")
-    public ResponseEntity checkMyPoint(@RequestBody PaymentInfoRequest paymentInfoRequest) {
-        userPointService.checkUserPointInfo(paymentInfoRequest.getUserId());
-        UserPaymentOrderResponse userPaymentOrderResponse = paymentApiService.addUserPaymentToOrder(paymentInfoRequest);
-        PaymentOrderPointResponse paymentOrderPointResponse = userPointService.comparePointDeposit(paymentInfoRequest);
+    public ResponseEntity<Result> checkMyPoint(@RequestBody @Valid PaymentInfoRequest paymentInfoRequest, Authentication authentication) {
+        userPointService.checkUserPointInfo(authentication.getName());
+        UserPaymentOrderResponse userPaymentOrderResponse = paymentApiService.addUserPaymentToOrder(paymentInfoRequest, authentication.getName());
+        PaymentOrderPointResponse paymentOrderPointResponse = userPointService.comparePointDeposit(paymentInfoRequest, authentication.getName());
         return ResponseEntity
                 .ok()
                 .body(Result.success(new PaymentApiOrderResponse(userPaymentOrderResponse, paymentOrderPointResponse)));
     }
 
     @PostMapping("/cancel-info")
-    public ResponseEntity<Result<UserCancelOrderResponse>> checkMyPoint(@RequestBody CancelInfoRequest cancelInfoRequest) {
-        UserCancelOrderResponse userCancelOrderResponse = paymentApiService.cancelUserPaymentToOrder(cancelInfoRequest);
+    public ResponseEntity<Result> checkMyPoint(@RequestBody @Valid CancelInfoRequest cancelInfoRequest, Authentication authentication) {
+        UserCancelOrderResponse userCancelOrderResponse = paymentApiService.cancelUserPaymentToOrder(cancelInfoRequest, authentication.getName());
         return ResponseEntity.ok().body(Result.success(userCancelOrderResponse));
     }
 }

@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,19 +22,19 @@ import java.util.List;
 public class FarmMypageController {
     private final FarmMypageService farmMypageService;
 
-    @GetMapping("/auction/{id}")
-    public ResponseEntity<Result<List<FarmAuctionByUser>>> readFarmAuctionPosts(@PathVariable("id") Long userId
+    @GetMapping("/auction")
+    public ResponseEntity<Result<List<FarmAuctionByUser>>> readFarmAuctionPosts(Authentication authentication
             , @PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<FarmAuctionByUser> farmAuctionByUser = farmMypageService.readFarmActionByUser(pageable, userId);
+        List<FarmAuctionByUser> farmAuctionByUser = farmMypageService.readFarmActionByUser(pageable, authentication.getName());
         return ResponseEntity.ok().body(Result.success(farmAuctionByUser));
     }
 
-    @GetMapping("/apply/{id}")
-    public ResponseEntity<Result<List<FarmApplyByUser>>> readFarmApplyPosts(@PathVariable("id") Long userId
+    @GetMapping("/apply")
+    public ResponseEntity<Result<List<FarmApplyByUser>>> readFarmApplyPosts(Authentication authentication
             , @PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        List<FarmApplyByUser> farmApplyByUser = farmMypageService.readFarmApplyPosts(userId, pageable);
+        List<FarmApplyByUser> farmApplyByUser = farmMypageService.readFarmApplyPosts(authentication.getName(), pageable);
         return ResponseEntity.ok().body(Result.success(farmApplyByUser));
     }
 

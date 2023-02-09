@@ -6,8 +6,8 @@ import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypagePointEvenLogRespons
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,15 +20,15 @@ import java.util.List;
 public class MypageApiController {
     private final MyPageApiService myPageApiService;
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Result<List<MypagePointEvenLogResponse>>> readUserPointLog(@PathVariable("id") Long id) {
-        List<MypagePointEvenLogResponse> userPointEvenLogResponses = myPageApiService.readUserPointLogs(id);
+    @GetMapping("/user")
+    public ResponseEntity<Result> readUserPointLog(Authentication authentication) {
+        List<MypagePointEvenLogResponse> userPointEvenLogResponses = myPageApiService.readUserPointLogs(authentication.getName());
         return ResponseEntity.ok().body(Result.success(userPointEvenLogResponses));
     }
 
-    @GetMapping("/admin/{id}")
-    public ResponseEntity<Result<List<MypagePointEvenLogResponse>>> readAdminPointLog(@PathVariable("id") Long id) {
-        List<MypagePointEvenLogResponse> mypagePointEvenLogResponses = myPageApiService.readAdminPointLogs(id);
+    @GetMapping("/admin")
+    public ResponseEntity<Result> readAdminPointLog(Authentication authentication) {
+        List<MypagePointEvenLogResponse> mypagePointEvenLogResponses = myPageApiService.readAdminPointLogs(authentication.getName());
         return ResponseEntity.ok().body(Result.success(mypagePointEvenLogResponses));
     }
 }
