@@ -12,8 +12,8 @@ import com.i5e2.likeawesomevegetable.domain.user.CompanyImage;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.company.dto.CompanyFileResponse;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyFileJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyImageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyUserJpaRepository;
@@ -54,7 +54,7 @@ public class CompanyFileUploadService {
 
         // 업로드 시도하는 회원이 해당 파일을 저장하려는 기업 정회원인지
         if (loginUser.getCompanyUser().getId() != companyUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -95,7 +95,7 @@ public class CompanyFileUploadService {
 
         // 로그인 회원이 접근하려는 url의 기업 정회원이 맞는지
         if (loginUser.getCompanyUser().getId() != companyUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -142,7 +142,7 @@ public class CompanyFileUploadService {
 
         // 로그인 회원이 접근하려는 url의 기업 정회원이 맞는지
         if (loginUser.getCompanyUser().getId() != companyUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         // 파일 존재 유무 확인
@@ -172,7 +172,7 @@ public class CompanyFileUploadService {
 
         // 로그인 회원이 접근하려는 url의 기업 정회원이 맞는지
         if (loginUser.getCompanyUser().getId() != companyUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         // 파일 존재 유무 확인
@@ -197,9 +197,9 @@ public class CompanyFileUploadService {
     // 기업 정회원 존재 유무 확인
     private CompanyUser validateCompanyUser(Long companyId) {
         CompanyUser validatedCompanyUser = companyUserJpaRepository.findById(companyId)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.COMPANY_USER_NOT_FOUND,
-                        FileErrorCode.COMPANY_USER_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.COMPANY_USER_NOT_FOUND,
+                        AppErrorCode.COMPANY_USER_NOT_FOUND.getMessage())
                 );
         return validatedCompanyUser;
     }
@@ -207,9 +207,9 @@ public class CompanyFileUploadService {
     // 로그인 이메일 확인
     private User validateLoginUser(String loginEmail) {
         User loginUser = userJpaRepository.findByEmail(loginEmail)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.LOGIN_USER_NOT_FOUND,
-                        FileErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.LOGIN_USER_NOT_FOUND,
+                        AppErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
                 ));
         return loginUser;
     }
@@ -217,9 +217,9 @@ public class CompanyFileUploadService {
     // 빈 파일이 아닌지 확인, 파일 자체를 첨부안하거나 첨부해도 내용이 비어있으면 에러 처리
     private void validateFilExists(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
-            throw new FileException(
-                    FileErrorCode.FILE_NOT_EXISTS,
-                    FileErrorCode.FILE_NOT_EXISTS.getMessage()
+            throw new AwesomeVegeAppException(
+                    AppErrorCode.FILE_NOT_EXISTS,
+                    AppErrorCode.FILE_NOT_EXISTS.getMessage()
             );
         }
     }
@@ -227,9 +227,9 @@ public class CompanyFileUploadService {
     // 기업 파일 존재 확인
     private CompanyFile validateCompanyFile(Long companyFileId) {
         CompanyFile validatedCompanyFile = companyFileJpaRepository.findById(companyFileId)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.COMPANY_FILE_NOT_FOUND,
-                        FileErrorCode.COMPANY_FILE_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.COMPANY_FILE_NOT_FOUND,
+                        AppErrorCode.COMPANY_FILE_NOT_FOUND.getMessage())
                 );
         return validatedCompanyFile;
     }
@@ -237,9 +237,9 @@ public class CompanyFileUploadService {
     // 기업 이미지 존재 확인
     private CompanyImage validateCompanyImage(Long companyImageId) {
         CompanyImage validatedCompanyImage = companyImageJpaRepository.findById(companyImageId)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.COMPANY_IMAGE_NOT_FOUND,
-                        FileErrorCode.COMPANY_IMAGE_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.COMPANY_IMAGE_NOT_FOUND,
+                        AppErrorCode.COMPANY_IMAGE_NOT_FOUND.getMessage())
                 );
         return validatedCompanyImage;
     }

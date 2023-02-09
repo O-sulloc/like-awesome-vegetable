@@ -5,8 +5,8 @@ import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -47,10 +47,10 @@ public class BuyingService {
 
 
     private void notValidCompanyUser(CompanyUser companyUser) {
-        if (companyUser==null) {
-            throw new FileException(
-                    FileErrorCode.COMPANY_USER_NOT_FOUND,
-                    FileErrorCode.COMPANY_USER_NOT_FOUND.getMessage()
+        if (companyUser == null) {
+            throw new AwesomeVegeAppException(
+                    AppErrorCode.COMPANY_USER_NOT_FOUND,
+                    AppErrorCode.COMPANY_USER_NOT_FOUND.getMessage()
             );
         }
     }

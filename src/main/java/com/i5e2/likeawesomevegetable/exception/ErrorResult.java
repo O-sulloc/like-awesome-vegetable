@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class ErrorResult<T> {
     private T errorCode;
     private String message;
+
 }
