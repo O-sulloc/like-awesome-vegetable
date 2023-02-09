@@ -103,7 +103,7 @@ public class AuctionRequest {
         String[] arrToday = LocalDateTime.now().toString().substring(0, 10).split("-");
         int today = Integer.parseInt(arrToday[0] + arrToday[1] + arrToday[2]);
 
-        String[] arrRegisteredAt = registeredAt.toString().substring(0, 10).split("-");
+        String[] arrRegisteredAt = registeredAt.substring(0, 10).split("-");
         int intRegisteredAt = Integer.parseInt(arrRegisteredAt[0] + arrRegisteredAt[1] + arrRegisteredAt[2]);
 
         if (today >= intRegisteredAt) {
