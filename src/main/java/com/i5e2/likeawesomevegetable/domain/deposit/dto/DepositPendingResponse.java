@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.deposit.dto;
 
+import com.i5e2.likeawesomevegetable.domain.market.PostPointActivateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +21,5 @@ public class DepositPendingResponse {
     private Long depositCommission;
     private String depositType;
     private LocalDateTime depositPendingAt;
+    private PostPointActivateEnum targetPostActivateStatus;
 }

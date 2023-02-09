@@ -93,4 +93,8 @@ public class CompanyBuying {
     public void onPreUpdatePersist() {
         this.buyingModifiedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
+
+    public void updatePostActivate(PostPointActivateEnum postPointActivate) {
+        this.postPointActivate = postPointActivate;
+    }
 }
