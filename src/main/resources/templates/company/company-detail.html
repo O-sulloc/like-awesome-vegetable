@@ -22,10 +22,8 @@
     <link th:href ="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
     <link th:href ="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
     <link th:href ="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
-    <link th:href ="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
-
+    <link th:href ="@{/awesome/css/main-custom.css}" rel="stylesheet" type="text/css">
 </head>
-
 <body>
     <!-- Start Header Area -->
     <div th:replace="fragments/header :: header" />
@@ -49,89 +47,16 @@
     <section class="section blog-single">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-md-12 col-12">
+                <div class="col-lg-8 col-md-12 col-12" th:each="c:${companyDetail}">
                     <div class="single-inner">
                         <div class="post-thumbnils">
                             <img src="https://via.placeholder.com/850x460" alt="#">
                         </div>
                         <div class="post-details">
                             <div class="detail-inner">
-                                <h2 class="post-title">기업 소개 타이틀</h2>
-                                <span>기업명</span>
-                                <i class="bi bi-trophy-fill"></i>
-                                <!-- post meta -->
-                                <ul class="custom-flex post-meta">
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="lni lni-calendar"></i>
-                                            20th March 2023
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="lni lni-comments"></i>
-                                            35 Comments
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">
-                                            <i class="lni lni-eye"></i>
-                                            55 View
-                                        </a>
-                                    </li>
-                                </ul>
-                                <p>기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.
-                                    기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.
-                                    기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.
-                                    기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.기업 내용을 가져옵니다.
-                                </p>
-                                <!-- post image -->
-                                <div class="post-image">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-6 col-md-6 col-12">
-                                            <h3>소제목을 가져옵니다</h3>
-                                            <p>카테고리를 설명하는 내용을 가져옵니다.카테고리를 설명하는 내용을 가져옵니다.카테고리를 설명하는 내용을 가져옵니다.
-                                                카테고리를 설명하는 내용을 가져옵니다.카테고리를 설명하는 내용을 가져옵니다.카테고리를 설명하는 내용을 가져옵니다.
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-12">
-                                            <a href="javascript:void(0)">
-                                                <img src="https://via.placeholder.com/600x400" alt="#">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p>내용을 가져옵니다. 내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.
-                                    내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.
-                                    내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.내용을 가져옵니다.
-                                </p>
-                                <!-- post quote -->
-                                <blockquote>
-                                    <div class="icon">
-                                        <i class="lni lni-quotation"></i>
-                                    </div>
-                                    <h4>"Don't demand that things happen as you wish, but wish that they happen as they
-                                        do
-                                        happen, and you will go on well."</h4>
-                                    <span>Epictetus, The Enchiridion</span>
-                                </blockquote>
-                                <h3>찾는 농산물에 대한 타이틀</h3>
-                                <p>어떤 품종을 찾는지 내용을 가져옵니다. 어떤 품종을 찾는지 내용을 가져옵니다.
-                                    어떤 품종을 찾는지 내용을 가져옵니다.어떤 품종을 찾는지 내용을 가져옵니다.어떤 품종을 찾는지 내용을 가져옵니다.
-                                    어떤 품종을 찾는지 내용을 가져옵니다.어떤 품종을 찾는지 내용을 가져옵니다.어떤 품종을 찾는지 내용을 가져옵니다.
-                                    어떤 품종을 찾는지 내용을 가져옵니다.어떤 품종을 찾는지 내용을 가져옵니다.어떤 품종을 찾는지 내용을 가져옵니다.
-                                </p>
-                                <ul class="list">
-                                    <li><i class="lni lni-chevron-right"></i> 찾는 품종을 작성합니다. </li>
-                                    <li><i class="lni lni-chevron-right"></i> 농약 수치는 어느정도, 친환경 여부등을 작성합니다.</li>
-                                    <li><i class="lni lni-chevron-right"></i> 어느곳에 어느정도를 사용할 예정이다.</li>
-                                </ul>
-
-                                <p> 내용을 작성합니다. 내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.
-                                    내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.
-                                    내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.내용을 작성합니다.
-                                </p>
-                                <!--post tags -->
+                                <h2 class="post-title" th:text="${c.companyName}"></h2>
+                                <h3 th:text="${c.companyLineInfo}"></h3>
+                                <p th:text="${c.companyInfo}"></p>
                                 <!-- Post Social Share -->
                                 <div class="post-social-media">
                                     <h5 class="share-title">공유하기</h5>
@@ -158,44 +83,6 @@
                                 </div>
                                 <!-- Post Social Share -->
                             </div>
-                            <!-- Comments -->
-                            <div class="post-comments">
-                                <h3 class="comment-title"><span>2개의 댓글이 작성되었습니다</span></h3>
-                                <ul class="comments-list">
-                                    <li>
-                                        <div class="comment-img">
-                                            <img src="https://via.placeholder.com/150x150" class="rounded-circle" alt="img">
-                                        </div>
-                                        <div class="comment-desc">
-                                            <div class="desc-top">
-                                                <h6>쿠쿠팡팡와와우우</h6>
-                                                <span class="date">19th May 2023</span>
-                                                <a href="javascript:void(0)"></a>
-                                            </div>
-                                            <p>
-                                                잘 모르는 중소기업이라서 고민했는데, 계약 체결부터 ~~~
-                                                너무 좋아요너무 좋아요너무 좋아요너무 좋아요너무 좋아요너무 좋아요너무 좋아요너무 좋아요
-                                            </p>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="comment-img">
-                                            <img src="https://via.placeholder.com/150x150" class="rounded-circle" alt="img">
-                                        </div>
-                                        <div class="comment-desc">
-                                            <div class="desc-top">
-                                                <h6>2년째 거래중인 기업입니다</h6>
-                                                <span class="date">12th May 2023</span>
-                                                <a href="javascript:void(0)"></a>
-                                            </div>
-                                            <p>
-                                                진짜 최고임.진짜 최고임진짜 최고임진짜 최고임진짜 최고임진짜 최고임진짜 최고임진짜 최고임진짜 최고임
-                                                진짜 최고임진짜 최고임진짜 최고임진짜 최고임진짜 최고임
-                                            </p>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -204,23 +91,11 @@
                         <!-- Start Single Widget -->
                         <div class="widget popular-feeds">
                             <h5 class="widget-title"><span>현재 진행중인 모집 목록</span></h5>
-                            <div class="popular-feed-loop">
+                            <div class="popular-feed-loop"  th:each="a:${buyingList}">
                                 <div class="single-popular-feed">
                                     <div class="feed-desc">
-                                        <h6 class="post-title"><a href="javascript:void(0)">감자 5t 모집합니다.</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 05th Nov 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <h6 class="post-title"><a href="javascript:void(0)">청양고추 10t 모집합니다.</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 24th March 2023</span>
-                                    </div>
-                                </div>
-                                <div class="single-popular-feed">
-                                    <div class="feed-desc">
-                                        <h6 class="post-title"><a href="javascript:void(0)">사과즙에 필요한 즙용 사과 15t 모집합니다.</a></h6>
-                                        <span class="time"><i class="lni lni-calendar"></i> 30th Jan 2023</span>
+                                        <h6 class="post-title" th:text="${a.buyingTitle}"><a href="javascript:void(0)"></a></h6>
+                                        <span class="time"><i class="lni lni-calendar" th:text="${a.buyingStartTime}"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -266,44 +141,11 @@
                             </div>
                         </div>
                         <!-- End Single Widget -->
-                        
-                        <!-- Start Single Widget -->
-                        <div class="widget popular-tag-widget">
-                            <h5 class="widget-title"><span>기업 관련 Tags</span></h5>
-                            <div class="tags">
-                                <a href="javascript:void(0)">감자</a>
-                                <a href="javascript:void(0)">청양고추</a>
-                                <a href="javascript:void(0)">중소기업</a>
-                                <a href="javascript:void(0)">신세계</a>
-                                <a href="javascript:void(0)">급식</a>
-                            </div>
-                        </div>
-                        <!-- End Single Widget -->
                         <!-- Start Single Block -->
                         <div class="single-block ">
                             <h3>위치 상세보기</h3>
                             <div class="mapouter">
-                                <div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas"
-                                        src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a
-                                        href="https://putlocker-is.org"></a><br>
-                                    <style>
-                                        .mapouter {
-                                            position: relative;
-                                            text-align: right;
-                                            height: 300px;
-                                            width: 100%;
-                                        }
-                                    </style><a href="https://www.embedgooglemap.net">google map code for website</a>
-                                    <style>
-                                        .gmap_canvas {
-                                            overflow: hidden;
-                                            background: none !important;
-                                            height: 300px;
-                                            width: 100%;
-                                        }
-                                    </style>
-                                </div>
+                                <div id="map"><iframe width="100%" height="300"></iframe></div>
                             </div>
                         </div>
                         <!-- End Single Block -->
@@ -329,6 +171,51 @@
     <script th:src="@{/awesome/js/tiny-slider.js}"></script>
     <script th:src="@{/awesome/js/glightbox.min.js}"></script>
     <script th:src="@{/awesome/js/main.js}"></script>
+    <script type="text/javascript"
+            src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=fe13ca7949317749e1ea11cd1a8574d3&libraries=services,drawing,clusterer"></script>
+    <script th:inline="javascript">
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(0, 0), // 지도의 중심좌표
+                level: 4 // 지도의 확대 레벨
+            };
+
+        // 지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        var imageSrc = 'https://img.icons8.com/doodle/48/null/phone-office-.png', // 마커이미지의 주소입니다
+            imageSize = new kakao.maps.Size(48, 48), // 마커이미지의 크기입니다
+            imageOption = {offset: new kakao.maps.Point(24, 48)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch([[${companyDetail.companyAddress}]], function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords,
+                    image: markerImage
+                });
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+            }
+        });
+    </script>
 </body>
 
 </html>

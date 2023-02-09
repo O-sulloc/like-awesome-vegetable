@@ -5713,6 +5713,20 @@ blockquote .shape {
     font-family: 'Jost', sans-serif;
 }
 
+.verify-btn li {
+    display: inline-block;
+    margin-right: 8px;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    color: #fff;
+    background: #5830E0;
+    border-color: transparent;
+    text-align: center;
+}
+
 .my-items .single-item-list .action-btn li {
     display: inline-block;
     margin-right: 8px;
