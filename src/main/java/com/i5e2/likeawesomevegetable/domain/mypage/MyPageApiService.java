@@ -9,6 +9,8 @@ import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.domain.verification.UserVerification;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserVerificationJpaRepository;
@@ -31,9 +33,14 @@ public class MyPageApiService {
     @Transactional(readOnly = true)
     public List<MypagePointEvenLogResponse> readUserPointLogs(String userEmail) {
         Long userId = getUser(userEmail).getId();
-        return pointEventLogJpaRepository.getPointUserId(userId).stream()
-                .map(pointEventLog -> PointFactory.createUserPointEventLog(pointEventLog))
-                .collect(Collectors.toList());
+        try {
+            return pointEventLogJpaRepository.getPointUserId(userId).stream()
+                    .map(pointEventLog -> PointFactory.createUserPointEventLog(pointEventLog))
+                    .collect(Collectors.toList());
+        } catch (IllegalArgumentException e) {
+            throw new AwesomeVegeAppException(AppErrorCode.EMPTY_POINT_RESULT,
+                    AppErrorCode.EMPTY_POINT_RESULT.getMessage());
+        }
     }
 
     @Transactional(readOnly = true)

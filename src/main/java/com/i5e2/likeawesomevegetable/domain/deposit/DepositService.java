@@ -10,11 +10,11 @@ import com.i5e2.likeawesomevegetable.domain.market.PostPointActivateEnum;
 import com.i5e2.likeawesomevegetable.domain.market.exception.PostErrorCode;
 import com.i5e2.likeawesomevegetable.domain.market.exception.PostException;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
-import com.i5e2.likeawesomevegetable.domain.point.exception.PointErrorCode;
-import com.i5e2.likeawesomevegetable.domain.point.exception.PointException;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.UserException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPointDepositJpaRepository;
@@ -37,8 +37,8 @@ public class DepositService {
     public Result<DepositPendingResponse> addUserPendingDeposit(DepositPendingRequest depositPendingRequest, String userEmail) {
         UserPoint findUserPoint = userPointJpaRepository.findById(getUserOne(userEmail).getId())
                 .orElseThrow(() -> {
-                    throw new PointException(PointErrorCode.NO_POINT_RESULT,
-                            PointErrorCode.NO_POINT_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
+                            AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
 
         UserPointDeposit pendingDeposit = DepositFactory.createPendingDeposit(depositPendingRequest, findUserPoint);

@@ -1,19 +1,17 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
-import com.i5e2.likeawesomevegetable.domain.deposit.exception.DepositErrorCode;
-import com.i5e2.likeawesomevegetable.domain.deposit.exception.DepositException;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentOrderPointResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
-import com.i5e2.likeawesomevegetable.domain.point.exception.PointErrorCode;
-import com.i5e2.likeawesomevegetable.domain.point.exception.PointException;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.UserException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPointDepositJpaRepository;
@@ -34,8 +32,8 @@ public class UserPointService {
     private final UserJpaRepository userJpaRepository;
     private final PointEventLogJpaRepository pointEventLogJpaRepository;
 
-    public UserPointResponse checkUserPointInfo(String userMail) {
-        User getUser = getUser(userMail);
+    public UserPointResponse checkUserPointInfo(String userEmail) {
+        User getUser = getUser(userEmail);
         Optional<UserPoint> userPoint = userPointJpaRepository.findByUser(getUser);
 
         if (userPoint.isPresent()) {
@@ -52,14 +50,14 @@ public class UserPointService {
         User getUser = getUser(userEmail);
         UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
                 .orElseThrow(() -> {
-                    throw new PointException(PointErrorCode.NO_POINT_RESULT,
-                            PointErrorCode.NO_POINT_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
+                            AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
 
         UserPointDeposit userPointDeposit = userPointDepositJpaRepository.findByUserPointId(getUser.getId())
                 .orElseThrow(() -> {
-                    throw new DepositException(DepositErrorCode.NO_POINT_DEPOSIT_RESULT,
-                            DepositErrorCode.NO_POINT_DEPOSIT_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_DEPOSIT_RESULT,
+                            AppErrorCode.NO_POINT_DEPOSIT_RESULT.getMessage());
                 });
 
         userPoint.updateDepositTotalBalance(userPoint.getDepositTotalBalance() - userPointDeposit.getDepositAmount());
@@ -71,8 +69,8 @@ public class UserPointService {
     public UserPointResponse refundPoint(PaymentRefundResponse paymentRefundResponse, String cancelUserEmail) {
         UserPoint cancelUserPoint = userPointJpaRepository.findByUser(getUser(cancelUserEmail))
                 .orElseThrow(() -> {
-                    throw new PointException(PointErrorCode.NO_POINT_RESULT,
-                            PointErrorCode.NO_POINT_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
+                            AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
 
         cancelUserPoint.updatePointTotalBalance(cancelUserPoint.getPointTotalBalance() - paymentRefundResponse.getTotalAmount());
@@ -85,8 +83,8 @@ public class UserPointService {
         try {
             return pointEventLogJpaRepository.getUserTotalBalance(userId);
         } catch (NullPointerException e) {
-            throw new PointException(PointErrorCode.EMPTY_POINT_RESULT,
-                    PointErrorCode.EMPTY_POINT_RESULT.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.EMPTY_POINT_RESULT,
+                    AppErrorCode.EMPTY_POINT_RESULT.getMessage());
         }
     }
 
@@ -95,8 +93,8 @@ public class UserPointService {
         User findUser = getUser(userEmail);
         UserPoint userPointDeposit = userPointJpaRepository.findByUser(findUser)
                 .orElseThrow(() -> {
-                    throw new PointException(PointErrorCode.NO_POINT_RESULT
-                            , PointErrorCode.NO_POINT_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT
+                            , AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
         return PointFactory.of(paymentInfoRequest, userPointDeposit);
     }

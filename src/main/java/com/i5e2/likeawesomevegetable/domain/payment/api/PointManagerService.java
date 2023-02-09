@@ -4,11 +4,11 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.Payment;
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
-import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorCode;
-import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentException;
 import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointEventDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.PointEventLog;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.PaymentJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
@@ -31,8 +31,8 @@ public class PointManagerService {
     public PointEventDetailResponse savePaymentAndPoint(PaymentCardResponse paymentCardResponse) {
         UserPaymentOrder userByPostOrderId = userPaymentOrderJpaRepository.findByPostOrderId(paymentCardResponse.getOrderId())
                 .orElseThrow(() -> {
-                    throw new PaymentException(PaymentErrorCode.NO_PAYMENT_ORDER_RESULT,
-                            PaymentErrorCode.NO_PAYMENT_ORDER_RESULT.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_PAYMENT_ORDER_RESULT,
+                            AppErrorCode.NO_PAYMENT_ORDER_RESULT.getMessage());
                 });
 
         Payment payment = PaymentFactory.createPayment(paymentCardResponse, userByPostOrderId);
