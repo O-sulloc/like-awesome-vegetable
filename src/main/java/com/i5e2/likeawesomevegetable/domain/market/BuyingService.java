@@ -1,7 +1,10 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,8 @@ public class BuyingService {
         User user = userJpaRepository.findByEmail(email).get();
         CompanyUser companyUser = user.getCompanyUser();
 
+        notValidCompanyUser(companyUser);
+
         CompanyBuying companyBuying = buyingRequest.toEntity(buyingRequest, companyUser);
         buyingJpaRepository.save(companyBuying);
 
@@ -33,5 +38,15 @@ public class BuyingService {
                 .message("모집 게시글 작성 완료")
                 .build();
         return buyingResponse;
+    }
+
+
+    private void notValidCompanyUser(CompanyUser companyUser) {
+        if (companyUser==null) {
+            throw new FileException(
+                    FileErrorCode.COMPANY_USER_NOT_FOUND,
+                    FileErrorCode.COMPANY_USER_NOT_FOUND.getMessage()
+            );
+        }
     }
 }
