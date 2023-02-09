@@ -33,6 +33,8 @@ public class DepositService {
         findUserPoint.updateDepositTotalBalance(depositTotalBalance.getDepositTotalAmount());
         userPointJpaRepository.save(findUserPoint);
 
+        //TODO: 모집글 post active 상태 변경
+
         return Result.success(DepositFactory.from(pendingDeposit));
     }
 

@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/mypage")
 public class MypageApiController {
-
     private final MyPageApiService myPageApiService;
 
     @GetMapping("/user/{id}")
@@ -32,5 +31,4 @@ public class MypageApiController {
         List<MypagePointEvenLogResponse> mypagePointEvenLogResponses = myPageApiService.readAdminPointLogs(id);
         return ResponseEntity.ok().body(Result.success(mypagePointEvenLogResponses));
     }
-
 }
