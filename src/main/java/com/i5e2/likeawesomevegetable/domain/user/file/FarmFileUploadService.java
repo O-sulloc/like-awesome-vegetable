@@ -126,7 +126,7 @@ public class FarmFileUploadService {
         return FarmFileResponse.of(savedImage.getFarmImageName(), "이미지 등록 성공");
     }
 
-    /*     기업 이미지 다운로드     */
+    /*     농가 이미지 다운로드     */
     public String getFarmImage(String farmId) {
         String storeFileName = UUID.randomUUID() + "." + farmId;
         String key = "farmuser/image/" + storeFileName;
