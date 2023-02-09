@@ -4,13 +4,13 @@ import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuction;
 import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.AuctionListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.FarmDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.FarmListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.FarmUserResponse;
-import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
-import com.i5e2.likeawesomevegetable.domain.user.file.FarmFileUploadService;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.FarmImageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
 import com.i5e2.likeawesomevegetable.repository.ItemJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,7 +29,7 @@ public class FarmInquiryService {
     private final FarmUserRepository farmUserRepository;
     private final ItemJpaRepository itemJpaRepository;
     private final FarmAuctionJpaRepository farmAuctionJpaRepository;
-    private final FarmFileUploadService farmFileUploadService;
+    private final FarmImageJpaRepository farmImageJpaRepository;
 
     public Page<FarmListResponse> list(Pageable pageable) {
 
@@ -46,8 +48,8 @@ public class FarmInquiryService {
         FarmUser farmUser = farmUserRepository.findById(farmId)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.USER_NOT_FOUND, ApplyErrorCode.USER_NOT_FOUND.getMessage()));
 
-        // 농가 이미지
-        String farmImage = farmFileUploadService.getFarmImage(farmId.toString());
+        // 농가 이미지 가져오기
+        List<FarmImageLink> farmImage = farmImageJpaRepository.findAllByFarmUserId(farmId);
 
         // 농가 소개
         FarmUserResponse farmUserResponse = FarmUserResponse

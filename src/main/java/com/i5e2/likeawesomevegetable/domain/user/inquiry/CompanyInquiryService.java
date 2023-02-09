@@ -4,13 +4,13 @@ import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
+import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
+import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.BuyingListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.CompanyDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.CompanyListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.CompanyUserResponse;
-import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.BuyingListResponse;
-import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
-import com.i5e2.likeawesomevegetable.domain.user.file.CompanyFileUploadService;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.CompanyImageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyUserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.ItemJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,7 +29,7 @@ public class CompanyInquiryService {
     private final CompanyUserJpaRepository companyUserJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
     private final ItemJpaRepository itemJpaRepository;
-    private final CompanyFileUploadService companyFileUploadService;
+    private final CompanyImageJpaRepository companyImageJpaRepository;
 
     public Page<CompanyListResponse> list(Pageable pageable) {
 
@@ -46,8 +48,8 @@ public class CompanyInquiryService {
         CompanyUser companyUser = companyUserJpaRepository.findById(companyId)
                 .orElseThrow(() -> new ApplyException(ApplyErrorCode.USER_NOT_FOUND, ApplyErrorCode.USER_NOT_FOUND.getMessage()));
 
-        // 기업 이미지
-        String companyImage = companyFileUploadService.getCompanyImage(companyId.toString());
+        // 기업 이미지 가져오기
+        List<CompanyImageLink> companyImage = companyImageJpaRepository.findByCompanyUserId(companyId);
 
         // 기업 소개
         CompanyUserResponse companyUserResponse = CompanyUserResponse

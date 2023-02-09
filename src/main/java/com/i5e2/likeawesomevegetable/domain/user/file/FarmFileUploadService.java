@@ -126,14 +126,6 @@ public class FarmFileUploadService {
         return FarmFileResponse.of(savedImage.getFarmImageName(), "이미지 등록 성공");
     }
 
-    /*     농가 이미지 다운로드     */
-    public String getFarmImage(String farmId) {
-        String storeFileName = UUID.randomUUID() + "." + farmId;
-        String key = "farmuser/image/" + storeFileName;
-
-        return amazonS3Client.getUrl(bucket, key).toString();
-    }
-
     /*     농가 파일 삭제     */
     public FarmFileResponse deleteFarmFile(Long farmId, Long farmFileId, String filePath, String loginEmail) {
 
