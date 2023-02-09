@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuctionRequest {
-    //TODO : 1. 후입력(price,time,userid,time)
 
     @NotBlank(message = "제목을 입력해 주세요")
     private String title;
@@ -43,10 +43,32 @@ public class AuctionRequest {
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer limitPrice;
 
+    @NotNull(message = "파일을 업로드 해주세요")
     private List<MultipartFile> uploadImages;
 
 
-    public FarmAuction toEntity(AuctionRequest auctionRequest) {
+    public FarmAuction toEntity(AuctionRequest auctionRequest, FarmUser farmUser) {
+        return FarmAuction.builder()
+                .auctionTitle(auctionRequest.getTitle())
+                .auctionStartTime(auctionRequest.getRegisteredAt())
+                .auctionEndTime(auctionRequest.getEndTime())
+                .auctionItemCategory(auctionRequest.getCategory())
+                .auctionItem(auctionRequest.getItem())
+                .auctionQuantity(auctionRequest.getQuantity())
+                .auctionStartPrice(auctionRequest.getStartPrice())
+//                .auctionHighestPrice() 종료가격 입력
+                .auctionLimitPrice(auctionRequest.getLimitPrice())
+                .auctionDescription(auctionRequest.getDescription())
+                .auctionShipping(shippingConvert(auctionRequest.getShipping()))
+                .participationStatus(ParticipationStatus.valueOf(status(auctionRequest.getRegisteredAt())))
+//                .auctionRegisteredAt
+//                .auctionModifiedAt()
+//                .auctionDeletedAt()
+                .farmUser(farmUser)
+                .build();
+    }
+
+    public FarmAuction toEntityNoneAuth(AuctionRequest auctionRequest) {
         return FarmAuction.builder()
                 .auctionTitle(auctionRequest.getTitle())
                 .auctionStartTime(auctionRequest.getRegisteredAt())

@@ -28,7 +28,7 @@ public class CompanyBuying {
     @JoinColumn(name = "company_user_id")
     private CompanyUser companyUser;
 
-    @Column(name = "buying_title", length = 20)
+    @Column(name = "buying_title", length = 50)
     private String buyingTitle;
 
     @Column(name = "buying_start_time")
@@ -58,7 +58,7 @@ public class CompanyBuying {
     @Column(name = "receiver_name", length = 10)
     private String receiverName;
 
-    @Column(name = "receiver_phone_no", length = 50)
+    @Column(name = "receiver_phone_no", length = 20)
     private String receiverPhoneNo;
 
     @Column(name = "receiver_address", length = 300)
