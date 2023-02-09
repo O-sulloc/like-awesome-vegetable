@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,17 +23,17 @@ public class CompanyMypageController {
 
     private final CompanyMypageService companyMypageService;
 
-    @GetMapping("/company/buying/{id}")
-    public ResponseEntity<Result<List<FarmAuctionByUser>>> readCompanyBuyingPosts(@PathVariable("id") Long userId
+    @GetMapping("/company/buying")
+    public ResponseEntity<Result> readCompanyBuyingPosts(Authentication authentication
             , @PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<FarmAuctionByUser> farmAuctionByUsers = companyMypageService.readCompanyBuyingPosts(userId, pageable);
+        List<FarmAuctionByUser> farmAuctionByUsers = companyMypageService.readCompanyBuyingPosts(authentication.getName(), pageable);
         return ResponseEntity.ok().body(Result.success(farmAuctionByUsers));
     }
 
-    @GetMapping("/company/bidding/{id}")
-    public ResponseEntity<Result<List<CompanyBiddingByUser>>> readCompanyBiddingPosts(@PathVariable("id") Long userId
+    @GetMapping("/company/bidding")
+    public ResponseEntity<Result> readCompanyBiddingPosts(Authentication authentication
             , @PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        List<CompanyBiddingByUser> companyBiddingByUsers = companyMypageService.readCompanyBiddingPosts(userId, pageable);
+        List<CompanyBiddingByUser> companyBiddingByUsers = companyMypageService.readCompanyBiddingPosts(authentication.getName(), pageable);
         return ResponseEntity.ok().body(Result.success(companyBiddingByUsers));
     }
 

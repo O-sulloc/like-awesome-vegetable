@@ -1,6 +1,5 @@
 package com.i5e2.likeawesomevegetable.domain.admin;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminPaymentOrderRequest;
@@ -8,6 +7,10 @@ import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminTransferResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
+import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorCode;
+import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentException;
+import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.repository.AdminPaymentOrderJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.AdminUserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +39,8 @@ public class AdminConfirmService {
     private final AdminPaymentOrderJpaRepository adminPaymentOrderJpaRepository;
 
     @Transactional
-    public Result<AdminPaymentOrderResponse> createAdminTransferOrder(AdminPaymentOrderRequest adminPaymentOrderRequest) {
-        AdminUser getAdmin = getAdminUser(adminPaymentOrderRequest.getAdminId());
+    public Result<AdminPaymentOrderResponse> createAdminTransferOrder(AdminPaymentOrderRequest adminPaymentOrderRequest, String adminEmail) {
+        AdminUser getAdmin = getAdminUser(adminEmail);
         AdminPaymentOrder adminOrderResult = adminPaymentOrderJpaRepository
                 .save(AdminFactory.createAdminPaymentOrder(getAdmin, adminPaymentOrderRequest));
 
@@ -49,7 +52,10 @@ public class AdminConfirmService {
     public void adminVerifySuccessRequest(String orderId, Long requestAmount) {
         adminPaymentOrderJpaRepository.findByAdminOrderId(orderId)
                 .filter(order -> order.getAdminTransferAmount().equals(requestAmount))
-                .orElseThrow(() -> new NotFoundException("관리자 요청 데이터가 일치하지 않습니다"));
+                .orElseThrow(() -> {
+                    throw new PaymentException(PaymentErrorCode.INVOICE_AMOUNT_MISMATCH,
+                            PaymentErrorCode.INVOICE_AMOUNT_MISMATCH.getMessage());
+                });
     }
 
     @Transactional(timeout = 300, rollbackFor = Exception.class)
@@ -71,12 +77,16 @@ public class AdminConfirmService {
                 .newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
         log.info("response:{}", response.body());
+
         return objectMapper.readValue(response.body(), AdminTransferResponse.class);
     }
 
-    private AdminUser getAdminUser(Long adminId) {
-        return adminUserJpaRepository.findById(adminId)
-                .orElseThrow(() -> new NotFoundException("요청한 관리자가 존재하지 않습니다"));
+    private AdminUser getAdminUser(String adminEmail) {
+        return adminUserJpaRepository.findByAdminEmail(adminEmail)
+                .orElseThrow(() -> {
+                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND
+                            , UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                });
     }
 
 }

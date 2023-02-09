@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentInfoRequest {
-    /*userId, post_order_id, payment_order_post, payment_order_amount
-        point_total_balance, 모집금액 혹은 입찰가*/
     private Long userId;
     private String postTitle;
     private Long paymentOrderPostId;
