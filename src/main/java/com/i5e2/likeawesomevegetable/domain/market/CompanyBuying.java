@@ -97,4 +97,9 @@ public class CompanyBuying {
     public void updatePostActivate(PostPointActivateEnum postPointActivate) {
         this.postPointActivate = postPointActivate;
     }
+
+    public void updateStatusToEnd() {
+        this.participationStatus = ParticipationStatus.END;
+    }
+
 }

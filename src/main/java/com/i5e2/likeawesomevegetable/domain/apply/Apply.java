@@ -51,4 +51,8 @@ public class Apply {
     public void setApplyNumber(String applyNumber) {
         this.applyNumber = applyNumber;
     }
+
+    public void updateStatusToEnd() {
+        this.participationStatus = ParticipationStatus.END;
+    }
 }

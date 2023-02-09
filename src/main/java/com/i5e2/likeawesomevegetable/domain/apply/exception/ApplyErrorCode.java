@@ -13,7 +13,8 @@ public enum ApplyErrorCode {
     NOT_FARM_USER(HttpStatus.UNAUTHORIZED, "농가 사용자가 아닙니다."),
     NOT_COMPANY_USER(HttpStatus.UNAUTHORIZED, "기업 사용자가 아닙니다."),
     PHONE_DISCORD(HttpStatus.UNAUTHORIZED, "사용자의 휴대폰 번호와 불일치합니다."),
-    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "사용자 권한이 없습니다.");
+    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "사용자 권한이 없습니다."),
+    QUANTITY_EXCEED(HttpStatus.UNAUTHORIZED, "모집 수량을 초과하였습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
