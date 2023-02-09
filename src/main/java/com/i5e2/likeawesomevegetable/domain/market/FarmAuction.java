@@ -30,7 +30,7 @@ public class FarmAuction {
     @JoinColumn(name = "farm_user_id")
     private FarmUser farmUser;
 
-    @Column(name = "auction_title")
+    @Column(name = "auction_title",length = 50)
     private String auctionTitle;
 
     @Column(name = "auction_start_time")

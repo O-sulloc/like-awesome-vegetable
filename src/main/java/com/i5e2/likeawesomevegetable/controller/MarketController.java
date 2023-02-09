@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 
@@ -26,16 +27,16 @@ public class MarketController {
     private final ImgUploadService imgUploadService;
 
     @GetMapping("/auction")
-    public String writeAuctionFrom(Model model, AuctionRequest auctionRequest, Authentication authentication) {
+    public String writeAuctionFrom(Model model, AuctionRequest auctionRequest) {
         return "farmer/farmer-gather-writeform";
     }
 
     @PostMapping("/auction")
-    public String add(@ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result, Authentication authentication) throws IOException {
+    public String add(@Valid @ModelAttribute("auctionRequest") AuctionRequest auctionRequest, BindingResult result) throws IOException {
         if (result.hasErrors()) {
             return "farmer/farmer-gather-writeform";
         }
-        FarmAuction farmAuction = auctionService.creatAuction(auctionRequest, authentication);
+        FarmAuction farmAuction = auctionService.creatAuctionNoneAuth(auctionRequest);
 
         for (MultipartFile img : auctionRequest.getUploadImages()) {
             System.out.println(img.getOriginalFilename());
@@ -52,17 +53,17 @@ public class MarketController {
     }
 
     @PostMapping("/buying")
-    public String add(BuyingRequest buyingRequest, BindingResult result) {
+    public String add(@Valid BuyingRequest buyingRequest, BindingResult result) {
         if (result.hasErrors()) {
             return "company/company-gather-writeform";
         }
-        buyingService.creatBuying(buyingRequest);
+        buyingService.creatBuyingNoneAuth(buyingRequest);
 
 
         return "company/company-detail";
     }
 
-    //이미지업로드
+    //dropzone 이미지업로드
 //
 //    @PostMapping("/farm/img")
 //    @ResponseBody
