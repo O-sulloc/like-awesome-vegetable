@@ -56,11 +56,11 @@ public class ApplyService {
         if (farmUser.isEmpty()) {
             throw new ApplyException(ApplyErrorCode.NOT_FARM_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
         }
-//
-//        // 세션 확인
-//        Optional.ofNullable(session.getAttribute(SMS_USER_ID))
-//                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION,
-//                        ApplyErrorCode.INVALID_PERMISSION.getMessage()));
+
+        // 세션 확인
+        Optional.ofNullable(session.getAttribute(SMS_USER_ID))
+                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION,
+                        ApplyErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 모집 수량을 초과하면 참여 불가
         if (companyBuying.getBuyingQuantity() < applyJpaRepository.currentQuantity(companyBuyingId)
