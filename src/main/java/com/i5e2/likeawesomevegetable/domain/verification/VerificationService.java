@@ -125,12 +125,8 @@ public class VerificationService {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
-        // 테스트 용 임시 UserVerification 생성
-        UserVerification loginUserVerification = UserVerification.makeUserVerification(loginUser);
-        userVerificationJpaRepository.save(loginUserVerification);
-
         // 로그인 유저 검증 테이블 확인
-        loginUserVerification = validateUserVerification(loginUser);
+        UserVerification loginUserVerification = validateUserVerification(loginUser);
 
         // 연결 시간 설정 2초
         int TIMEOUT_VALUE = 2000;
