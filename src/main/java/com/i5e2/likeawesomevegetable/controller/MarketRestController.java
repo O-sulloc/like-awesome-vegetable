@@ -21,27 +21,16 @@ public class MarketRestController {
     private final AuctionService auctionService;
     private final BuyingService buyingService;
 
-    @PostMapping("/auction1")
-    public ResponseEntity<Result<AuctionResponse>> createAuction(@RequestBody AuctionRequest auctionRequest, Authentication authentication) throws IOException {
-        log.info("컨트롤러에서 이미지 받아와지나 확인"+auctionRequest.getUploadImages());
-        AuctionResponse auctionResponse = auctionService.createAuction(auctionRequest, authentication.getName());
-        Result<AuctionResponse> response = new Result<>("SUCCESS", auctionResponse);
-
-        return ResponseEntity.ok().body(response);
-    }
-
-    @PostMapping("/auction2")
+    @PostMapping("/auction")
     public ResponseEntity<Result<AuctionResponse>> createAuction(@RequestPart(value = "dto") AuctionRequest dto,
                                                                  @RequestPart(value = "imgs") List<MultipartFile> imgs,
                                                                  Authentication authentication) throws IOException {
 
-
-        log.info("컨트롤러에서 이미지 받아와지나 확인 : "+imgs);
-        AuctionResponse auctionResponse = auctionService.createAuctionSplit(dto,imgs,authentication.getName());
-        Result<AuctionResponse> response = new Result<>("SUCCESS", auctionResponse);
+    AuctionResponse auctionResponse = auctionService.createAuction(dto,imgs,authentication.getName());
+    Result<AuctionResponse> response = new Result<>("SUCCESS", auctionResponse);
 
         return ResponseEntity.ok().body(response);
-    }
+}
 
     @PostMapping("/buying")
     public ResponseEntity<Result<BuyingResponse>> createBuying(@RequestBody BuyingRequest buyingRequest, Authentication authentication) {

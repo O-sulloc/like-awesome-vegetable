@@ -2,6 +2,8 @@ package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +31,18 @@ public class AuctionService {
         return farmAuction;
     }
 
-    public AuctionResponse createAuction(AuctionRequest auctionRequest, String email) throws IOException {
-        log.info("서비스에서 이미지 잘 받아와지나 확인 "+auctionRequest.getUploadImages());
+    public AuctionResponse createAuction(AuctionRequest auctionRequest, List<MultipartFile> imgs, String email) throws IOException {
+
         User user = userJpaRepository.findByEmail(email).get();
         FarmUser farmUser = user.getFarmUser();
+
+        notValidFarmUser(farmUser);
+
 
         FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest, farmUser);
         auctionJpaRepository.save(farmAuction);
 
-        for (MultipartFile img : auctionRequest.getUploadImages()) {
-            log.info("리스트에서 한개씩 받아와지나 확인"+img.getOriginalFilename());
+        for (MultipartFile img : imgs) {
             imgUploadService.farmUploadImg(img, farmAuction);
         }
 
@@ -50,24 +54,12 @@ public class AuctionService {
 
     }
 
-    public AuctionResponse createAuctionSplit(AuctionRequest auctionRequest, List<MultipartFile> imgs, String email) throws IOException {
-        log.info("서비스 잘 받아와 지나"+imgs);
-        User user = userJpaRepository.findByEmail(email).get();
-        FarmUser farmUser = user.getFarmUser();
-
-        FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest, farmUser);
-        auctionJpaRepository.save(farmAuction);
-
-        for (MultipartFile img : imgs) {
-            log.info("서비스에서 한개씩 "+img.getOriginalFilename());
-            imgUploadService.farmUploadImg(img, farmAuction);
+    private void notValidFarmUser(FarmUser farmUser) {
+        if (farmUser==null) {
+            throw new FileException(
+                    FileErrorCode.FARM_USER_NOT_FOUND,
+                    FileErrorCode.FARM_USER_NOT_FOUND.getMessage()
+            );
         }
-
-        AuctionResponse auctionResponse = AuctionResponse.builder()
-                .auctionId(farmAuction.getId())
-                .message("경매 게시글 작성 완료")
-                .build();
-        return auctionResponse;
-
     }
 }

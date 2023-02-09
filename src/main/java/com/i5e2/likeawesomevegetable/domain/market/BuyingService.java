@@ -4,8 +4,10 @@ import com.i5e2.likeawesomevegetable.domain.apply.Apply;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
+import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,8 @@ public class BuyingService {
         User user = userJpaRepository.findByEmail(email).get();
         CompanyUser companyUser = user.getCompanyUser();
 
+        notValidCompanyUser(companyUser);
+
         CompanyBuying companyBuying = buyingRequest.toEntity(buyingRequest, companyUser);
         buyingJpaRepository.save(companyBuying);
 
@@ -41,13 +45,13 @@ public class BuyingService {
         return buyingResponse;
     }
 
-    // 모집 종료
-    public void applyEnd(Long companyBuyingId) {
-        CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
 
-        applyJpaRepository.findAllByCompanyBuyingId(companyBuyingId).forEach(Apply::updateStatusToEnd);
-
-        companyBuying.updateStatusToEnd();
+    private void notValidCompanyUser(CompanyUser companyUser) {
+        if (companyUser==null) {
+            throw new FileException(
+                    FileErrorCode.COMPANY_USER_NOT_FOUND,
+                    FileErrorCode.COMPANY_USER_NOT_FOUND.getMessage()
+            );
+        }
     }
 }

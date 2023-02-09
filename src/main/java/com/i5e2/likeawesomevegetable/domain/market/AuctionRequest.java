@@ -42,7 +42,8 @@ public class AuctionRequest {
     @NotNull(message = "가격을 입력해 주세요")
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer limitPrice;
-
+    
+    //mvc 이미지 업로드
     @NotNull(message = "파일을 업로드 해주세요")
     private List<MultipartFile> uploadImages;
 

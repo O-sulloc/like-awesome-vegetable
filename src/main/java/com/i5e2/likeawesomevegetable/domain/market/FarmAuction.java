@@ -97,4 +97,8 @@ public class FarmAuction {
     public void updateHighestPrice(Long auctionHighestPrice) {
         this.auctionHighestPrice = auctionHighestPrice;
     }
+
+    public void updateStatusToEnd() {
+        this.participationStatus = ParticipationStatus.END;
+    }
 }

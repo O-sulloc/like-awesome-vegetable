@@ -1,5 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.item.Item;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,10 @@ public class MarketDetailService {
     public CompanyBuyingDetailResponse getGatherDetail(Long buyingId) {
 
         CompanyBuying companyBuying = buyingJpaRepository.findById(buyingId)
-                .orElseThrow(() -> new NoSuchElementException("없는 모집글"));
+                .orElseThrow(() -> new ApplyException(
+                        ApplyErrorCode.POST_NOT_FOUND,
+                        ApplyErrorCode.POST_NOT_FOUND.getMessage())
+                );
 
         Item item = itemJpaRepository.findByItemCode(companyBuying.getBuyingItem());
         String itemName = item.getItemName();
@@ -60,7 +64,10 @@ public class MarketDetailService {
 
     public FarmAuctionDetailResponse getAuctionDetail(Long auctionId) {
         FarmAuction farmAuction = auctionJpaRepository.findById(auctionId)
-                .orElseThrow(() -> new NoSuchElementException("없는 경매글"));
+                .orElseThrow(() -> new ApplyException(
+                        ApplyErrorCode.POST_NOT_FOUND,
+                        ApplyErrorCode.POST_NOT_FOUND.getMessage())
+                );
 
         Item item = itemJpaRepository.findByItemCode(farmAuction.getAuctionItem());
         String itemName = item.getItemName();
