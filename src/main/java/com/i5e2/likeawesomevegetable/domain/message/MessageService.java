@@ -3,11 +3,11 @@ package com.i5e2.likeawesomevegetable.domain.message;
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageGetResponse;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageSendResponse;
-import com.i5e2.likeawesomevegetable.domain.message.exception.MessageErrorCode;
-import com.i5e2.likeawesomevegetable.domain.message.exception.MessageException;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.UserException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.MessageContentJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.MessageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -34,7 +34,7 @@ public class MessageService {
 
         // 본인에게 쪽지 전송 불가능
         if (loginUser.equals(toUser)) {
-            throw new MessageException(MessageErrorCode.INVALID_GETTER, MessageErrorCode.INVALID_GETTER.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_GETTER, AppErrorCode.INVALID_GETTER.getMessage());
         }
 
         // 쪽지 내용 저장
@@ -60,7 +60,7 @@ public class MessageService {
         // 로그인 유저, MessageType 수신으로 조회
         Page<Message> getMessages = messageJpaRepository.findByUserAndMessageType(loginUser, MessageType.GET, pageable);
         if (!getMessages.hasContent()) {
-            throw new MessageException(MessageErrorCode.GET_MESSAGE_NOT_FOUND, MessageErrorCode.GET_MESSAGE_NOT_FOUND.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.GET_MESSAGE_NOT_FOUND, AppErrorCode.GET_MESSAGE_NOT_FOUND.getMessage());
         }
         Page<MessageGetResponse> userMessageResult = getMessages.map(
                 message -> MessageGetResponse.of(message)
@@ -76,7 +76,7 @@ public class MessageService {
         // 로그인 유저, MessageType 송신으로 조회
         Page<Message> getMessages = messageJpaRepository.findByUserAndMessageType(loginUser, MessageType.SEND, pageable);
         if (!getMessages.hasContent()) {
-            throw new MessageException(MessageErrorCode.SEND_MESSAGE_NOT_FOUND, MessageErrorCode.SEND_MESSAGE_NOT_FOUND.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.SEND_MESSAGE_NOT_FOUND, AppErrorCode.SEND_MESSAGE_NOT_FOUND.getMessage());
         }
         Page<MessageGetResponse> userMessageResult = getMessages.map(
                 message -> MessageGetResponse.of(message)
@@ -111,9 +111,9 @@ public class MessageService {
     // 해당 번호의 message 존재 유무 확인
     private Message checkMessagePresents(Long messageId, User loginUser) {
         Message getMessage = messageJpaRepository.findByIdAndUser(messageId, loginUser)
-                .orElseThrow(() -> new MessageException(
-                        MessageErrorCode.MESSAGE_NOT_FOUND,
-                        MessageErrorCode.MESSAGE_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.MESSAGE_NOT_FOUND,
+                        AppErrorCode.MESSAGE_NOT_FOUND.getMessage())
                 );
         return getMessage;
     }

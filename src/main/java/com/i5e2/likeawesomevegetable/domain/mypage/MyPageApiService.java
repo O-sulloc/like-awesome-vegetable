@@ -6,8 +6,6 @@ import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.UserException;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.domain.verification.UserVerification;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
@@ -61,9 +59,9 @@ public class MyPageApiService {
     @Transactional
     public Result<String> makeUserVerification(String loginEmail) {
         User loginUser = userJpaRepository.findByEmail(loginEmail)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.LOGIN_USER_NOT_FOUND,
-                        FileErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.LOGIN_USER_NOT_FOUND,
+                        AppErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
                 ));
         if (userVerificationJpaRepository.findByUserId(loginUser.getId()).isPresent()) {
             userVerificationJpaRepository.delete(userVerificationJpaRepository.findByUserId(loginUser.getId()).get());
