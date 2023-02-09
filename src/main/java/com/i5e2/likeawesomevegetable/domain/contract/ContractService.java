@@ -1,6 +1,8 @@
 package com.i5e2.likeawesomevegetable.domain.contract;
 
 import com.i5e2.likeawesomevegetable.domain.apply.Apply;
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
+import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuction;
 import com.i5e2.likeawesomevegetable.domain.market.Standby;
@@ -44,6 +46,7 @@ public class ContractService {
     private final ApplyJpaRepository applyJpaRepository;
     private final ContractInfoJpaRepository contractInfoJpaRepository;
     private final StandByJpaRepository standByJpaRepository;
+    private final ItemJpaRepository itemJpaRepository;
     private String accessToken;
     private String refreshToken;
     private String companyId;
@@ -136,11 +139,14 @@ public class ContractService {
         String auctionShipping = farmAuction.get().getAuctionShipping();
         String shipping = auctionShipping.equals("BOXING") ? "박스 포장" : auctionShipping.equals("TONBAG") ? "톤백 포장" : "콘티 포장";
 
+        // 품목 코드 -> 글자로 변경
+        String vegName = itemJpaRepository.findByItemCode(farmAuction.get().getAuctionItem()).getItemName();
+
         log.info("운임:{}", shipping);
 
         HashMap<String, Object> data = new HashMap<>();
 
-        data.put("vegName", farmAuction.get().getAuctionItem()); // 구매 품목명
+        data.put("vegName", vegName); // 구매 품목명
         data.put("auctionQuantity", farmAuction.get().getAuctionQuantity()); // 농가 판매 수량
         data.put("auctionHighestPrice", farmAuction.get().getAuctionHighestPrice()); // 낙찰 최고가
         data.put("finalPrice", farmAuction.get().getAuctionHighestPrice()); // 최종 금액
@@ -179,7 +185,7 @@ public class ContractService {
 
     // 계약 단계별로 계약서 정보 저장
     @Transactional
-    public void getContractInfo(String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
+    public void getContractInfo(String documentId, Long auctionId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
 
         // RestTemplate 객체 생성
         RestTemplate restTemplate = new RestTemplate();
@@ -253,6 +259,17 @@ public class ContractService {
             // 동시성 처리 redis
 
             contractInfoJpaRepository.save(contractInfo);
+
+            // 옥션 상태 업데이
+            FarmAuction farmAuction = farmAuctionJpaRepository.findById(auctionId)
+                    .orElseThrow(() -> new ApplyException(
+                            ApplyErrorCode.POST_NOT_FOUND,
+                            ApplyErrorCode.POST_NOT_FOUND.getMessage())
+                    );
+
+            farmAuction.updateStatusToEnd();
+
+            farmAuctionJpaRepository.save(farmAuction);
         }
 
     }
