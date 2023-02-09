@@ -3,7 +3,6 @@ package com.i5e2.likeawesomevegetable.controller;
 import com.i5e2.likeawesomevegetable.domain.market.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
