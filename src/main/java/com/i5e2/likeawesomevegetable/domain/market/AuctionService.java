@@ -2,6 +2,8 @@ package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,9 @@ public class AuctionService {
         User user = userJpaRepository.findByEmail(email).get();
         FarmUser farmUser = user.getFarmUser();
 
+        notValidFarmUser(farmUser);
+
+
         FarmAuction farmAuction = auctionRequest.toEntity(auctionRequest, farmUser);
         auctionJpaRepository.save(farmAuction);
 
@@ -47,5 +52,14 @@ public class AuctionService {
                 .build();
         return auctionResponse;
 
+    }
+
+    private void notValidFarmUser(FarmUser farmUser) {
+        if (farmUser==null) {
+            throw new FileException(
+                    FileErrorCode.FARM_USER_NOT_FOUND,
+                    FileErrorCode.FARM_USER_NOT_FOUND.getMessage()
+            );
+        }
     }
 }
