@@ -1,7 +1,9 @@
 package com.i5e2.likeawesomevegetable.repository;
 
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
+import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmAuctionByUser;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +32,7 @@ public interface CompanyBuyingJpaRepository extends JpaRepository<CompanyBuying,
             "from CompanyBuying company " +
             "where company.companyUser.id = :companyUserId")
     List<FarmAuctionByUser> findByCompanyBuyings(Long companyUserId, Pageable pageable);
+
+    Page<CompanyBuying> findAllByCompanyUserIdAndParticipationStatus(Long companyUserId,
+                                                                          ParticipationStatus participationStatus, Pageable pageable);
 }

@@ -21,7 +21,7 @@
     <link th:href="@{/awesome/css/animate.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/awesome/css/tiny-slider.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/awesome/css/glightbox.min.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/awesome/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href ="@{/awesome/css/main-custom.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/vegetable/css/vegetable-index.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/vegetable/css/vegetable-map.css}" rel="stylesheet" type="text/css">
 </head>
@@ -403,7 +403,7 @@
             // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
             var content =
                 '<div class="customoverlay">' +
-                '  <a href="" target="_blank">' +
+                '  <a href="/company/' + position.id + '" target="_blank">' +
                 '    <span class="title">' + position.name + '</span>' +
                 '  </a>' +
                 '</div>';
@@ -446,7 +446,7 @@
             // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
             var content = '<div class="customoverlay">' +
                 '  <a href="" target="_blank">' +
-                '    <span class="title">' + position.name + '</span>' +
+                '  <a href="/farm/' + position.id + '" target="_blank">' +
                 '  </a>' +
                 '</div>';
 

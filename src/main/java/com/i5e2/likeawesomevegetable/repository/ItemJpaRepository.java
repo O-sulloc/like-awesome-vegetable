@@ -37,4 +37,6 @@ public interface ItemJpaRepository extends JpaRepository<Item, Long> {
             "order by auction_start_price asc " +
             "limit 0, 5", nativeQuery = true)
     List<ItemLowestPriceResponse> getLowestPriceFive(@Param("auctionItem") String auctionItem);
+
+    Item findByItemCode(String itemCode);
 }

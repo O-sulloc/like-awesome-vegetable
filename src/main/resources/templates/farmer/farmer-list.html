@@ -58,14 +58,7 @@
                                     <button class="nav-link active" id="nav-grid-tab" data-bs-toggle="tab"
                                             data-bs-target="#nav-grid" type="button" role="tab"
                                             aria-controls="nav-grid" aria-selected="true">
-                                        <li class="active"><a href="javascript:void(0)">최신순</a></li>
-                                    </button>
-                                    <button class="nav-link" id="nav-list-tab"
-                                            data-bs-toggle="tab" data-bs-target="#nav-list" type="button"
-                                            role="tab" aria-controls="nav-list" aria-selected="false">
-                                        <li><a href="javascript:void(0)">인기순</a></li>
-                                        <!-- 최신순, 인기순 중에 선택되는 버튼을 active로 활성화-->
-                                        <!-- class="nav-link active", aria-selected="true", li class="active"-->
+                                        <li class="active"><a href="javascript:void(0)">등록순</a></li>
                                     </button>
                                 </div>
                             </ul>
@@ -76,7 +69,7 @@
                             <div class="item-list-title">
                                 <div class="row align-items-center">
                                     <div class="col-lg-1 col-md-1 col-12">
-                                        <p>#</p>
+                                        <p>No</p>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <p>농가명</p>
@@ -95,54 +88,23 @@
                             <!-- End List Title -->
 
                             <!-- Start Single List -->
-                            <div class="single-item-list">
+                            <div class="single-item-list" th:each="f:${farmList}">
                                 <div class="row align-items-center">
                                     <div class="col-lg-1 col-md-1 col-12">
                                         <div class="item-image content">
-                                            <h3 class="title"><a href="javascript:void(0)">1</a></h3>
+                                            <h3 class="title"><a href="javascript:void(0)" th:text="${f.id}"></a></h3>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-12">
                                         <div class="item-image content">
-                                            <h3 class="title"><a href="javascript:void(0)">데이터 바인딩으로</a></h3>
+                                            <h3 class="title"><a href="javascript:void(0)" th:text="${f.farmOwnerName}"></a></h3>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-12">
-                                        <p>Electronic</p>
+                                        <p th:text="${f.farmMajorItem}"></p>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-12">
-                                        <p>New</p>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-12 align-right">
-                                        <ul class="action-btn">
-                                            <li><a href="javascript:void(0)"><i
-                                                    class="lni lni-checkmark-circle"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single List -->
-
-                            <!-- Start Single List -->
-                            <div class="single-item-list">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-1 col-md-1 col-12">
-                                        <div class="item-image content">
-                                            <h3 class="title"><a href="javascript:void(0)">2</a></h3>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-12">
-                                        <div class="item-image">
-                                            <div class="content">
-                                                <h3 class="title"><a href="javascript:void(0)">리스트 반복 출력</a></h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-3 col-12">
-                                        <p>Car</p>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-12">
-                                        <p>Vehicle</p>
+                                        <p th:text="${f.farmAddress}"></p>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-12 align-right">
                                         <ul class="action-btn">
@@ -155,17 +117,30 @@
                             <!-- End Single List -->
 
                             <!-- Pagination -->
-                            <div class="pagination left">
-                                <ul class="pagination-list">
-                                    <li><a href="javascript:void(0)">1</a></li>
-                                    <li class="active"><a href="javascript:void(0)">2</a></li>
-                                    <li><a href="javascript:void(0)">3</a></li>
-                                    <li><a href="javascript:void(0)">4</a></li>
-                                    <li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
+                            <div class="pagination center" th:if="${!farmList.isEmpty()}">
+                                <ul class="pagination-list" th:with="start=${(farmList.number/maxPage)*maxPage + 1},
+                                end=(${(farmList.totalPages == 0) ? 1 : (start + (maxPage - 1) < farmList.totalPages
+                                ? start + (maxPage - 1) : farmList.totalPages)})">
+                                    <li th:if="${start > 1}">
+                                        <a th:href="@{/farm/list(page=0)}" th:text="'<<'"></a>
+                                    </li>
+                                    <li th:if="${start > 1}">
+                                        <a th:href="@{/farm/list(page=${start - maxPage})}" th:text="'<'"></a>
+                                    </li>
+
+                                    <li th:each="page: ${#numbers.sequence(start, end)}">
+                                        <a th:text="${page}" th:href="@{/farm/list(page=${page - 1})}"></a>
+                                    </li>
+
+                                    <li th:if="${end < farmList.totalPages}">
+                                        <a th:href="@{/farm/list(page=${start + maxPage})}" th:text="'>'"></a>
+                                    </li>
+                                    <li th:if="${end < farmList.totalPages}">
+                                        <a th:href="@{/farm/list(page=${farmList.totalPages - 1})}" th:text="'>>'"></a>
+                                    </li>
                                 </ul>
                             </div>
                             <!--/ End Pagination -->
-
                         </div>
                         <!-- End Items Area -->
                     </div>
