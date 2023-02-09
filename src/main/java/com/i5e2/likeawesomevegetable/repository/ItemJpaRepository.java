@@ -2,6 +2,7 @@ package com.i5e2.likeawesomevegetable.repository;
 
 import com.i5e2.likeawesomevegetable.domain.item.Item;
 import com.i5e2.likeawesomevegetable.domain.item.ItemLowestPriceResponse;
+import com.i5e2.likeawesomevegetable.domain.item.RegionAverage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,7 +37,16 @@ public interface ItemJpaRepository extends JpaRepository<Item, Long> {
             "where match(auction_item) AGAINST(? in boolean mode) " +
             "order by auction_start_price asc " +
             "limit 0, 5", nativeQuery = true)
-    List<ItemLowestPriceResponse> getLowestPriceFive(@Param("auctionItem") String auctionItem);
+    List<ItemLowestPriceResponse> getLowestPriceFive(@Param("item") String item);
 
     Item findByItemCode(String itemCode);
+
+    @Query(value = "select auction.auction_item as auctionItem, " +
+            "avg(auction.auction_highest_price) as auctionHighestPrice, " +
+            "avg(auction.auction_quantity) as auctionQuantity\n" +
+            "from t_farm_auction as auction join t_farm_user as tfu on auction.farm_user_id = tfu.farm_user_id\n" +
+            "where match(tfu.farm_address) AGAINST(? in boolean mode)\n" +
+            "group by auction_item order by auctionQuantity desc", nativeQuery = true)
+    List<RegionAverage> getRegionAverage(@Param("region") String region);
+
 }
