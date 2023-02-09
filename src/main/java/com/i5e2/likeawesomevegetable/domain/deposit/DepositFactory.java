@@ -4,6 +4,7 @@ import com.i5e2.likeawesomevegetable.domain.admin.dto.DepositTransferResponse;
 import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositPendingRequest;
 import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositPendingResponse;
 import com.i5e2.likeawesomevegetable.domain.deposit.entity.UserPointDeposit;
+import com.i5e2.likeawesomevegetable.domain.market.PostPointActivateEnum;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 
 public class DepositFactory {
@@ -17,7 +18,7 @@ public class DepositFactory {
                 .build();
     }
 
-    public static DepositPendingResponse from(UserPointDeposit userPointDeposit) {
+    public static DepositPendingResponse from(UserPointDeposit userPointDeposit, PostPointActivateEnum updatePostActivate) {
         return DepositPendingResponse.builder()
                 .userPointDepositId(userPointDeposit.getId())
                 .pointTotalBalance(userPointDeposit.getUserPoint().getPointTotalBalance())
@@ -27,6 +28,7 @@ public class DepositFactory {
                 .depositCommission(calculatorCommission(userPointDeposit.getDepositAmount()))
                 .depositType(userPointDeposit.getDepositType())
                 .depositPendingAt(userPointDeposit.getDepositPendingAt())
+                .targetPostActivateStatus(updatePostActivate)
                 .build();
     }
 

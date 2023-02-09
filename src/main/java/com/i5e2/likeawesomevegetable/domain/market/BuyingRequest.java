@@ -3,7 +3,10 @@ package com.i5e2.likeawesomevegetable.domain.market;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import lombok.*;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 
 @Getter
@@ -57,6 +60,7 @@ public class BuyingRequest {
                 .receiverAddress(buyingRequest.getReceiverAddress())
                 .companyUser(companyUser)
                 .participationStatus(ParticipationStatus.valueOf(status(buyingRequest.getStartTime())))
+                .postPointActivate(PostPointActivateEnum.DISABLED)
 //                .buyingRegisteredAt
 //                .buyingModifiedAt
 //                .buyingDeletedAt
@@ -84,6 +88,7 @@ public class BuyingRequest {
 //                .buyingDeletedAt
                 .build();
     }
+
     private String shippingConvert(int value) {
         if (value == 1) {
             return "BOXING";
