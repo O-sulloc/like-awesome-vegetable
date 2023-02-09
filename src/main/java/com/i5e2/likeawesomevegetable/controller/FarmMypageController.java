@@ -23,7 +23,7 @@ public class FarmMypageController {
     private final FarmMypageService farmMypageService;
 
     @GetMapping("/auction")
-    public ResponseEntity<Result<List<FarmAuctionByUser>>> readFarmAuctionPosts(Authentication authentication
+    public ResponseEntity<Result> readFarmAuctionPosts(Authentication authentication
             , @PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<FarmAuctionByUser> farmAuctionByUser = farmMypageService.readFarmActionByUser(pageable, authentication.getName());
@@ -31,7 +31,7 @@ public class FarmMypageController {
     }
 
     @GetMapping("/apply")
-    public ResponseEntity<Result<List<FarmApplyByUser>>> readFarmApplyPosts(Authentication authentication
+    public ResponseEntity<Result> readFarmApplyPosts(Authentication authentication
             , @PageableDefault(size = 15, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         List<FarmApplyByUser> farmApplyByUser = farmMypageService.readFarmApplyPosts(authentication.getName(), pageable);
