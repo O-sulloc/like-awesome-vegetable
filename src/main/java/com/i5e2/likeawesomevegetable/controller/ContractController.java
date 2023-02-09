@@ -73,8 +73,8 @@ public class ContractController {
     }
 
     // 계약 진행 상황 조회
-    @GetMapping("/{documentId}/status")
-    public void getStatus(@PathVariable String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
-        contractService.getContractInfo(documentId);
+    @GetMapping("{auctionId}/{documentId}/status")
+    public void getStatus(@PathVariable Long auctionId,@PathVariable String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
+        contractService.getContractInfo(documentId, auctionId);
     }
 }
