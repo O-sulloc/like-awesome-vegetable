@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,4 +30,6 @@ public class FarmAuctionDetailResponse {
     private String auctionRegisteredAt;
     private String auctionModifiedAt;
     private String auctionDeletedAt;
+
+    private List<ImgFindListResponse> images;
 }
