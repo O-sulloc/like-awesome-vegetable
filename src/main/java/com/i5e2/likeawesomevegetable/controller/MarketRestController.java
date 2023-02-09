@@ -40,4 +40,11 @@ public class MarketRestController {
         return ResponseEntity.ok().body(response);
     }
 
+    // 모집 게시글 종료
+    @PostMapping("/buying/{companyBuyingId}/end")
+    public ResponseEntity<Result<String>> applyEnd(@PathVariable Long companyBuyingId) {
+
+        buyingService.applyEnd(companyBuyingId);
+        return ResponseEntity.ok().body(Result.success("모집 종료"));
+    }
 }
