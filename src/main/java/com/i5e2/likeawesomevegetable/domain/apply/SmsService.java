@@ -6,11 +6,11 @@ import com.i5e2.likeawesomevegetable.domain.apply.dto.InfoRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.MessageRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.SmsResponse;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -67,17 +67,17 @@ public class SmsService {
 
         // 모집 게시글이 있는지 확인
         companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.POST_NOT_FOUND, AppErrorCode.POST_NOT_FOUND.getMessage()));
 
         // 휴대폰 번호 확인
         User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.PHONE_DISCORD, AppErrorCode.PHONE_DISCORD.getMessage()));
 
         // 신청자가 농가 사용자인지 확인
         Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
 
         if (farmUser.isEmpty()) {
-            throw new ApplyException(ApplyErrorCode.NOT_FARM_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.FARM_USER_NOT_FOUND, AppErrorCode.FARM_USER_NOT_FOUND.getMessage());
         }
 
         sendSms(request);
@@ -90,17 +90,17 @@ public class SmsService {
 
         // 경매 게시글이 있는지 확인
         farmAuctionJpaRepository.findById(farmAuctionId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.POST_NOT_FOUND, AppErrorCode.POST_NOT_FOUND.getMessage()));
 
         // 휴대폰 번호 확인
         User user = userJpaRepository.findByEmail(userEmail).filter(users -> Objects.equals(users.getManaverPhoneNo(), request.getTo()))
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.PHONE_DISCORD, AppErrorCode.PHONE_DISCORD.getMessage()));
 
         // 신청자가 기업 사용자인지 확인
         Optional<CompanyUser> companyUser = Optional.ofNullable(user.getCompanyUser());
 
         if (companyUser.isEmpty()) {
-            throw new ApplyException(ApplyErrorCode.NOT_COMPANY_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.COMPANY_USER_NOT_FOUND, AppErrorCode.COMPANY_USER_NOT_FOUND.getMessage());
         }
 
         sendSms(request);
@@ -192,10 +192,10 @@ public class SmsService {
     public void verifySms(InfoRequest request, String userEmail, HttpSession session) {
 
         User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.PHONE_DISCORD, ApplyErrorCode.PHONE_DISCORD.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.PHONE_DISCORD, AppErrorCode.PHONE_DISCORD.getMessage()));
 
         if (!isVerify(request)) {
-            throw new ApplyException(ApplyErrorCode.AUTHENTICATION_FAILED, ApplyErrorCode.AUTHENTICATION_FAILED.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.AUTHENTICATION_FAILED, AppErrorCode.AUTHENTICATION_FAILED.getMessage());
         }
 
         redisSmsUtil.deleteSmsAuth(request.getPhone());

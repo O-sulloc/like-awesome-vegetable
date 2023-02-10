@@ -2,12 +2,12 @@ package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.apply.dto.BiddingRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.BiddingResponse;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuction;
 import com.i5e2.likeawesomevegetable.domain.market.Standby;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.StandByJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -45,22 +45,22 @@ public class BiddingService {
 
         // 경매 게시글이 있는지 확인
         FarmAuction farmAuction = farmAuctionJpaRepository.findById(farmAuctionId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.POST_NOT_FOUND, AppErrorCode.POST_NOT_FOUND.getMessage()));
 
         // 로그인한 사용자인지 확인
         User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 신청자가 기업 사용자인지 확인
         Optional<CompanyUser> companyUser = Optional.ofNullable(user.getCompanyUser());
 
         if (companyUser.isEmpty()) {
-            throw new ApplyException(ApplyErrorCode.NOT_COMPANY_USER, ApplyErrorCode.NOT_COMPANY_USER.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.COMPANY_USER_NOT_FOUND, AppErrorCode.COMPANY_USER_NOT_FOUND.getMessage());
         }
 
         // 세션 확인
         Optional.ofNullable(session.getAttribute(SMS_USER_ID))
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage()));
 
         this.biddingUpdate(farmAuctionId, request);
 
