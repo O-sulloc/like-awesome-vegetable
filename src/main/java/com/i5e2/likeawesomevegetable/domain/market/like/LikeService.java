@@ -1,16 +1,12 @@
 package com.i5e2.likeawesomevegetable.domain.market.like;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingLike;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuction;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuctionLike;
 import com.i5e2.likeawesomevegetable.domain.market.like.dto.LikeResponse;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +16,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 public class LikeService {
+    // TODO: UserError, ApplyError 처리 제거한 부분 에러코드 추가되면 처리할 것
 
     private final UserJpaRepository userJpaRepository;
     private final FarmAuctionJpaRepository farmAuctionJpaRepository;
@@ -37,7 +34,7 @@ public class LikeService {
 
         // 기업 유저인 경우만 좋아요 누를 수 있음
         if (loginUser.getCompanyUser() == null) {
-            throw new UserException(UserErrorCode.INVALID_PERMISSION, "기업 사용자만 좋아요를 누를 수 있습니다");
+            // 유저에러코드 invalidepermission 기업 사용자만 좋아요 가능
         }
 
         // 좋아요 있는 경우 좋아요 튜플 Hard Delete
@@ -67,7 +64,7 @@ public class LikeService {
 
         // 농가 유저인 경우만 좋아요 누를 수 있음
         if (loginUser.getFarmUser() == null) {
-            throw new UserException(UserErrorCode.INVALID_PERMISSION, "농가 사용자만 좋아요를 누를 수 있습니다.");
+            // 유저 에러코드 InvalidePermission (농가사용자만 좋아요 가능)
         }
 
         // 좋아요 있는 경우 좋아요 튜플 Hard Delete
@@ -90,28 +87,19 @@ public class LikeService {
 
     public User validateLoginUser(String loginEmail) {
         User loginUser = userJpaRepository.findByEmail(loginEmail)
-                .orElseThrow(() -> new UserException(
-                        UserErrorCode.EMAIL_NOT_FOUND,
-                        UserErrorCode.EMAIL_NOT_FOUND.getMessage()
-                ));
+                .orElseThrow(); // 유저 에러코드 email not found
         return loginUser;
     }
 
     public FarmAuction validateFarmAuction(Long auctionPostId) {
         FarmAuction farmAuction = farmAuctionJpaRepository.findById(auctionPostId)
-                .orElseThrow(() -> new ApplyException(
-                        ApplyErrorCode.POST_NOT_FOUND,
-                        ApplyErrorCode.POST_NOT_FOUND.getMessage())
-                );
+                .orElseThrow(); // apply 에러코드 post not found
         return farmAuction;
     }
 
     public CompanyBuying validateCompanyBuying(Long buyingPostId) {
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(buyingPostId)
-                .orElseThrow(() -> new ApplyException(
-                        ApplyErrorCode.POST_NOT_FOUND,
-                        ApplyErrorCode.POST_NOT_FOUND.getMessage())
-                );
+                .orElseThrow(); // apply 에러코드 post not found
         return companyBuying;
     }
 
