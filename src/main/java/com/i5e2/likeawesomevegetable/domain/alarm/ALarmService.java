@@ -1,8 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.alarm;
 
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.AlarmJpaRepository;
