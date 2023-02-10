@@ -41,6 +41,11 @@ public class DepositService {
                             AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
 
+        if (findUserPoint.getPointTotalBalance() < depositPendingRequest.getDepositAmount()) {
+            throw new AwesomeVegeAppException(AppErrorCode.DIPOSIT_AMOUNT_ERROR,
+                    AppErrorCode.DIPOSIT_AMOUNT_ERROR.getMessage());
+        }
+
         UserPointDeposit pendingDeposit = DepositFactory.createPendingDeposit(depositPendingRequest, findUserPoint);
         userPointDepositJpaRepository.save(pendingDeposit);
         //userPoint total deposit update
