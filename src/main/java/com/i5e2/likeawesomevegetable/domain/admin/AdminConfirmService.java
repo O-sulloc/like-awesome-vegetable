@@ -82,7 +82,8 @@ public class AdminConfirmService {
     private AdminUser getAdminUser(String adminEmail) {
         return adminUserJpaRepository.findByAdminEmail(adminEmail)
                 .orElseThrow(() -> {
-                    //TODO: 사용자 에러 처리
+                    throw new AwesomeVegeAppException(AppErrorCode.EMAIL_NOT_FOUND,
+                            AppErrorCode.EMAIL_NOT_FOUND.getMessage());
                 });
     }
 

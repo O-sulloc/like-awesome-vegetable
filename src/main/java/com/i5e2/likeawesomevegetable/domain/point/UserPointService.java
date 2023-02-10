@@ -110,7 +110,8 @@ public class UserPointService {
     private User getUser(String userMail) {
         return userJpaRepository.findByEmail(userMail)
                 .orElseThrow(() -> {
-                    //TODO: 사용자 에러처리
+                    throw new AwesomeVegeAppException(AppErrorCode.EMAIL_NOT_FOUND,
+                            AppErrorCode.EMAIL_NOT_FOUND.getMessage());
                 });
     }
 }
