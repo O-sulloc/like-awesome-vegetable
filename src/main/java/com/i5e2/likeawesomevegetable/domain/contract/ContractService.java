@@ -1,5 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.contract;
 
+import com.i5e2.likeawesomevegetable.domain.alarm.Alarm;
+import com.i5e2.likeawesomevegetable.domain.alarm.AlarmDetail;
 import com.i5e2.likeawesomevegetable.domain.apply.Apply;
 import com.i5e2.likeawesomevegetable.domain.market.BuyingService;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
@@ -29,6 +31,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,7 +40,7 @@ import java.util.Map;
 @Getter
 @Transactional(readOnly = true)
 public class ContractService {
-
+    private final AlarmJpaRepository alarmJpaRepository;
     private final ContractSignature contractSignature;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
     private final FarmAuctionJpaRepository farmAuctionJpaRepository;
@@ -394,6 +397,29 @@ public class ContractService {
         farmAuction.updateStatusToEnd();
 
         farmAuctionJpaRepository.save(farmAuction);
+
+        // TODO - alarm
+
+        List<User> list = standByJpaRepository.selectByFarmAuctionId(farmAuction.getId());
+        for (int i = 0; i < list.size(); i++) {
+            Alarm alarm = Alarm.builder()
+                    .alarmDetail(AlarmDetail.AUCTION)
+                    .alarmTriggerId(farmAuction.getId())
+                    .alarmRead(Boolean.FALSE)
+                    .alarmSenderId(farmAuction.getFarmUser().getId())
+                    .user(list.get(i))
+                    .build();
+            alarmJpaRepository.save(alarm);
+        }
+
+        Alarm alarm = Alarm.builder()
+                .alarmDetail(AlarmDetail.AUCTION)
+                .alarmTriggerId(farmAuction.getId())
+                .alarmRead(Boolean.FALSE)
+                .alarmSenderId(farmAuction.getFarmUser().getId())
+                //.user()
+                .build();
+        alarmJpaRepository.save(alarm);
 
         standByJpaRepository.findAllByFarmAuctionId(farmAuction.getId()).forEach(Standby::updateStatusToEnd);
 
