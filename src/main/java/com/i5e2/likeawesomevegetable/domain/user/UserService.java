@@ -1,5 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.security.JwtTokenUtil;
 import com.i5e2.likeawesomevegetable.security.RedisAccessTokenUtil;
@@ -29,8 +31,8 @@ public class UserService {
 
     public UserJoinResponse join(UserJoinRequest dto) {
         if (!isNotEmailExist(dto.getEmail())) {
-            throw new UserException(UserErrorCode.DUPLICATED_EMAIL,
-                    UserErrorCode.DUPLICATED_EMAIL.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.DUPLICATED_EMAIL,
+                    AppErrorCode.DUPLICATED_EMAIL.getMessage());
         }
         User savedUser = userJpaRepository.save(
                 User.builder()
@@ -50,12 +52,12 @@ public class UserService {
     public UserLoginResponse login(UserLoginRequest dto) {
         User user = userJpaRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
-                            UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.EMAIL_NOT_FOUND,
+                            AppErrorCode.EMAIL_NOT_FOUND.getMessage());
                 });
 
         if (!encoder.matches(dto.getPassword(), user.getPassword())) {
-            throw new UserException(UserErrorCode.INVALID_PASSWORD, UserErrorCode.INVALID_PASSWORD.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PASSWORD, AppErrorCode.INVALID_PASSWORD.getMessage());
         }
 
         String generatedJwt = JwtTokenUtil.createToken(user.getEmail(), secretKey, expireTimeMs);
@@ -84,7 +86,7 @@ public class UserService {
     public User getUserByEmail(String email) {
         User user = userJpaRepository.findByEmail(email)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND, UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    throw new AwesomeVegeAppException(AppErrorCode.EMAIL_NOT_FOUND, AppErrorCode.EMAIL_NOT_FOUND.getMessage());
                 });
         return user;
     }
