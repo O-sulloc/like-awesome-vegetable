@@ -4,6 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum ContractStatus {
-    SIGN,
+    CREATED,
+    COMPANY_SIGN_WAITING,
+    FARMER_SIGN_WAITING,
     COMPLETED
 }
