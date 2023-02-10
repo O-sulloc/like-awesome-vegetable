@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserExceptionManager;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.ExceptionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.AuthenticationException;
@@ -21,8 +21,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorization == null) {
-            UserErrorCode userErrorCode = UserErrorCode.TOKEN_NOT_FOUND;
-            UserExceptionManager.setErrorResponse(response, userErrorCode);
+            AppErrorCode userErrorCode = AppErrorCode.TOKEN_NOT_FOUND;
+            ExceptionManager.setErrorResponse(response, userErrorCode);
         }
     }
 }

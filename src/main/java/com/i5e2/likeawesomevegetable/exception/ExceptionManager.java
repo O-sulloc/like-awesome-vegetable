@@ -1,10 +1,15 @@
 package com.i5e2.likeawesomevegetable.exception;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i5e2.likeawesomevegetable.domain.Result;
+import com.i5e2.likeawesomevegetable.domain.user.UserErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestControllerAdvice
 public class ExceptionManager {
@@ -32,4 +37,18 @@ public class ExceptionManager {
                 .body(Result.error(errorResult));
     }
 
+    public static void setErrorResponse(HttpServletResponse response, AppErrorCode appErrorCode) throws IOException {
+        response.setStatus(appErrorCode.getStatus().value());
+        response.setContentType("application/json;charset=UTF-8");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        response.getWriter().write(objectMapper.writeValueAsString(
+                new ResponseEntity(UserErrorResponse.builder()
+                        .contents(appErrorCode.getMessage())
+                        .build()
+                        , appErrorCode.getStatus())
+        ));
+
+    }
 }

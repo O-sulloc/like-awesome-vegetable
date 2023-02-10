@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserExceptionManager;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.ExceptionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.io.IOException;
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        UserErrorCode userErrorCode = UserErrorCode.INVALID_PERMISSION;
-        UserExceptionManager.setErrorResponse(response, userErrorCode);
+        AppErrorCode userErrorCode = AppErrorCode.INVALID_PERMISSION;
+        ExceptionManager.setErrorResponse(response, userErrorCode);
     }
 }
