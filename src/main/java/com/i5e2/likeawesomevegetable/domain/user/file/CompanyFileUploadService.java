@@ -126,14 +126,6 @@ public class CompanyFileUploadService {
         return CompanyFileResponse.of(savedImage.getCompanyImageName(), "이미지 등록 성공");
     }
 
-    /*     기업 이미지 다운로드     */
-    public String getCompanyImage(String companyId) {
-        String storeFileName = UUID.randomUUID() + "." + companyId;
-        String key = "companyuser/image/" + storeFileName;
-
-        return amazonS3Client.getUrl(bucket, key).toString();
-    }
-
     /*     기업 파일 삭제     */
     public CompanyFileResponse deleteCompanyFile(Long companyId, Long companyFileId, String filePath, String loginEmail) {
 
