@@ -1,10 +1,12 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentInfoRequest {

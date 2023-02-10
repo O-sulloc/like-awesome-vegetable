@@ -4,8 +4,6 @@ import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypagePointEvenLogResponse;
 import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.domain.verification.UserVerification;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
@@ -51,8 +49,7 @@ public class MyPageApiService {
 
     private User getUser(String userEmail) {
         return userJpaRepository.findByEmail(userEmail).orElseThrow(() -> {
-            throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
-                    UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+            //TODO: 사용자 에러처리
         });
     }
 

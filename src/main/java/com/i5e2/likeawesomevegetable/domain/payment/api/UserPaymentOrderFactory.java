@@ -8,6 +8,8 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserType;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -53,12 +55,21 @@ public class UserPaymentOrderFactory {
     }
 
     private static String makePostOrderNumber(String userType) {
-        String postOrderId;
+        log.info("usertype:{}", userType);
+        if (!userType.equals(userType.equals(UserType.ROLE_BASIC))) {
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION,
+                    AppErrorCode.INVALID_PERMISSION.getMessage());
+        }
+
+        String postOrderId = "";
         if (userType.equals(UserType.ROLE_COMPANY.toString())) {
             postOrderId = "POST-C-ORDER-" + LocalDate.now() + "-" + UUID.randomUUID();
-        } else {
+        }
+
+        if (userType.equals(UserType.ROLE_FARM.toString())) {
             postOrderId = "POST-F-ORDER-" + LocalDate.now() + "-" + UUID.randomUUID();
-        } //TODO: 아닐경우 에러처리
+        }
+
         log.info("postOrderId: {}", postOrderId);
         return postOrderId;
     }
@@ -68,11 +79,15 @@ public class UserPaymentOrderFactory {
     }
 
     private static Long calculationAmount(Long paymentOrderAmount, UserPoint userPoint) {
-        if (userPoint.getPointTotalBalance() == 0) {
-            return paymentOrderAmount;
+        try {
+            if (userPoint.getPointTotalBalance() == 0 || userPoint.getPointTotalBalance() == null) {
+                return paymentOrderAmount;
+            }
+        } catch (RuntimeException e) {
+            throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
+                    AppErrorCode.NO_POINT_RESULT.getMessage());
         }
-
-        return (paymentOrderAmount - (userPoint.getPointTotalBalance() - userPoint.getDepositTotalBalance()));
+        return paymentOrderAmount - (userPoint.getPointTotalBalance() - userPoint.getDepositTotalBalance());
     }
 
 }

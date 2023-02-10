@@ -4,8 +4,6 @@ import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmApplyByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmAuctionByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypageFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -41,8 +39,7 @@ public class FarmMypageService {
     private User getUser(String userEmail) {
         return userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
-                            UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    //TODO: 사용자 에러처리
                 });
     }
 

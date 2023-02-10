@@ -7,8 +7,6 @@ import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminPaymentOrderResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminTransferResponse;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.AdminPaymentOrderJpaRepository;
@@ -84,8 +82,7 @@ public class AdminConfirmService {
     private AdminUser getAdminUser(String adminEmail) {
         return adminUserJpaRepository.findByAdminEmail(adminEmail)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND
-                            , UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    //TODO: 사용자 에러 처리
                 });
     }
 

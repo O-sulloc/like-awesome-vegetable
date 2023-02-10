@@ -8,8 +8,6 @@ import com.i5e2.likeawesomevegetable.domain.point.dto.PointTotalBalanceDto;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
@@ -34,7 +32,7 @@ public class UserPointService {
 
     public UserPointResponse checkUserPointInfo(String userEmail) {
         User getUser = getUser(userEmail);
-        Optional<UserPoint> userPoint = userPointJpaRepository.findByUser(getUser);
+        Optional<UserPoint> userPoint = userPointJpaRepository.findByUserId(getUser.getId());
 
         if (userPoint.isPresent()) {
             UserPoint updateUserPoint = updateUserTotalPoint(getUser.getId(), userPoint.get());
@@ -48,7 +46,7 @@ public class UserPointService {
 
     public UserPointResponse updateUserPointInfo(String userEmail) {
         User getUser = getUser(userEmail);
-        UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
+        UserPoint userPoint = userPointJpaRepository.findByUserId(getUser.getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
@@ -67,7 +65,7 @@ public class UserPointService {
     }
 
     public UserPointResponse refundPoint(PaymentRefundResponse paymentRefundResponse, String cancelUserEmail) {
-        UserPoint cancelUserPoint = userPointJpaRepository.findByUser(getUser(cancelUserEmail))
+        UserPoint cancelUserPoint = userPointJpaRepository.findByUserId(getUser(cancelUserEmail).getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
@@ -91,7 +89,7 @@ public class UserPointService {
     @Transactional(readOnly = true)
     public PaymentOrderPointResponse comparePointDeposit(PaymentInfoRequest paymentInfoRequest, String userEmail) {
         User findUser = getUser(userEmail);
-        UserPoint userPointDeposit = userPointJpaRepository.findByUser(findUser)
+        UserPoint userPointDeposit = userPointJpaRepository.findByUserId(findUser.getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT
                             , AppErrorCode.NO_POINT_RESULT.getMessage());
@@ -112,8 +110,7 @@ public class UserPointService {
     private User getUser(String userMail) {
         return userJpaRepository.findByEmail(userMail)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND
-                            , UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    //TODO: 사용자 에러처리
                 });
     }
 }
