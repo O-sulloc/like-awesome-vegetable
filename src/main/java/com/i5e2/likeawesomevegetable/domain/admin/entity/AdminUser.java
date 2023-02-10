@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.admin.entity;
 
+import com.i5e2.likeawesomevegetable.domain.user.UserType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,8 +19,9 @@ public class AdminUser {
     @Column(name = "admin_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "admin_type")
-    private String adminType;
+    private UserType adminType;
 
     @Column(name = "admin_name")
     private String adminName;
@@ -44,4 +46,16 @@ public class AdminUser {
 
     @Column(name = "admin_deleted_at")
     private LocalDateTime adminDeletedAt;
+
+    @Builder
+    public AdminUser(UserType adminType, String adminName, String adminPhoneNo, String adminEmail, String adminNickname
+            , String adminPassword) {
+        this.adminType = adminType;
+        this.adminName = adminName;
+        this.adminPhoneNo = adminPhoneNo;
+        this.adminEmail = adminEmail;
+        this.adminNickname = adminNickname;
+        this.adminPassword = adminPassword;
+        this.adminRegisteredAt = LocalDateTime.now();
+    }
 }

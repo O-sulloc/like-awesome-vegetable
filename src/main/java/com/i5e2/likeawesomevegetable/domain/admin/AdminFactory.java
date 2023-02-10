@@ -1,9 +1,9 @@
 package com.i5e2.likeawesomevegetable.domain.admin;
 
-import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminPaymentOrderRequest;
-import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminPaymentOrderResponse;
+import com.i5e2.likeawesomevegetable.domain.admin.dto.*;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
+import com.i5e2.likeawesomevegetable.domain.user.UserType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
@@ -11,12 +11,41 @@ import java.util.UUID;
 
 @Slf4j
 public class AdminFactory {
+    public static AdminUser createAdminUser(AdminJoinRequest adminJoinRequest, String encodePassword) {
+        return AdminUser.builder()
+                .adminType(UserType.ROLE_ADMIN)
+                .adminName(adminJoinRequest.getAdminName())
+                .adminPhoneNo(adminJoinRequest.getAdminPhoneNo())
+                .adminEmail(adminJoinRequest.getAdminEmail())
+                .adminNickname(adminJoinRequest.getAdminNickname())
+                .adminPassword(encodePassword)
+                .build();
+    }
+
+    public static AdminJoinResponse from(AdminUser adminUser) {
+        return AdminJoinResponse.builder()
+                .adminId(adminUser.getId())
+                .adminType(adminUser.getAdminType())
+                .adminName(adminUser.getAdminName())
+                .adminEmail(adminUser.getAdminEmail())
+                .adminRegisteredAt(adminUser.getAdminRegisteredAt())
+                .build();
+    }
+
     public static AdminPaymentOrder createAdminPaymentOrder(AdminUser adminUser, AdminPaymentOrderRequest adminPaymentOrderRequest) {
         return AdminPaymentOrder.builder()
                 .adminUser(adminUser)
                 .adminOrderId(makeAdminTransferOrderId())
                 .adminOrderInfo(adminPaymentOrderRequest.getAdminOrderInfo())
                 .adminTransferAmount(calculateTransferAmount(adminPaymentOrderRequest.getTransferTotalAmount()))
+                .build();
+    }
+
+    public static AdminLoginResponse of(Long adminId, String adminEmail, String jwt) {
+        return AdminLoginResponse.builder()
+                .adminId(adminId)
+                .adminEmail(adminEmail)
+                .jwt(jwt)
                 .build();
     }
 
