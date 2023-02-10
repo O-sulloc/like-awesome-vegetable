@@ -11,8 +11,6 @@ import com.i5e2.likeawesomevegetable.domain.market.exception.PostErrorCode;
 import com.i5e2.likeawesomevegetable.domain.market.exception.PostException;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
@@ -70,8 +68,7 @@ public class DepositService {
     private User getUserOne(String userEmail) {
         return userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
-                            UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    //TODO: 사용자 에러처리
                 });
     }
 }

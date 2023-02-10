@@ -7,8 +7,6 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.dto.UserPaymentOrderResp
 import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.point.entity.UserPoint;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -30,12 +28,12 @@ public class PaymentApiService {
 
     public UserPaymentOrderResponse addUserPaymentToOrder(PaymentInfoRequest paymentInfoRequest, String userEmail) {
         User getUser = getUserOne(userEmail);
-
-        UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
+        UserPoint userPoint = userPointJpaRepository.findByUserId(getUser.getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
+        log.info("userPoint:{}", userPoint.getPointTotalBalance());
         UserPaymentOrder userPaymentOrder = UserPaymentOrderFactory.createUserPaymentOrder(getUser, paymentInfoRequest, userPoint);
         userPaymentOrderJpaRepository.save(userPaymentOrder);
 
@@ -44,7 +42,7 @@ public class PaymentApiService {
 
     public UserCancelOrderResponse cancelUserPaymentToOrder(CancelInfoRequest cancelInfoRequest, String userEmail) {
         User getUser = getUserOne(userEmail);
-        UserPoint userPoint = userPointJpaRepository.findByUser(getUser)
+        UserPoint userPoint = userPointJpaRepository.findByUserId(getUser.getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
@@ -64,8 +62,7 @@ public class PaymentApiService {
     private User getUserOne(String userEmail) {
         return userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
-                            UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    //TODO: 사용자 에러처리
                 });
     }
 }

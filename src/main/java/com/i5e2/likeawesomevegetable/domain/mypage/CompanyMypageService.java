@@ -4,8 +4,6 @@ import com.i5e2.likeawesomevegetable.domain.mypage.dto.CompanyBiddingByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmAuctionByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypageFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.StandByJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -41,8 +39,7 @@ public class CompanyMypageService {
     private User getUser(String userEmail) {
         return userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> {
-                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
-                            UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                    //TODO: 사용자 이메일 예외처리
                 });
     }
 }
