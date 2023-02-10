@@ -1,7 +1,5 @@
 package com.i5e2.likeawesomevegetable.domain.user.inquiry;
 
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
@@ -9,6 +7,8 @@ import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.BuyingListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.CompanyDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.CompanyListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.CompanyUserResponse;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyImageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyUserJpaRepository;
@@ -46,7 +46,7 @@ public class CompanyInquiryService {
     public CompanyDetailResponse detail(Long companyId, Pageable pageable) {
 
         CompanyUser companyUser = companyUserJpaRepository.findById(companyId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.USER_NOT_FOUND, ApplyErrorCode.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.USER_NOT_FOUND, AppErrorCode.USER_NOT_FOUND.getMessage()));
 
         // 기업 이미지 가져오기
         List<CompanyImageLink> companyImage = companyImageJpaRepository.findByCompanyUserId(companyId);

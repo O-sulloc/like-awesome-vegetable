@@ -54,7 +54,18 @@ public enum AppErrorCode {
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "잘못된 토큰입니다."),
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
     TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
-    NEED_LOGIN(HttpStatus.UNAUTHORIZED, "로그아웃 된 토큰입니다.");
+    NEED_LOGIN(HttpStatus.UNAUTHORIZED, "로그아웃 된 토큰입니다."),
+
+    // APPLY, BIDDING
+    AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "본인인증에 실패하였습니다."),
+    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 사용자입니다."),
+    PHONE_DISCORD(HttpStatus.UNAUTHORIZED, "사용자의 휴대폰 번호와 불일치합니다."),
+    QUANTITY_EXCEED(HttpStatus.UNAUTHORIZED, "모집 수량을 초과하였습니다."),
+
+    // MAP
+    COMPANY_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "기업 주소가 존재하지않습니다."),
+    FARM_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "농가 주소가 존재하지않습니다.");
 
     private HttpStatus status;
     private String message;

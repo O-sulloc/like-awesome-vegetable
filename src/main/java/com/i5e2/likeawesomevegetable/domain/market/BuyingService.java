@@ -1,8 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.domain.apply.Apply;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
@@ -58,7 +56,7 @@ public class BuyingService {
     // 모집 종료
     public void applyEnd(Long companyBuyingId) {
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.POST_NOT_FOUND, AppErrorCode.POST_NOT_FOUND.getMessage()));
 
         applyJpaRepository.findAllByCompanyBuyingId(companyBuyingId).forEach(Apply::updateStatusToEnd);
 

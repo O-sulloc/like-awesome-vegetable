@@ -1,7 +1,5 @@
 package com.i5e2.likeawesomevegetable.domain.user.inquiry;
 
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuction;
 import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
@@ -9,6 +7,8 @@ import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.AuctionListResponse
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.FarmDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.FarmListResponse;
 import com.i5e2.likeawesomevegetable.domain.user.inquiry.dto.FarmUserResponse;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmImageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
@@ -46,7 +46,7 @@ public class FarmInquiryService {
     public FarmDetailResponse detail(Long farmId, Pageable pageable) {
 
         FarmUser farmUser = farmUserRepository.findById(farmId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.USER_NOT_FOUND, ApplyErrorCode.USER_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.USER_NOT_FOUND, AppErrorCode.USER_NOT_FOUND.getMessage()));
 
         // 농가 이미지 가져오기
         List<FarmImageLink> farmImage = farmImageJpaRepository.findAllByFarmUserId(farmId);

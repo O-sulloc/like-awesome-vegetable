@@ -2,11 +2,11 @@ package com.i5e2.likeawesomevegetable.domain.apply;
 
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -44,27 +44,27 @@ public class ApplyService {
 
         // 모집 게시글이 있는지 확인
         CompanyBuying companyBuying = companyBuyingJpaRepository.findById(companyBuyingId)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.POST_NOT_FOUND, ApplyErrorCode.POST_NOT_FOUND.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.POST_NOT_FOUND, AppErrorCode.POST_NOT_FOUND.getMessage()));
 
         // 로그인한 사용자인지 확인
         User user = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 신청자가 농가 사용자인지 확인
         Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
 
         if (farmUser.isEmpty()) {
-            throw new ApplyException(ApplyErrorCode.NOT_FARM_USER, ApplyErrorCode.NOT_FARM_USER.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.FARM_USER_NOT_FOUND, AppErrorCode.FARM_USER_NOT_FOUND.getMessage());
         }
 
         // 세션 확인
         Optional.ofNullable(session.getAttribute(SMS_USER_ID))
-                .orElseThrow(() -> new ApplyException(ApplyErrorCode.INVALID_PERMISSION, ApplyErrorCode.INVALID_PERMISSION.getMessage()));
+                .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 모집 수량을 초과하면 참여 불가
         if (companyBuying.getBuyingQuantity() < applyJpaRepository.currentQuantity(companyBuyingId)
                 + request.getApplyQuantity()) {
-            throw new ApplyException(ApplyErrorCode.QUANTITY_EXCEED, ApplyErrorCode.QUANTITY_EXCEED.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.QUANTITY_EXCEED, AppErrorCode.QUANTITY_EXCEED.getMessage());
         }
 
         Apply savedApply = applyJpaRepository
