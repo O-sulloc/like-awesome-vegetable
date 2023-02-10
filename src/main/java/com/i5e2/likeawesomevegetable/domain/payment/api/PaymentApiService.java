@@ -62,7 +62,8 @@ public class PaymentApiService {
     private User getUserOne(String userEmail) {
         return userJpaRepository.findByEmail(userEmail)
                 .orElseThrow(() -> {
-                    //TODO: 사용자 에러처리
+                    throw new AwesomeVegeAppException(AppErrorCode.EMAIL_NOT_FOUND,
+                            AppErrorCode.EMAIL_NOT_FOUND.getMessage());
                 });
     }
 }
