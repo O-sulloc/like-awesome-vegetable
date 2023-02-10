@@ -33,7 +33,7 @@ public class PaymentApiService {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
-        log.info("userPoint:{}", userPoint.getPointTotalBalance());
+
         UserPaymentOrder userPaymentOrder = UserPaymentOrderFactory.createUserPaymentOrder(getUser, paymentInfoRequest, userPoint);
         userPaymentOrderJpaRepository.save(userPaymentOrder);
 

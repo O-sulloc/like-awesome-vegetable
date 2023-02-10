@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserPointDepositJpaRepository extends JpaRepository<UserPointDeposit, Long> {
-    @Query(value = "select sum(deposit.depositAmount) as depositTotalAmount " +
+    @Query(value = "select COALESCE(sum(deposit.depositAmount), 0) as depositTotalAmount " +
             "from UserPointDeposit as deposit " +
             "where deposit.userPoint.user.id = :id")
     DepositTotalBalanceDto getDepositTotalBalance(@Param("id") Long id);

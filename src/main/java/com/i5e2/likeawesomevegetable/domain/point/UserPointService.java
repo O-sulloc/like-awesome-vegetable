@@ -15,33 +15,30 @@ import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPointDepositJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPointJpaRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class UserPointService {
     private final UserPointJpaRepository userPointJpaRepository;
-
     private final UserPointDepositJpaRepository userPointDepositJpaRepository;
     private final UserJpaRepository userJpaRepository;
     private final PointEventLogJpaRepository pointEventLogJpaRepository;
 
     public UserPointResponse checkUserPointInfo(String userEmail) {
         User getUser = getUser(userEmail);
-        Optional<UserPoint> userPoint = userPointJpaRepository.findByUserId(getUser.getId());
+        Optional<UserPoint> updateUserPoint = userPointJpaRepository.findByUserId(getUser.getId());
+        updateUserPoint.ifPresent(
+                userPoint -> updateUserTotalPoint(getUser.getId(), userPoint)
+        );
 
-        if (userPoint.isPresent()) {
-            UserPoint updateUserPoint = updateUserTotalPoint(getUser.getId(), userPoint.get());
-            return PointFactory.from(updateUserPoint);
-        } else {
-            getTotalPointBalanceByUser(getUser.getId());
-            UserPoint addUserPoint = addUserPointInfo(getUser);
-            return PointFactory.from(addUserPoint);
-        }
+        return PointFactory.from(updateUserPoint.get());
     }
 
     public UserPointResponse updateUserPointInfo(String userEmail) {
@@ -76,7 +73,6 @@ public class UserPointService {
         return PointFactory.from(cancelUserPoint);
     }
 
-    @Transactional(readOnly = true)
     public PointTotalBalanceDto getTotalPointBalanceByUser(Long userId) {
         try {
             return pointEventLogJpaRepository.getUserTotalBalance(userId);
@@ -97,7 +93,7 @@ public class UserPointService {
         return PointFactory.of(paymentInfoRequest, userPointDeposit);
     }
 
-    private UserPoint addUserPointInfo(User user) {
+    public UserPoint addUserPointInfo(User user) {
         return userPointJpaRepository.save(PointFactory.of(user));
     }
 
