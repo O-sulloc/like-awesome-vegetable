@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.verification;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
+import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
@@ -45,6 +46,7 @@ public class VerificationService {
     private final FarmUserRepository farmUserRepository;
     private final JavaMailSender javaMailSender;
     private final RedisEmailUtil redisEmailUtil;
+    private final UserPointService userPointService;
 
     // 메일전송 ID
     @Value("${spring.mail.username}")
@@ -74,6 +76,9 @@ public class VerificationService {
 
             // loginUserUserVerification 삭제
             userVerificationJpaRepository.delete(loginUserVerification);
+
+            // 포인트 테이블 생성
+            userPointService.addUserPointInfo(loginUser);
 
             return Result.success(VerifyUserResponse.of(loginEmail, farmUser.getFarmOwnerName(), "농가 정회원 등록 성공"));
         }
@@ -114,6 +119,9 @@ public class VerificationService {
 
         // loginUserUserVerification 삭제
         userVerificationJpaRepository.delete(loginUserVerification);
+
+        // 포인트 테이블 생성
+        userPointService.addUserPointInfo(loginUser);
 
         return Result.success(VerifyUserResponse.of(loginEmail, companyUser.getCompanyName(), "기업 정회원 등록 성공"));
     }

@@ -25,8 +25,6 @@ public class PaymentApiController {
 
     @PostMapping("/point-info")
     public ResponseEntity<Result> checkMyPoint(@RequestBody @Valid PaymentInfoRequest paymentInfoRequest, Authentication authentication) {
-        log.info("PaymentInfoRequest:{}", paymentInfoRequest.toString());
-        userPointService.checkUserPointInfo(authentication.getName());
         UserPaymentOrderResponse userPaymentOrderResponse = paymentApiService.addUserPaymentToOrder(paymentInfoRequest, authentication.getName());
         PaymentOrderPointResponse paymentOrderPointResponse = userPointService.comparePointDeposit(paymentInfoRequest, authentication.getName());
         return ResponseEntity

@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PointEventLogJpaRepository extends JpaRepository<PointEventLog, Long> {
-    @Query(value = "select sum(log.pointEventAmount) as userTotalBalance" +
+    @Query(value = "select COALESCE(sum(log.pointEventAmount), 0) as userTotalBalance" +
             ", log.pointUserId as userId " +
             "from PointEventLog as log " +
             "where log.pointUserId = :id")
