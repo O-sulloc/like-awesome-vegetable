@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/v1/contract")
+@RequestMapping("/api/v1/view/contract")
 @RequiredArgsConstructor
 @Slf4j
 public class ContractController {
@@ -55,6 +55,8 @@ public class ContractController {
         mv.addObject("refreshToken", refreshToken);
 
         HashMap data = contractService.getAuctionNewContract(auctionId, biddingId);
+
+        log.info("뷰로 가자");
         mv.addObject("data", data);
 
         return mv;
@@ -69,12 +71,12 @@ public class ContractController {
 
     @GetMapping("/mail-success")
     public String getMailSend() {
-        return "contract/mail-success";
+        return "/contract/mail-success";
     }
 
     // 계약 진행 상황 조회
-    @GetMapping("{auctionId}/{documentId}/status")
+    /*@GetMapping("{auctionId}/{documentId}/status")
     public void getStatus(@PathVariable Long auctionId,@PathVariable String documentId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
         contractService.getContractInfo(documentId, auctionId);
-    }
+    }*/
 }

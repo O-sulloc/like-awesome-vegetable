@@ -56,7 +56,11 @@ public class Standby {
         this.biddingNumber = biddingNumber;
     }
 
-    public void updateBiddingResult(BiddingResult biddingResult){
-        this.biddingResult =  biddingResult;
+    public void updateBiddingResult(BiddingResult biddingResult) {
+        this.biddingResult = biddingResult;
+    }
+
+    public void updateStatusToEnd() {
+        this.participationStatus = ParticipationStatus.END;
     }
 }

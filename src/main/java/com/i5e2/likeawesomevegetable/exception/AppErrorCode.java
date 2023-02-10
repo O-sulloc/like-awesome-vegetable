@@ -65,7 +65,13 @@ public enum AppErrorCode {
 
     // MAP
     COMPANY_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "기업 주소가 존재하지않습니다."),
-    FARM_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "농가 주소가 존재하지않습니다.");
+    FARM_ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "농가 주소가 존재하지않습니다."),
+
+    // contract
+    CONTRACT_NOT_FOUND(HttpStatus.NOT_FOUND, "계약서를 찾을 수 없습니다."),
+    APPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "모집 참여 기록을 찾을 수 없습니다."),
+    BIDDING_NOT_FOUND(HttpStatus.NOT_FOUND, "경매 입찰 기록을 찾을 수 없습니다."),
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND,"아이템 정보가 없습니다. DB 업데이트 필요");
 
     private HttpStatus status;
     private String message;

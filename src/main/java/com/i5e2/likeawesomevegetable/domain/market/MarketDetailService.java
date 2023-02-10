@@ -1,8 +1,8 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyErrorCode;
-import com.i5e2.likeawesomevegetable.domain.apply.exception.ApplyException;
 import com.i5e2.likeawesomevegetable.domain.item.Item;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.ItemJpaRepository;
@@ -27,9 +27,9 @@ public class MarketDetailService {
     public CompanyBuyingDetailResponse getGatherDetail(Long buyingId) {
 
         CompanyBuying companyBuying = buyingJpaRepository.findById(buyingId)
-                .orElseThrow(() -> new ApplyException(
-                        ApplyErrorCode.POST_NOT_FOUND,
-                        ApplyErrorCode.POST_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.POST_NOT_FOUND,
+                        AppErrorCode.POST_NOT_FOUND.getMessage())
                 );
 
         Item item = itemJpaRepository.findByItemCode(companyBuying.getBuyingItem());
@@ -64,9 +64,9 @@ public class MarketDetailService {
 
     public FarmAuctionDetailResponse getAuctionDetail(Long auctionId) {
         FarmAuction farmAuction = auctionJpaRepository.findById(auctionId)
-                .orElseThrow(() -> new ApplyException(
-                        ApplyErrorCode.POST_NOT_FOUND,
-                        ApplyErrorCode.POST_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.POST_NOT_FOUND,
+                        AppErrorCode.POST_NOT_FOUND.getMessage())
                 );
 
         Item item = itemJpaRepository.findByItemCode(farmAuction.getAuctionItem());
