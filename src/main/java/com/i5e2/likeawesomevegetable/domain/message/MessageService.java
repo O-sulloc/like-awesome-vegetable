@@ -4,8 +4,6 @@ import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageGetResponse;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageSendResponse;
 import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.MessageContentJpaRepository;
@@ -23,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional
 public class MessageService {
+    // TODO: UserError, ApplyError 처리 제거한 부분 에러코드 추가되면 처리할 것
     private final UserJpaRepository userJpaRepository;
     private final MessageJpaRepository messageJpaRepository;
     private final MessageContentJpaRepository messageContentJpaRepository;
@@ -101,10 +100,7 @@ public class MessageService {
     // JWT로 로그인 유저 확인
     private User validateUser(String userEmail) {
         User loginUser = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserException(
-                        UserErrorCode.EMAIL_NOT_FOUND,
-                        UserErrorCode.TOKEN_NOT_FOUND.getMessage())
-                );
+                .orElseThrow();
         return loginUser;
     }
 
