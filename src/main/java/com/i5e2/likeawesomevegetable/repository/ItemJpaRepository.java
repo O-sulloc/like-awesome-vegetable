@@ -45,7 +45,7 @@ public interface ItemJpaRepository extends JpaRepository<Item, Long> {
             "avg(auction.auction_highest_price) as auctionHighestPrice, " +
             "avg(auction.auction_quantity) as auctionQuantity\n" +
             "from t_farm_auction as auction join t_farm_user as tfu on auction.farm_user_id = tfu.farm_user_id\n" +
-            "where match(tfu.farm_address) AGAINST(? in boolean mode)\n" +
+            "where tfu.farm_address like ?\n" +
             "group by auction_item order by auctionQuantity desc", nativeQuery = true)
     List<RegionAverage> getRegionAverage(@Param("region") String region);
 
