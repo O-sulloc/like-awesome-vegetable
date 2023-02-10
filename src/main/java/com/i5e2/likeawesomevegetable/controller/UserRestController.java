@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -20,7 +20,7 @@ public class UserRestController {
 
     @PostMapping("/join")
     @ResponseBody
-    public ResponseEntity<Result<UserJoinResponse>> join(@RequestBody UserJoinRequest dto) {
+    public ResponseEntity<Result<UserJoinResponse>> join(@RequestBody @Valid UserJoinRequest dto) {
         UserJoinResponse userJoinResponse = userService.join(dto);
         return ResponseEntity.ok().body(Result.success(userJoinResponse));
     }
@@ -28,16 +28,16 @@ public class UserRestController {
     /*
      * refactoring 사항 - ajax로 구현해보기
      * */
-    @PostMapping("/join/check-email") // email을 사용할 수 있을 경우 true
+    /*@PostMapping("/join/check-email") // email을 사용할 수 있을 경우 true
     @ResponseBody
     public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String, String> targetEmail) {
         Boolean isEmailExist = userService.isNotEmailExist(targetEmail.get("email"));
         return ResponseEntity.ok().body(isEmailExist);
-    }
+    }*/
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<Result<UserLoginResponse>> login(@RequestBody UserLoginRequest dto) {
+    public ResponseEntity<Result<UserLoginResponse>> login(@RequestBody @Valid UserLoginRequest dto) {
         UserLoginResponse userLoginResponse = userService.login(dto);
         return ResponseEntity.ok().body(Result.success(userLoginResponse));
     }
