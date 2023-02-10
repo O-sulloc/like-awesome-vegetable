@@ -5,6 +5,7 @@ import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypagePointEvenLogRespons
 import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.verification.UserVerification;
+import com.i5e2.likeawesomevegetable.domain.verification.Verification;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
@@ -61,11 +62,21 @@ public class MyPageApiService {
                         AppErrorCode.LOGIN_USER_NOT_FOUND,
                         AppErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
                 ));
+        
         if (userVerificationJpaRepository.findByUserId(loginUser.getId()).isPresent()) {
             userVerificationJpaRepository.delete(userVerificationJpaRepository.findByUserId(loginUser.getId()).get());
         }
-        UserVerification loginUserVerification = UserVerification.makeUserVerification(loginUser);
+
+        UserVerification loginUserVerification = UserVerification.builder()
+                .loginUser(loginUser)
+                .verificationEmail(Verification.NOT_VERIFIED)
+                .verificationUrl(Verification.NOT_VERIFIED)
+                .verificationBusiness(Verification.NOT_VERIFIED)
+                .build();
+
         userVerificationJpaRepository.save(loginUserVerification);
+
         return Result.success(loginEmail + "검증 entity 생성");
     }
+
 }
