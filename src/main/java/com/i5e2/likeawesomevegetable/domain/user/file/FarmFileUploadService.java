@@ -12,8 +12,8 @@ import com.i5e2.likeawesomevegetable.domain.user.FarmImage;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.farm.dto.FarmFileResponse;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.FarmFileJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmImageJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
@@ -54,7 +54,7 @@ public class FarmFileUploadService {
 
         // 업로드 시도하는 회원이 해당 파일을 저장하려는 농가 정회원인지
         if (loginUser.getFarmUser().getId() != farmUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -95,7 +95,7 @@ public class FarmFileUploadService {
 
         // 로그인 회원이 접근하려는 url의 농가 정회원이 맞는지
         if (loginUser.getFarmUser().getId() != farmUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -134,7 +134,7 @@ public class FarmFileUploadService {
 
         // 로그인 회원이 접근하려는 url의 농가 정회원이 맞는지
         if (loginUser.getFarmUser().getId() != farmUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         // 파일 존재 유무 확인
@@ -164,7 +164,7 @@ public class FarmFileUploadService {
 
         // 로그인 회원이 접근하려는 url의 농가 정회원이 맞는지
         if (loginUser.getFarmUser().getId() != farmUser.getId()) {
-            throw new FileException(FileErrorCode.INVALID_PERMISSION, FileErrorCode.INVALID_PERMISSION.getMessage());
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage());
         }
 
         // 파일 존재 유무 확인
@@ -189,9 +189,9 @@ public class FarmFileUploadService {
     // 농가 정회원 존재 유무 확인
     private FarmUser validateFarmUser(Long farmId) {
         FarmUser validateFarmUser = farmUserRepository.findById(farmId)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.FARM_USER_NOT_FOUND,
-                        FileErrorCode.FARM_USER_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.FARM_USER_NOT_FOUND,
+                        AppErrorCode.FARM_USER_NOT_FOUND.getMessage())
                 );
         return validateFarmUser;
     }
@@ -199,9 +199,9 @@ public class FarmFileUploadService {
     // 로그인 이메일 확인
     private User validateLoginUser(String loginEmail) {
         User loginUser = userJpaRepository.findByEmail(loginEmail)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.LOGIN_USER_NOT_FOUND,
-                        FileErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.LOGIN_USER_NOT_FOUND,
+                        AppErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
                 ));
         return loginUser;
     }
@@ -209,9 +209,9 @@ public class FarmFileUploadService {
     // 빈 파일이 아닌지 확인, 파일 자체를 첨부안하거나 첨부해도 내용이 비어있으면 에러 처리
     private void validateFilExists(MultipartFile multipartFile) {
         if (multipartFile.isEmpty()) {
-            throw new FileException(
-                    FileErrorCode.FILE_NOT_EXISTS,
-                    FileErrorCode.FILE_NOT_EXISTS.getMessage()
+            throw new AwesomeVegeAppException(
+                    AppErrorCode.FILE_NOT_EXISTS,
+                    AppErrorCode.FILE_NOT_EXISTS.getMessage()
             );
         }
     }
@@ -219,9 +219,9 @@ public class FarmFileUploadService {
     // 농가 파일 존재 확인
     private FarmFile validateFarmFile(Long farmFileId) {
         FarmFile validatedFarmFile = farmFileJpaRepository.findById(farmFileId)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.FARM_FILE_NOT_FOUND,
-                        FileErrorCode.FARM_FILE_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.FARM_FILE_NOT_FOUND,
+                        AppErrorCode.FARM_FILE_NOT_FOUND.getMessage())
                 );
         return validatedFarmFile;
     }
@@ -229,9 +229,9 @@ public class FarmFileUploadService {
     // 농가 이미지 존재 확인
     private FarmImage validateFarmImage(Long farmImageId) {
         FarmImage validateFarmImage = farmImageJpaRepository.findById(farmImageId)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.FARM_IMAGE_NOT_FOUND,
-                        FileErrorCode.FARM_IMAGE_NOT_FOUND.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.FARM_IMAGE_NOT_FOUND,
+                        AppErrorCode.FARM_IMAGE_NOT_FOUND.getMessage())
                 );
         return validateFarmImage;
     }

@@ -207,4 +207,15 @@ public class ItemService {
     public Result<List<ItemLowestPriceResponse>> getItemLowestPriceFive(String itemCode) {
         return Result.success(itemJpaRepository.getLowestPriceFive(itemCode));
     }
+
+    // 지역별 품목 거래량, 입찰가 통계
+    public Result<RegionResponse> getRegionAverage(String region) {
+        // Query 검색을 위한 +, * 처리
+        String addCodeRegion = "+" + region + "*";
+
+        List<RegionAverage> regionTests = itemJpaRepository.getRegionAverage(addCodeRegion);
+        RegionResponse response = RegionResponse.makeRegionResponse(region, regionTests);
+        return Result.success(response);
+    }
+
 }

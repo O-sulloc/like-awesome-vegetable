@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.point;
 
 import com.i5e2.likeawesomevegetable.domain.admin.dto.TransferEventDetailResponse;
+import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.deposit.dto.DepositAvailableStatus;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypagePointEvenLogResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentInfoRequest;
@@ -51,25 +52,27 @@ public class PointFactory {
                 .build();
     }
 
-    public static PointEventDetailResponse of(PointEventLog pointEventLog) {
+    public static PointEventDetailResponse of(PointEventLog pointEventLog, String userEmail) {
         return PointEventDetailResponse.builder()
                 .pointEventLogId(pointEventLog.getId())
                 .pointTargetUserId(pointEventLog.getPointTargetUserId())
                 .pointDetailHistory(pointEventLog.getPointEventHistory())
                 .pointDetailStatus(pointEventLog.getPayment().getPaymentStatus())
                 .pointUserId(pointEventLog.getPointUserId())
+                .pointUserEmail(userEmail)
                 .pointEventAmount(pointEventLog.getPointEventAmount())
                 .pointUsedEventAt(pointEventLog.getPointUsedEventAt())
                 .build();
     }
 
-    public static TransferEventDetailResponse form(PointEventLog transferEventLog) {
+    public static TransferEventDetailResponse form(PointEventLog transferEventLog, AdminPaymentOrder adminPaymentOrder) {
         return TransferEventDetailResponse.builder()
                 .transferEventLogId(transferEventLog.getId())
                 .transferTargetUserId(transferEventLog.getPointTargetUserId())
                 .transferDetailHistory(transferEventLog.getPointEventHistory())
                 .transferDetailStatus(transferEventLog.getPayment().getPaymentStatus())
                 .transferUserId(transferEventLog.getPointUserId())
+                .adminUserMail(adminPaymentOrder.getAdminUser().getAdminEmail())
                 .transferEventAmount(transferEventLog.getPointEventAmount())
                 .transferUsedEventAt(transferEventLog.getPointUsedEventAt())
                 .build();

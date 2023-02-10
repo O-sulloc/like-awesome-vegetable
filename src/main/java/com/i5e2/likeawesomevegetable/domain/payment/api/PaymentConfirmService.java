@@ -1,9 +1,10 @@
 package com.i5e2.likeawesomevegetable.domain.payment.api;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,10 @@ public class PaymentConfirmService {
     public void verifySuccessRequest(String orderId, Long requestOrderAmount) {
         userPaymentOrderJpaRepository.findByPostOrderId(orderId)
                 .filter(userPaymentOrder -> userPaymentOrder.getPaymentOrderAmount().equals(requestOrderAmount))
-                .orElseThrow(() -> new NotFoundException("사용자 결제 요청을 찾을 수 없습니다"));
+                .orElseThrow(() -> {
+                    throw new AwesomeVegeAppException(AppErrorCode.INVOICE_AMOUNT_MISMATCH
+                            , AppErrorCode.INVOICE_AMOUNT_MISMATCH.getMessage());
+                });
     }
 
     @Transactional(timeout = 300, rollbackFor = Exception.class)

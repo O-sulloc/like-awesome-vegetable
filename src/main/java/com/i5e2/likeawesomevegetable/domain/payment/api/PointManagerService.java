@@ -7,6 +7,8 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.entity.UserPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.point.PointFactory;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointEventDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.point.entity.PointEventLog;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.PaymentJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.PointEventLogJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserPaymentOrderJpaRepository;
@@ -27,13 +29,19 @@ public class PointManagerService {
 
     @Transactional(timeout = 2, rollbackFor = Exception.class)
     public PointEventDetailResponse savePaymentAndPoint(PaymentCardResponse paymentCardResponse) {
-        Optional<UserPaymentOrder> userByPostOrderId = userPaymentOrderJpaRepository.findByPostOrderId(paymentCardResponse.getOrderId());
-        Payment payment = PaymentFactory.createPayment(paymentCardResponse, userByPostOrderId.get());
+        UserPaymentOrder userByPostOrderId = userPaymentOrderJpaRepository.findByPostOrderId(paymentCardResponse.getOrderId())
+                .orElseThrow(() -> {
+                    throw new AwesomeVegeAppException(AppErrorCode.NO_PAYMENT_ORDER_RESULT,
+                            AppErrorCode.NO_PAYMENT_ORDER_RESULT.getMessage());
+                });
+
+        Payment payment = PaymentFactory.createPayment(paymentCardResponse, userByPostOrderId);
         paymentJpaRepository.save(payment);
 
         PointEventLog pointEventLog = PointFactory.createPointEventLog(payment);
         PointEventLog pointDetailResult = pointEventLogJpaRepository.save(pointEventLog);
-        return PointFactory.of(pointDetailResult);
+
+        return PointFactory.of(pointDetailResult, userByPostOrderId.getUser().getEmail());
     }
 
     @Transactional(timeout = 2, rollbackFor = Exception.class)
@@ -44,7 +52,7 @@ public class PointManagerService {
 
         PointEventLog pointEventLog = PointFactory.createCancelEventLog(cancel);
         PointEventLog cancelDetailResult = pointEventLogJpaRepository.save(pointEventLog);
-        return PointFactory.of(cancelDetailResult);
+        return PointFactory.of(cancelDetailResult, userByCancelOrder.get().getUser().getEmail());
     }
 
 }

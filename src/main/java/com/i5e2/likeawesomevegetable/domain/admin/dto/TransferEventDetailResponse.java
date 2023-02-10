@@ -18,6 +18,7 @@ public class TransferEventDetailResponse {
     private String transferDetailHistory;
     private String transferDetailStatus;
     private Long transferUserId;
+    private String adminUserMail;
     private Long transferEventAmount;
     private LocalDateTime transferUsedEventAt;
 }

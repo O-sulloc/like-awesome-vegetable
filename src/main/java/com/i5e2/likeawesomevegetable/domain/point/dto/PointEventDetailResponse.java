@@ -17,6 +17,7 @@ public class PointEventDetailResponse {
     private String pointDetailHistory;
     private String pointDetailStatus;
     private Long pointUserId;
+    private String pointUserEmail;
     private Long pointEventAmount;
     private LocalDateTime pointUsedEventAt;
 }

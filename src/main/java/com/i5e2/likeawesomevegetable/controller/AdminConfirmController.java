@@ -5,13 +5,16 @@ import com.i5e2.likeawesomevegetable.domain.admin.AdminConfirmService;
 import com.i5e2.likeawesomevegetable.domain.admin.DepositApiService;
 import com.i5e2.likeawesomevegetable.domain.admin.TransferManagerService;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.*;
+import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorResponse;
 import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Slf4j
@@ -26,25 +29,23 @@ public class AdminConfirmController {
     private final DepositApiService depositApiService;
 
     @PostMapping("/transfer-order")
-    private ResponseEntity<Result<AdminPaymentOrderResponse>> createAdminPaymentOrder(@RequestBody AdminPaymentOrderRequest adminPaymentOrderRequest) {
-        log.info("adminPaymentOrderRequest 음수 변경:{}", adminPaymentOrderRequest);
-        Result<AdminPaymentOrderResponse> adminTransferOrder = adminConfirmService.createAdminTransferOrder(adminPaymentOrderRequest);
+    private ResponseEntity<Result> createAdminPaymentOrder(@RequestBody @Valid AdminPaymentOrderRequest adminPaymentOrderRequest, Authentication authentication) {
+        Result<AdminPaymentOrderResponse> adminTransferOrder = adminConfirmService.createAdminTransferOrder(adminPaymentOrderRequest, authentication.getName());
         return ResponseEntity.ok().body(adminTransferOrder);
     }
 
     @GetMapping("/success")
-    public ResponseEntity<Result<DepositToTransferResponse>> transferSuccess(@RequestParam("paymentKey") String paymentKey
+    public ResponseEntity<Result> transferSuccess(@RequestParam("paymentKey") String paymentKey
             , @RequestParam("orderId") String orderId
-            , @RequestParam("amount") Long amount) throws IOException, InterruptedException {
+            , @RequestParam("amount") Long amount, Authentication authentication) throws IOException, InterruptedException {
 
-        log.info("paymentKey:{}, orderId:{}, amount:{}", paymentKey, orderId, amount);
         adminConfirmService.adminVerifySuccessRequest(orderId, amount);
         AdminTransferResponse adminTransferResponse = adminConfirmService.requestFinalTransfer(paymentKey, orderId, amount);
         TransferEventDetailResponse transferEventDetailResponse = transferManagerService.savePaymentAndTransfer(adminTransferResponse, orderId);
 
         //사용자 포인트 예치금 업데이트
         UserPointResponse userPointResponse
-                = userPointService.updateUserPointInfo(transferEventDetailResponse.getTransferUserId());
+                = userPointService.updateUserPointInfo(authentication.getName());
 
         //예치금 디테일 상태 변경
         DepositTransferResponse depositTransferResponse = depositApiService.updateDepositStatus(userPointResponse.getUserPointId());
@@ -54,7 +55,7 @@ public class AdminConfirmController {
     }
 
     @GetMapping("/fail")
-    public String transferFail() {
-        return "";
+    public Result transferFail(@Valid PaymentErrorResponse paymentErrorResponse) {
+        return Result.error(paymentErrorResponse);
     }
 }

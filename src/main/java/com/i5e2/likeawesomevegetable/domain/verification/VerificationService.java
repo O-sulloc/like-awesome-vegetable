@@ -5,11 +5,9 @@ import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserType;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileErrorCode;
-import com.i5e2.likeawesomevegetable.domain.user.file.exception.FileException;
 import com.i5e2.likeawesomevegetable.domain.verification.dto.*;
-import com.i5e2.likeawesomevegetable.domain.verification.exception.VerificationErrorCode;
-import com.i5e2.likeawesomevegetable.domain.verification.exception.VerificationException;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.CompanyUserJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmUserRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -125,12 +123,8 @@ public class VerificationService {
         // 로그인 유저 확인
         User loginUser = validateLoginUser(loginEmail);
 
-        // 테스트 용 임시 UserVerification 생성
-        UserVerification loginUserVerification = UserVerification.makeUserVerification(loginUser);
-        userVerificationJpaRepository.save(loginUserVerification);
-
         // 로그인 유저 검증 테이블 확인
-        loginUserVerification = validateUserVerification(loginUser);
+        UserVerification loginUserVerification = validateUserVerification(loginUser);
 
         // 연결 시간 설정 2초
         int TIMEOUT_VALUE = 2000;
@@ -285,18 +279,18 @@ public class VerificationService {
     // 로그인 이메일 확인
     private User validateLoginUser(String loginEmail) {
         User loginUser = userJpaRepository.findByEmail(loginEmail)
-                .orElseThrow(() -> new FileException(
-                        FileErrorCode.LOGIN_USER_NOT_FOUND,
-                        FileErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.LOGIN_USER_NOT_FOUND,
+                        AppErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
                 ));
         return loginUser;
     }
 
     private UserVerification validateUserVerification(User user) {
         UserVerification loginUserVerification = userVerificationJpaRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new VerificationException(
-                        VerificationErrorCode.VERIFICATION_DISABLE,
-                        VerificationErrorCode.VERIFICATION_DISABLE.getMessage())
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.VERIFICATION_DISABLE,
+                        AppErrorCode.VERIFICATION_DISABLE.getMessage())
                 );
         return loginUserVerification;
     }

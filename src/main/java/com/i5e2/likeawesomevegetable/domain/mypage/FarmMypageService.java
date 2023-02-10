@@ -1,10 +1,11 @@
 package com.i5e2.likeawesomevegetable.domain.mypage;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmApplyByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmAuctionByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypageFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.UserErrorCode;
+import com.i5e2.likeawesomevegetable.domain.user.UserException;
 import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
@@ -24,17 +25,25 @@ public class FarmMypageService {
     private final ApplyJpaRepository applyJpaRepository;
     private final UserJpaRepository userJpaRepository;
 
-    public List<FarmAuctionByUser> readFarmActionByUser(Pageable pageable, Long userId) {
+    public List<FarmAuctionByUser> readFarmActionByUser(Pageable pageable, String userEmail) {
+        Long userId = getUser(userEmail).getId();
         List<FarmAuctionByUser> farmAuctionByUser = farmAuctionJpaRepository.findByFarmAuctions(userId, pageable);
         return farmAuctionByUser;
     }
 
-    public List<FarmApplyByUser> readFarmApplyPosts(Long userId, Pageable pageable) {
-        User getUser = userJpaRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("사용자가 존재하지 않습니다"));
+    public List<FarmApplyByUser> readFarmApplyPosts(String userEmail, Pageable pageable) {
+        User getUser = getUser(userEmail);
         return applyJpaRepository.findByUser(pageable, getUser).stream()
                 .map(apply -> MypageFactory.from(apply))
                 .collect(Collectors.toList());
+    }
+
+    private User getUser(String userEmail) {
+        return userJpaRepository.findByEmail(userEmail)
+                .orElseThrow(() -> {
+                    throw new UserException(UserErrorCode.EMAIL_NOT_FOUND,
+                            UserErrorCode.EMAIL_NOT_FOUND.getMessage());
+                });
     }
 
 }
