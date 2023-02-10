@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class MarketRestController {
     private final BuyingService buyingService;
 
     @PostMapping("/auction")
-    public ResponseEntity<Result<AuctionResponse>> createAuction(@RequestPart(value = "dto") AuctionRequest dto,
+    public ResponseEntity<Result<AuctionResponse>> createAuction(@Valid @RequestPart(value = "dto") AuctionRequest dto,
                                                                  @RequestPart(value = "imgs") List<MultipartFile> imgs,
                                                                  Authentication authentication) throws IOException {
 
@@ -33,7 +34,7 @@ public class MarketRestController {
 }
 
     @PostMapping("/buying")
-    public ResponseEntity<Result<BuyingResponse>> createBuying(@RequestBody BuyingRequest buyingRequest, Authentication authentication) {
+    public ResponseEntity<Result<BuyingResponse>> createBuying(@Valid @RequestBody BuyingRequest buyingRequest, Authentication authentication) {
         BuyingResponse buyingResponse = buyingService.creatBuying(buyingRequest, authentication.getName());
         Result<BuyingResponse> response = new Result<>("SUCCESS", buyingResponse);
 
