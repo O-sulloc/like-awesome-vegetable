@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.domain.mypage;
 
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.CompanyBiddingByUser;
-import com.i5e2.likeawesomevegetable.domain.mypage.dto.FarmAuctionByUser;
+import com.i5e2.likeawesomevegetable.domain.mypage.dto.CompanyBuyingByUser;
 import com.i5e2.likeawesomevegetable.domain.mypage.dto.MypageFactory;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
@@ -26,9 +26,9 @@ public class CompanyMypageService {
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
     private final UserJpaRepository userJpaRepository;
 
-    public List<FarmAuctionByUser> readCompanyBuyingPosts(String userEmail, Pageable pageable) {
-        Long userId = getUser(userEmail).getId();
-        return companyBuyingJpaRepository.findByCompanyBuyings(userId, pageable);
+    public List<CompanyBuyingByUser> readCompanyBuyingPosts(String userEmail, Pageable pageable) {
+        Long companyUserId = getUser(userEmail).getCompanyUser().getId();
+        return companyBuyingJpaRepository.findByCompanyBuyings(companyUserId, pageable);
     }
 
     public List<CompanyBiddingByUser> readCompanyBiddingPosts(String userEmail, Pageable pageable) {

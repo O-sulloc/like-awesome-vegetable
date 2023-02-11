@@ -28,8 +28,8 @@ public class MypageApiController {
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<Result> readAdminPointLog(Authentication authentication) {
-        List<MypagePointEvenLogResponse> mypagePointEvenLogResponses = myPageApiService.readAdminPointLogs(authentication.getName());
+    public ResponseEntity<Result> readAdminTransferLog(Authentication authentication) {
+        List<MypagePointEvenLogResponse> mypagePointEvenLogResponses = myPageApiService.readAdminTransferLogs(authentication.getName());
         return ResponseEntity.ok().body(Result.success(mypagePointEvenLogResponses));
     }
 

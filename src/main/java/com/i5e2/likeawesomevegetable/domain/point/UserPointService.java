@@ -41,15 +41,15 @@ public class UserPointService {
         return PointFactory.from(updateUserPoint.get());
     }
 
-    public UserPointResponse updateUserPointInfo(String userEmail) {
-        User getUser = getUser(userEmail);
+    public UserPointResponse updateUserPointInfo(String transferUserEmail) {
+        User getUser = getUser(transferUserEmail);
         UserPoint userPoint = userPointJpaRepository.findByUserId(getUser.getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
                 });
 
-        UserPointDeposit userPointDeposit = userPointDepositJpaRepository.findByUserPointId(getUser.getId())
+        UserPointDeposit userPointDeposit = userPointDepositJpaRepository.findByUserPointId(userPoint.getId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_DEPOSIT_RESULT,
                             AppErrorCode.NO_POINT_DEPOSIT_RESULT.getMessage());

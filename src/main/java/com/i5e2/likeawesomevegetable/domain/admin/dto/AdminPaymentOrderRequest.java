@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class AdminPaymentOrderRequest {
     private String adminOrderInfo;
     private Long transferTotalAmount;
+    private String transferUserEmail;
 }

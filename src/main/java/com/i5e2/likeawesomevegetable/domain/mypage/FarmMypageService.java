@@ -26,8 +26,8 @@ public class FarmMypageService {
     private final UserJpaRepository userJpaRepository;
 
     public List<FarmAuctionByUser> readFarmActionByUser(Pageable pageable, String userEmail) {
-        Long userId = getUser(userEmail).getId();
-        List<FarmAuctionByUser> farmAuctionByUser = farmAuctionJpaRepository.findByFarmAuctions(userId, pageable);
+        Long farmUserId = getUser(userEmail).getFarmUser().getId();
+        List<FarmAuctionByUser> farmAuctionByUser = farmAuctionJpaRepository.findByFarmAuctions(farmUserId, pageable);
         return farmAuctionByUser;
     }
 

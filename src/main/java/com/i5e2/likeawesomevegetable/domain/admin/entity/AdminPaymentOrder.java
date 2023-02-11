@@ -30,11 +30,15 @@ public class AdminPaymentOrder {
     @Column(name = "admin_transfer_amount")
     private Long adminTransferAmount;
 
+    @Column(name = "transfer_user_email")
+    private String transferUserEmail;
+
     @Builder
-    public AdminPaymentOrder(AdminUser adminUser, String adminOrderId, String adminOrderInfo, Long adminTransferAmount) {
+    public AdminPaymentOrder(AdminUser adminUser, String adminOrderId, String adminOrderInfo, Long adminTransferAmount, String transferUserEmail) {
         this.adminUser = adminUser;
         this.adminOrderId = adminOrderId;
         this.adminOrderInfo = adminOrderInfo;
         this.adminTransferAmount = adminTransferAmount;
+        this.transferUserEmail = transferUserEmail;
     }
 }

@@ -23,8 +23,7 @@ public class DepositApiController {
     @PostMapping("/deposit-pending")
     public ResponseEntity<Result> addUserPendingDeposit(@RequestBody @Valid DepositPendingRequest depositPendingRequest, Authentication authentication) {
         //TODO: 예치금 전용 계좌로 자동이체 (자동 결제의 경우 API 유료, 수동 자동이체로 진행)
-        Result<DepositPendingResponse> depositPendingResponse
-                = depositService.addUserPendingDeposit(depositPendingRequest, authentication.getName());
+        Result<DepositPendingResponse> depositPendingResponse = depositService.addUserPendingDeposit(depositPendingRequest);
         return ResponseEntity.ok().body(depositPendingResponse);
     }
 }

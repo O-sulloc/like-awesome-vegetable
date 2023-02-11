@@ -32,8 +32,8 @@ public class DepositService {
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public Result<DepositPendingResponse> addUserPendingDeposit(DepositPendingRequest depositPendingRequest, String userEmail) {
-        UserPoint findUserPoint = userPointJpaRepository.findById(getUserOne(userEmail).getId())
+    public Result<DepositPendingResponse> addUserPendingDeposit(DepositPendingRequest depositPendingRequest) {
+        UserPoint findUserPoint = userPointJpaRepository.findById(depositPendingRequest.getUserPointId())
                 .orElseThrow(() -> {
                     throw new AwesomeVegeAppException(AppErrorCode.NO_POINT_RESULT,
                             AppErrorCode.NO_POINT_RESULT.getMessage());
@@ -49,6 +49,11 @@ public class DepositService {
         //userPoint total deposit update
         DepositTotalBalanceDto depositTotalBalance = userPointDepositJpaRepository.getDepositTotalBalance(findUserPoint.getUser().getId());
         findUserPoint.updateDepositTotalBalance(depositTotalBalance.getDepositTotalAmount());
+
+        if (findUserPoint.getDepositTotalBalance() > findUserPoint.getPointTotalBalance()) {
+            throw new AwesomeVegeAppException(AppErrorCode.INVALID_REQUEST_DEPOSIT,
+                    AppErrorCode.INVALID_REQUEST_DEPOSIT.getMessage());
+        }
         userPointJpaRepository.save(findUserPoint);
 
         PostPointActivateEnum updatePostActivate = updatePostActivate(depositPendingRequest.getDepositTargetPostId());

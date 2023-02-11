@@ -37,7 +37,7 @@ public class DepositFactory {
                 .userPointDepositId(userPointDeposit.getId())
                 .pointUserId(userPointDeposit.getUserPoint().getId())
                 .depositAmount(userPointDeposit.getDepositAmount())
-                //.depositTargetPostId() TODO: 게시글 아이디
+                .depositTargetPostId(userPointDeposit.getDepositTargetPostId())
                 .depositStatus(userPointDeposit.getDepositStatus().toString())
                 .depositCommission(userPointDeposit.getDepositCommission())
                 .depositType(userPointDeposit.getDepositType())
