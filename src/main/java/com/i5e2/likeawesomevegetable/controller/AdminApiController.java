@@ -3,8 +3,6 @@ package com.i5e2.likeawesomevegetable.controller;
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.admin.AdminApiService;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminJoinRequest;
-import com.i5e2.likeawesomevegetable.domain.admin.dto.AdminLoginResponse;
-import com.i5e2.likeawesomevegetable.domain.user.UserLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,9 +25,9 @@ public class AdminApiController {
         return ResponseEntity.ok().body(Result.success(adminJoin));
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<Result> login(@RequestBody @Valid UserLoginRequest userLoginRequest) {
         Result<AdminLoginResponse> adminLogin = adminApiService.login(userLoginRequest);
         return ResponseEntity.ok().body(adminLogin);
-    }
+    }*/
 }

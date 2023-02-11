@@ -8,6 +8,7 @@ import com.i5e2.likeawesomevegetable.domain.user.UserLoginRequest;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.AdminUserJpaRepository;
+import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,11 +27,13 @@ public class AdminApiService {
     private long expireTimeMs = 1000 * 60 * 60; // 1h
 
     private final AdminUserJpaRepository adminUserJpaRepository;
+    private final UserJpaRepository userJpaRepository;
 
     public Result join(AdminJoinRequest adminJoinRequest) {
         AdminUser adminUser = AdminFactory
                 .createAdminUser(adminJoinRequest, encoder.encode(adminJoinRequest.getAdminPassword()));
         AdminUser saveAdmin = adminUserJpaRepository.save(adminUser);
+        userJpaRepository.save(AdminFactory.createUser(adminUser));
         return Result.success(AdminFactory.from(saveAdmin));
     }
 
