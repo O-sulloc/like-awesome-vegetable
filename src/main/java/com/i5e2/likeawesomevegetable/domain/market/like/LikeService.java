@@ -1,6 +1,8 @@
 package com.i5e2.likeawesomevegetable.domain.market.like;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
+import com.i5e2.likeawesomevegetable.domain.alarm.Alarm;
+import com.i5e2.likeawesomevegetable.domain.alarm.AlarmDetail;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuying;
 import com.i5e2.likeawesomevegetable.domain.market.CompanyBuyingLike;
 import com.i5e2.likeawesomevegetable.domain.market.FarmAuction;
@@ -23,6 +25,8 @@ public class LikeService {
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
     private final FarmAuctionLikeJpaRepository farmAuctionLikeJpaRepository;
     private final CompanyBuyingLikeJpaRepository companyBuyingLikeJpaRepository;
+
+    private final AlarmJpaRepository alarmJpaRepository;
 
     /*     농가 경매 게시글 좋아요     */
     public Result<LikeResponse> auctionPostLike(String loginEmail, Long auctionPostId) {
@@ -82,6 +86,15 @@ public class LikeService {
         companyBuyingLikeJpaRepository.save(companyBuyingLike);
 
         LikeResponse likeResponse = LikeResponse.of(companyBuyingLike, "좋아요를 눌렀습니다.");
+        // TODO - alarm
+        Alarm alarm = Alarm.builder()
+                .alarmDetail(AlarmDetail.LIKE)
+                .alarmTriggerId(selectBuyingPost.getId())
+                .alarmRead(Boolean.FALSE)
+                .alarmSenderId(loginUser.getId())
+                .user(userJpaRepository.findByCompanyUserId(selectBuyingPost.getCompanyUser().getId()).get())
+                .build();
+        alarmJpaRepository.save(alarm);
         return Result.success(likeResponse);
     }
 

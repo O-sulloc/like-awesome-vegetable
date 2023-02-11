@@ -21,4 +21,9 @@ public interface StandByJpaRepository extends JpaRepository<Standby, Long> {
     Standby findByFarmAuctionId(@Param("auctionId") Long auctionId);
 
     List<Standby> findAllByFarmAuctionId(Long auctionId);
+
+    @Query(nativeQuery = true, value = "select like_awesome_vegetable.t_standby.user_id\n" +
+            "from like_awesome_vegetable.t_standby\n" +
+            "where t_standby.farm_auction_id = ?1;")
+    List<User> selectByFarmAuctionId(Long auctionId);
 }

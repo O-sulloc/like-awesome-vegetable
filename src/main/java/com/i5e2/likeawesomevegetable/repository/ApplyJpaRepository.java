@@ -18,4 +18,9 @@ public interface ApplyJpaRepository extends JpaRepository<Apply, Long> {
     Page<Apply> findAllByCompanyBuyingId(Long id, Pageable pageable);
 
     Page<Apply> findByUser(Pageable pageable, User user);
+
+    @Query(nativeQuery = true, value = "select like_awesome_vegetable.t_apply.user_id\n" +
+            "from like_awesome_vegetable.t_apply\n" +
+            "where t_apply.company_buying_id = ?1;")
+    List<User> selectByCompanyBuyingId(Long buyingId);
 }

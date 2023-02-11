@@ -1,15 +1,20 @@
 package com.i5e2.likeawesomevegetable.domain.market;
 
+import com.i5e2.likeawesomevegetable.domain.alarm.Alarm;
+import com.i5e2.likeawesomevegetable.domain.alarm.AlarmDetail;
 import com.i5e2.likeawesomevegetable.domain.apply.Apply;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
+import com.i5e2.likeawesomevegetable.repository.AlarmJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.ApplyJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class BuyingService {
     private final UserJpaRepository userJpaRepository;
     private final CompanyBuyingJpaRepository companyBuyingJpaRepository;
     private final ApplyJpaRepository applyJpaRepository;
+    private final AlarmJpaRepository alarmJpaRepository;
 
     public String creatBuyingNoneAuth(BuyingRequest buyingRequest) {
 
@@ -61,5 +67,17 @@ public class BuyingService {
         applyJpaRepository.findAllByCompanyBuyingId(companyBuyingId).forEach(Apply::updateStatusToEnd);
 
         companyBuying.updateStatusToEnd();
+        // TODO - alarm
+        List<User> list = applyJpaRepository.selectByCompanyBuyingId(companyBuyingId);
+        for (int i = 0; i < list.size(); i++) {
+            Alarm alarm = Alarm.builder()
+                    .alarmDetail(AlarmDetail.BUYING)
+                    .alarmTriggerId(companyBuying.getId())
+                    .alarmRead(Boolean.FALSE)
+                    .alarmSenderId(companyBuying.getCompanyUser().getId())
+                    .user(list.get(i))
+                    .build();
+            alarmJpaRepository.save(alarm);
+        }
     }
 }
