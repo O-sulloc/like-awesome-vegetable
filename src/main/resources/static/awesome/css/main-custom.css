@@ -42,6 +42,11 @@ html {
     scroll-behavior: smooth;
 }
 
+/*contract*/
+.contract {
+    padding-top: 30px;
+}
+
 /* 정현 추가 notification css */
 .header .navbar .dropdown-menu {
     width: 350px;
@@ -1727,7 +1732,7 @@ ol {
 }
 
 .navbar-brand img {
-    width: 190px;
+    width: 100px;
 }
 
 .mobile-menu-btn {
