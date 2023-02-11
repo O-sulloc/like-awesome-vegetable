@@ -1,6 +1,8 @@
 package com.i5e2.likeawesomevegetable.domain.item;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
+import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.ItemJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -205,7 +207,12 @@ public class ItemService {
     }
 
     public Result<List<ItemLowestPriceResponse>> getItemLowestPriceFive(String itemCode) {
-        return Result.success(itemJpaRepository.getLowestPriceFive(itemCode));
+        List<ItemLowestPriceResponse> lowestPriceFive = itemJpaRepository.getLowestPriceFive(itemCode);
+        if (lowestPriceFive.size() == 0) {
+            throw new AwesomeVegeAppException(AppErrorCode.ITEM_CODE_NOT_FOUND,
+                    AppErrorCode.ITEM_CODE_NOT_FOUND.getMessage());
+        }
+        return Result.success(lowestPriceFive);
     }
 
     // 지역별 품목 거래량, 입찰가 통계

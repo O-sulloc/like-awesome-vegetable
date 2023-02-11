@@ -30,6 +30,7 @@ public class AdminConfirmController {
 
     @PostMapping("/transfer-order")
     private ResponseEntity<Result> createAdminPaymentOrder(@RequestBody @Valid AdminPaymentOrderRequest adminPaymentOrderRequest, Authentication authentication) {
+        log.info("user:{}", authentication.getName());
         Result<AdminPaymentOrderResponse> adminTransferOrder = adminConfirmService.createAdminTransferOrder(adminPaymentOrderRequest, authentication.getName());
         return ResponseEntity.ok().body(adminTransferOrder);
     }
