@@ -2,14 +2,12 @@ package com.i5e2.likeawesomevegetable.domain.market;
 
 import com.i5e2.likeawesomevegetable.domain.user.FarmUser;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
@@ -42,11 +40,6 @@ public class AuctionRequest {
     @NotNull(message = "가격을 입력해 주세요")
     @Min(value = 0, message = "정확한 가격을 입력해 주세요")
     private Integer limitPrice;
-    
-    //mvc 이미지 업로드
-    @NotNull(message = "파일을 업로드 해주세요")
-    private List<MultipartFile> uploadImages;
-
 
     public FarmAuction toEntity(AuctionRequest auctionRequest, FarmUser farmUser) {
         return FarmAuction.builder()
