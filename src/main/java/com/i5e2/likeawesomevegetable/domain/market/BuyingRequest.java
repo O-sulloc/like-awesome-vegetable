@@ -67,28 +67,6 @@ public class BuyingRequest {
                 .build();
     }
 
-    public CompanyBuying toEntityNoneAuth(BuyingRequest buyingRequest) {
-        return CompanyBuying.builder()
-                .buyingTitle(buyingRequest.getTitle())
-                .buyingStartTime(buyingRequest.getStartTime())
-                .buyingEndTime(buyingRequest.getEndTime())
-                .buyingItemCategory(buyingRequest.getCategory())
-                .buyingItem(buyingRequest.getItem())
-                .buyingQuantity(buyingRequest.getQuantity())
-                .buyingPrice(buyingRequest.getPrice())
-                .buyingDescription(buyingRequest.getDescription())
-                .buyingShipping(shippingConvert(buyingRequest.getShipping())) //int->string
-                .receiverName(buyingRequest.getReceiverName())
-                .receiverPhoneNo(buyingRequest.getReceiverPhoneNo())
-                .receiverAddress(buyingRequest.getReceiverAddress())
-//                .companyUser(companyUser)
-                .participationStatus(ParticipationStatus.valueOf(status(buyingRequest.getStartTime())))
-//                .buyingRegisteredAt
-//                .buyingModifiedAt
-//                .buyingDeletedAt
-                .build();
-    }
-
     private String shippingConvert(int value) {
         if (value == 1) {
             return "BOXING";
@@ -104,7 +82,7 @@ public class BuyingRequest {
         String[] arrToday = LocalDateTime.now().toString().substring(0, 10).split("-");
         int today = Integer.parseInt(arrToday[0] + arrToday[1] + arrToday[2]);
 
-        String[] arrRegisteredAt = startTime.toString().substring(0, 10).split("-");
+        String[] arrRegisteredAt = startTime.substring(0, 10).split("-");
         int intRegisteredAt = Integer.parseInt(arrRegisteredAt[0] + arrRegisteredAt[1] + arrRegisteredAt[2]);
 
         if (today >= intRegisteredAt) {

@@ -23,14 +23,6 @@ public class AuctionService {
     private final ImgUploadService imgUploadService;
 
 
-    public FarmAuction creatAuctionNoneAuth(AuctionRequest auctionRequest) {
-
-        FarmAuction farmAuction = auctionRequest.toEntityNoneAuth(auctionRequest);
-        auctionJpaRepository.save(farmAuction);
-
-        return farmAuction;
-    }
-
     public AuctionResponse createAuction(AuctionRequest auctionRequest, List<MultipartFile> imgs, String email) throws IOException {
 
         User user = userJpaRepository.findByEmail(email).get();
