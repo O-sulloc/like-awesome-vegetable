@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.market.post;
 
+import com.i5e2.likeawesomevegetable.domain.market.ParticipationStatus;
 import com.i5e2.likeawesomevegetable.domain.market.PostPointActivateEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,5 @@ public class AuctionListResponse {
     private Integer auctionQuantity;
     private Long auctionHighestPrice;
     private PostPointActivateEnum postPointActivate;
+    private ParticipationStatus farmAuctionStatus;
 }

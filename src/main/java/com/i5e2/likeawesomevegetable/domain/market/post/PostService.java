@@ -62,6 +62,7 @@ public class PostService {
                         .auctionQuantity(auction.getAuctionQuantity())
                         .auctionHighestPrice(auction.getAuctionHighestPrice())
                         .postPointActivate(auction.getPostPointActivate())
+                        .farmAuctionStatus(auction.getParticipationStatus())
                         .build()
         );
         return auctionLists;
@@ -108,6 +109,7 @@ public class PostService {
                         .auctionQuantity(auction.getAuctionQuantity())
                         .auctionHighestPrice(auction.getAuctionHighestPrice())
                         .postPointActivate(auction.getPostPointActivate())
+                        .farmAuctionStatus(auction.getParticipationStatus())
                         .build()
         );
         return auctionLists;
