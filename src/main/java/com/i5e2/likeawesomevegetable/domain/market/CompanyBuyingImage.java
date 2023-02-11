@@ -27,8 +27,4 @@ public class CompanyBuyingImage {
     @Column(name = "buying_image_name")
     private String buyingImageName;
 
-    public CompanyBuyingImage(String buyingImageLink, String buyingImageName) {
-        this.buyingImageLink = buyingImageLink;
-        this.buyingImageName = buyingImageName;
-    }
 }

@@ -25,14 +25,6 @@ public class BuyingService {
     private final ApplyJpaRepository applyJpaRepository;
     private final AlarmJpaRepository alarmJpaRepository;
 
-    public String creatBuyingNoneAuth(BuyingRequest buyingRequest) {
-
-        CompanyBuying companyBuying = buyingRequest.toEntityNoneAuth(buyingRequest);
-        buyingJpaRepository.save(companyBuying);
-
-        return null;
-    }
-
     public BuyingResponse creatBuying(BuyingRequest buyingRequest, String email) {
         User user = userJpaRepository.findByEmail(email).get();
         CompanyUser companyUser = user.getCompanyUser();
