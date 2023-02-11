@@ -13,6 +13,7 @@ public enum AppErrorCode {
     NO_PAYMENT_ORDER_RESULT(HttpStatus.NOT_FOUND, "사용자 결제 요청 정보가 존재하지 않습니다."),
     REFUND_AMOUNT_ERROR(HttpStatus.FORBIDDEN, "환불 요청 금액을 확인해 주세요."),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "사용자가 권한이 없습니다."),
+    FAIL_PAYMENT_RESPONSE(HttpStatus.FORBIDDEN, "사용자 결제 요청이 실패되었습니다."),
 
     // Point
     NO_POINT_RESULT(HttpStatus.NOT_FOUND, "사용자 포인트 정보가 존재하지 않습니다."),
@@ -22,6 +23,9 @@ public enum AppErrorCode {
     NO_POINT_DEPOSIT_RESULT(HttpStatus.NOT_FOUND, "사용자의 보증금 정보가 존재하지 않습니다."),
 
     DIPOSIT_AMOUNT_ERROR(HttpStatus.FORBIDDEN, "포인트가 부족합니다. 보증금 요청 금액을 확인해 주세요."),
+
+    //item
+    ITEM_CODE_NOT_FOUND(HttpStatus.NOT_FOUND, "요청하신 농산물 품목 코드가 존재하지 않습니다."),
 
     // Verification ErrorCode
     INVALID_URL(HttpStatus.INTERNAL_SERVER_ERROR, "유효하지 않은 URL입니다."),
@@ -59,7 +63,7 @@ public enum AppErrorCode {
     // APPLY, BIDDING
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "본인인증에 실패하였습니다."),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."),
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND,"존재하지 않는 사용자입니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 사용자입니다."),
     PHONE_DISCORD(HttpStatus.UNAUTHORIZED, "사용자의 휴대폰 번호와 불일치합니다."),
     QUANTITY_EXCEED(HttpStatus.UNAUTHORIZED, "모집 수량을 초과하였습니다."),
 
@@ -71,7 +75,7 @@ public enum AppErrorCode {
     CONTRACT_NOT_FOUND(HttpStatus.NOT_FOUND, "계약서를 찾을 수 없습니다."),
     APPLY_NOT_FOUND(HttpStatus.NOT_FOUND, "모집 참여 기록을 찾을 수 없습니다."),
     BIDDING_NOT_FOUND(HttpStatus.NOT_FOUND, "경매 입찰 기록을 찾을 수 없습니다."),
-    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND,"아이템 정보가 없습니다. DB 업데이트 필요");
+    ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "아이템 정보가 없습니다. DB 업데이트 필요");
 
     private HttpStatus status;
     private String message;
