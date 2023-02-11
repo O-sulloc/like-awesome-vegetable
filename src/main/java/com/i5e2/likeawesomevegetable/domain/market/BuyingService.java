@@ -5,6 +5,7 @@ import com.i5e2.likeawesomevegetable.domain.alarm.AlarmDetail;
 import com.i5e2.likeawesomevegetable.domain.apply.Apply;
 import com.i5e2.likeawesomevegetable.domain.user.CompanyUser;
 import com.i5e2.likeawesomevegetable.domain.user.User;
+import com.i5e2.likeawesomevegetable.domain.user.UserId;
 import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
 import com.i5e2.likeawesomevegetable.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.repository.AlarmJpaRepository;
@@ -60,14 +61,14 @@ public class BuyingService {
 
         companyBuying.updateStatusToEnd();
         // TODO - alarm
-        List<User> list = applyJpaRepository.selectByCompanyBuyingId(companyBuyingId);
+        List<UserId> list = applyJpaRepository.selectByCompanyBuyingId(companyBuyingId);
         for (int i = 0; i < list.size(); i++) {
             Alarm alarm = Alarm.builder()
                     .alarmDetail(AlarmDetail.BUYING)
                     .alarmTriggerId(companyBuying.getId())
                     .alarmRead(Boolean.FALSE)
                     .alarmSenderId(companyBuying.getCompanyUser().getId())
-                    .user(list.get(i))
+                    .user(userJpaRepository.findById(list.get(i).getuserId()).get())
                     .build();
             alarmJpaRepository.save(alarm);
         }
