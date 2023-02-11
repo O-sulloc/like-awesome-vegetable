@@ -54,9 +54,7 @@ public class BiddingService {
         // 신청자가 기업 사용자인지 확인
         Optional<CompanyUser> companyUser = Optional.ofNullable(user.getCompanyUser());
 
-        if (companyUser.isEmpty()) {
-            throw new AwesomeVegeAppException(AppErrorCode.COMPANY_USER_NOT_FOUND, AppErrorCode.COMPANY_USER_NOT_FOUND.getMessage());
-        }
+        companyUser.orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.COMPANY_USER_NOT_FOUND, AppErrorCode.COMPANY_USER_NOT_FOUND.getMessage()));
 
         // 세션 확인
         Optional.ofNullable(session.getAttribute(SMS_USER_ID))
