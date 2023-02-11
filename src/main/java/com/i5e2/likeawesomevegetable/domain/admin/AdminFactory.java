@@ -3,6 +3,7 @@ package com.i5e2.likeawesomevegetable.domain.admin;
 import com.i5e2.likeawesomevegetable.domain.admin.dto.*;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminPaymentOrder;
 import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
+import com.i5e2.likeawesomevegetable.domain.user.User;
 import com.i5e2.likeawesomevegetable.domain.user.UserType;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,6 +20,17 @@ public class AdminFactory {
                 .adminEmail(adminJoinRequest.getAdminEmail())
                 .adminNickname(adminJoinRequest.getAdminNickname())
                 .adminPassword(encodePassword)
+                .build();
+    }
+
+    public static User createUser(AdminUser adminUser) {
+        return User.builder()
+                .adminUser(adminUser)
+                .password(adminUser.getAdminPassword())
+                .email(adminUser.getAdminEmail())
+                .userType(UserType.ROLE_ADMIN)
+                .managerName(adminUser.getAdminName())
+                .manaverPhoneNo(adminUser.getAdminPhoneNo())
                 .build();
     }
 
