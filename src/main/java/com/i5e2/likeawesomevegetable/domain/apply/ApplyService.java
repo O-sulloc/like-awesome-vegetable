@@ -53,9 +53,7 @@ public class ApplyService {
         // 신청자가 농가 사용자인지 확인
         Optional<FarmUser> farmUser = Optional.ofNullable(user.getFarmUser());
 
-        if (farmUser.isEmpty()) {
-            throw new AwesomeVegeAppException(AppErrorCode.FARM_USER_NOT_FOUND, AppErrorCode.FARM_USER_NOT_FOUND.getMessage());
-        }
+        farmUser.orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.FARM_USER_NOT_FOUND, AppErrorCode.FARM_USER_NOT_FOUND.getMessage()));
 
         // 세션 확인
         Optional.ofNullable(session.getAttribute(SMS_USER_ID))
