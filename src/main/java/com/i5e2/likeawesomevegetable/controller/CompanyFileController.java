@@ -49,7 +49,7 @@ public class CompanyFileController {
     }
 
     /*     기업 파일 삭제     */
-    @DeleteMapping("/{userId}/company-user/{companyUserId}/company-files/{companyFileId}/delete")
+    @DeleteMapping("/company-user/{companyUserId}/company-files/{companyFileId}/delete")
     public ResponseEntity<Result<CompanyFileResponse>> deleteCompanyFile(@PathVariable("companyUserId") Long companyUserId,
                                                                          @PathVariable("companyFileId") Long companyFileId,
                                                                          @RequestParam String filePath,

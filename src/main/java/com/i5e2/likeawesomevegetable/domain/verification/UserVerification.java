@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 @Getter
 @Entity
 @Table(name = "t_user_verification")
@@ -45,10 +44,15 @@ public class UserVerification {
         this.verificationBusiness = verificationEnum;
     }
 
-    public static UserVerification makeUserVerification(User user) {
-        UserVerification userVerification = new UserVerification();
-        userVerification.user = user;
-        return userVerification;
+    @Builder
+    public UserVerification(User loginUser,
+                            Verification verificationEmail,
+                            Verification verificationUrl,
+                            Verification verificationBusiness) {
+        this.user = loginUser;
+        this.verificationEmail = verificationEmail;
+        this.verificationUrl = verificationUrl;
+        this.verificationBusiness = verificationBusiness;
     }
 
 }
