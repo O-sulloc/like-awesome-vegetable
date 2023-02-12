@@ -14,7 +14,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user/mypage")
 public class VerificationController {
-    // TODO: Service 단에서 Result<T>에 담아서 Return
     private final VerificationService verificationService;
 
     /*     검증 메일 전송     */
