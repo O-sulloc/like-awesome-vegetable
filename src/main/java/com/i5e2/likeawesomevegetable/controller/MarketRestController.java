@@ -2,6 +2,7 @@ package com.i5e2.likeawesomevegetable.controller;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.market.*;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,8 @@ public class MarketRestController {
     }
 
     // 모집 게시글 종료
+    @ApiOperation(value = "모집 종료",
+            notes="모집이 종료되면 모집 게시글 id를 통해 모집 게시글 상태와 그 게시글의 참여 상태를 모두 END로 변경")
     @PostMapping("/buying/{companyBuyingId}/end")
     public ResponseEntity<Result<String>> applyEnd(@PathVariable Long companyBuyingId) {
 
