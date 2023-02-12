@@ -4,6 +4,8 @@ import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.apply.ApplyService;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyRequest;
 import com.i5e2.likeawesomevegetable.domain.apply.dto.ApplyResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 
 @RestController
+@Api("ApplyController")
 @RequestMapping("/api/v1/buying/{companyBuyingId}")
 @RequiredArgsConstructor
 public class ApplyController {
@@ -23,6 +26,7 @@ public class ApplyController {
     private final ApplyService applyService;
 
     // 모집 참여 조회
+    @ApiOperation(value = "모집 참여 조회", notes="모집 게시글 id를 통해 참여 목록을 조회한다")
     @GetMapping("/list")
     public ResponseEntity<Result<Page<ApplyResponse>>> getApply(
             @PathVariable Long companyBuyingId,
@@ -33,6 +37,7 @@ public class ApplyController {
     }
 
     // 모집 참여 신청
+    @ApiOperation(value = "모집 참여 신청", notes="모집 게시글 id를 통해 참여 신청을 한다")
     @PostMapping("/apply")
     public ResponseEntity<Result<ApplyResponse>> quantityInput(
             @RequestBody ApplyRequest request, @PathVariable Long companyBuyingId, Authentication authentication, HttpSession session) {
