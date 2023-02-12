@@ -2,6 +2,7 @@ package com.i5e2.likeawesomevegetable.controller;
 
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.market.*;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@Api("MarketRestController")
 @RequestMapping("/api/v1/market")
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +25,7 @@ public class MarketRestController {
     private final AuctionService auctionService;
     private final BuyingService buyingService;
 
+    @ApiOperation(value = "농가 경매글 작성", notes = "농가 인증을 받은 사용자가 경매 글을 작성한다.")
     @PostMapping("/auction")
     public ResponseEntity<Result<AuctionResponse>> createAuction(@Valid @RequestPart(value = "dto") AuctionRequest dto,
                                                                  @RequestPart(value = "imgs") List<MultipartFile> imgs,
@@ -33,7 +36,7 @@ public class MarketRestController {
 
         return ResponseEntity.ok().body(response);
 }
-
+    @ApiOperation(value = "기업 모집글 작성", notes = "기업 인증을 받은 사용자가  모집 글을 작성한다.")
     @PostMapping("/buying")
     public ResponseEntity<Result<BuyingResponse>> createBuying(@Valid @RequestBody BuyingRequest buyingRequest, Authentication authentication) {
         BuyingResponse buyingResponse = buyingService.creatBuying(buyingRequest, authentication.getName());
