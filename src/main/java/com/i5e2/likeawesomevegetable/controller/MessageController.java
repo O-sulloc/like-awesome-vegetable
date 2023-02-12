@@ -5,6 +5,8 @@ import com.i5e2.likeawesomevegetable.domain.message.MessageService;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageGetResponse;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageSendRequest;
 import com.i5e2.likeawesomevegetable.domain.message.dto.MessageSendResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,12 +17,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/user/message")
 @RequiredArgsConstructor
+@Api("User Message Controller")
+@RequestMapping("api/v1/user/message")
 public class MessageController {
     private final MessageService messageService;
 
-    /*     쪽지 작성     */
+    @ApiOperation(
+            value = "쪽지 작성",
+            notes = "상대 회원에게 쪽지를 작성한다.")
     @PostMapping("/new-message")
     public ResponseEntity<Result<MessageSendResponse>> newSendMessage(@RequestBody MessageSendRequest messageSendRequest,
                                                                       Authentication authentication) {
@@ -32,7 +37,9 @@ public class MessageController {
         return ResponseEntity.ok().body(newMessageResponse);
     }
 
-    /*     받은 쪽지 목록 조회     */
+    @ApiOperation(
+            value = "받은 쪽지 목록 조회",
+            notes = "로그인한 회원이 받은 쪽지 목록을 조회한다.")
     @GetMapping("/get-messages")
     public ResponseEntity<Result<Page<MessageGetResponse>>> showGetMessages(Authentication authentication,
                                                                             @PageableDefault(sort = "messageChecked",
@@ -42,7 +49,9 @@ public class MessageController {
         return ResponseEntity.ok().body(getMessagesResponse);
     }
 
-    /*     보낸 쪽지 목록 조회     */
+    @ApiOperation(
+            value = "보낸 쪽지 목록 조회",
+            notes = "로그인한 회원이 받은 보낸 목록을 조회한다.")
     @GetMapping("/send-messages")
     public ResponseEntity<Result<Page<MessageGetResponse>>> showSendMessages(Authentication authentication,
                                                                              @PageableDefault(sort = "messageChecked",
@@ -52,7 +61,9 @@ public class MessageController {
         return ResponseEntity.ok().body(sendMessageResponse);
     }
 
-    /*     쪽지 1개 조회     */
+    @ApiOperation(
+            value = "쪽지 1건 조회",
+            notes = "로그인한 회원이 받은 쪽지 1개를 조회한다.")
     @GetMapping("get-messages/{messageId}")
     public ResponseEntity<Result<MessageGetResponse>> showOneGetMessages(@PathVariable("messageId") Long messageId,
                                                                          Authentication authentication) {
