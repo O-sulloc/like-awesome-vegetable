@@ -46,7 +46,7 @@ public class FarmFileController {
 
     @ApiOperation(
             value = "농가 이미지 삭제",
-            notes = "농가 사용자 ID와 이미지 ID로 S3에 있는 해당 사용자의 해당 이미지를 삭제한다")
+            notes = "농가 사용자 ID와 이미지 ID로 S3에 있는 해당 농가 사용자의 해당 이미지를 삭제한다")
     @DeleteMapping("/farm-user/{farmUserId}/farm-images/{farmImageId}/delete")
     public ResponseEntity<Result<FarmFileResponse>> deleteFarmImage(@PathVariable("farmUserId") Long farmUserId,
                                                                     @PathVariable("farmImageId") Long farmImageId,
@@ -58,7 +58,7 @@ public class FarmFileController {
 
     @ApiOperation(
             value = "농가 이미지 삭제",
-            notes = "농가 사용자 ID와 이미지 ID로 S3에 있는 해당 사용자의 해당 이미지를 삭제한다")
+            notes = "농가 사용자 ID와 이미지 ID로 S3에 있는 해당 농가 사용자의 해당 이미지를 삭제한다")
     @DeleteMapping("/farm-user/{farmUserId}/farm-files/{farmImageId}/delete")
     public ResponseEntity<Result<FarmFileResponse>> deleteCompanyFile(@PathVariable("farmUserId") Long farmUserId,
                                                                       @PathVariable("farmImageId") Long farmImageId,

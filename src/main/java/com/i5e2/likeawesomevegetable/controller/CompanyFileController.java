@@ -34,7 +34,7 @@ public class CompanyFileController {
 
     @ApiOperation(
             value = "기업 파일 업로드",
-            notes = "기업 사용자 ID로 해당 사용자의 파일을 S3에 업로드한다.")
+            notes = "기업 사용자 ID로 해당 기업 사용자의 파일을 S3에 업로드한다.")
     @PostMapping("/company-user/{companyUserId}/files/upload")
     public ResponseEntity<Result<CompanyFileResponse>> uploadCompanyFile(@PathVariable("companyUserId") Long companyUserId,
                                                                          @RequestPart MultipartFile multipartFile,
@@ -45,7 +45,7 @@ public class CompanyFileController {
 
     @ApiOperation(
             value = "기업 이미지 삭제",
-            notes = "기업 사용자 ID와 이미지 ID로 S3에 있는 해당 사용자의 해당 이미지를 삭제한다")
+            notes = "기업 사용자 ID와 이미지 ID로 S3에 있는 해당 기업 사용자의 해당 이미지를 삭제한다")
     @DeleteMapping("/company-user/{companyUserId}/company-images/{companyImageId}/delete")
     public ResponseEntity<Result<CompanyFileResponse>> deleteCompanyImage(@PathVariable("companyUserId") Long companyUserId,
                                                                           @PathVariable("companyImageId") Long companyImageId,
@@ -57,7 +57,7 @@ public class CompanyFileController {
 
     @ApiOperation(
             value = "기업 파일 삭제",
-            notes = "기업 사용자 ID와 파일 ID로 S3에 있는 해당 사용자의 해당 파일을 삭제한다")
+            notes = "기업 사용자 ID와 파일 ID로 S3에 있는 해당 기업 사용자의 해당 파일을 삭제한다")
     @DeleteMapping("/company-user/{companyUserId}/company-files/{companyFileId}/delete")
     public ResponseEntity<Result<CompanyFileResponse>> deleteCompanyFile(@PathVariable("companyUserId") Long companyUserId,
                                                                          @PathVariable("companyFileId") Long companyFileId,
