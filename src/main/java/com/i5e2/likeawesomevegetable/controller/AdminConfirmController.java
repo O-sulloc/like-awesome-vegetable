@@ -8,6 +8,8 @@ import com.i5e2.likeawesomevegetable.domain.admin.dto.*;
 import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorResponse;
 import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.IOException;
 
+@Api("Admin Transfer Deposit Controller")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +31,8 @@ public class AdminConfirmController {
     private final UserPointService userPointService;
     private final DepositApiService depositApiService;
 
+    @ApiOperation(value = "관리자 정산요청 내역"
+            , notes = "전자계약 체결 후 관리자 정산 요청 데이터를 저장한다.")
     @PostMapping("/transfer-order")
     private ResponseEntity<Result> createAdminPaymentOrder(@RequestBody @Valid AdminPaymentOrderRequest adminPaymentOrderRequest, Authentication authentication) {
         log.info("user:{}", authentication.getName());
@@ -36,6 +41,8 @@ public class AdminConfirmController {
     }
 
     //TODO: 하나의 트랜젝션으로 관리
+    @ApiOperation(value = "정산 요청 성공, API Redirect Url"
+            , notes = "정산 요청 금액 일치여부 확인 후 이체 API 호출/ 사용자 포인트 및 예치금 상태를 업데이트 한다.")
     @GetMapping("/success")
     public ResponseEntity<Result> transferSuccess(@RequestParam("paymentKey") String paymentKey
             , @RequestParam("orderId") String orderId
@@ -57,6 +64,9 @@ public class AdminConfirmController {
                 .body(Result.success(new DepositToTransferResponse(adminTransferResponse, transferEventDetailResponse, userPointResponse, depositTransferResponse)));
     }
 
+
+    @ApiOperation(value = "정산 요청 실패, API Redirect Url"
+            , notes = "정산 요청 실패시 에러를 반환한다.")
     @GetMapping("/fail")
     public Result transferFail(@Valid PaymentErrorResponse paymentErrorResponse) {
         return Result.error(paymentErrorResponse);
