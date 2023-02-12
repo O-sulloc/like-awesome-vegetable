@@ -22,7 +22,7 @@ public class ItemController {
 
     private final ItemService itemService;
 
-    @ApiOperation(value = "농산물 테이블 생성", notes="농산물 품목 코드표에 따른 농산물 테이블을 생성한다.")
+    @ApiOperation(value = "농산물 테이블 생성", notes = "농산물 품목 코드표에 따른 농산물 테이블을 생성한다.")
     @PostMapping("/item/create")
     public ResponseEntity<String> create() {
 
@@ -33,7 +33,7 @@ public class ItemController {
 
     // 최근일자 도·소매 가격정보
     @ApiOperation(value = "농산물 가격 정보 조회",
-            notes="최근일자 도·소매 가격 정보와 월평균 가격 추이를 조회한다.")
+            notes = "최근일자 도·소매 가격 정보와 월평균 가격 추이를 조회한다.")
     @GetMapping("/item")
 
     public ResponseEntity<List<ItemPriceResponse>> priceInfo() throws ParseException {
@@ -41,12 +41,18 @@ public class ItemController {
         return ResponseEntity.ok().body(itemService.priceInfo());
     }
 
+    @ApiOperation(
+            value = "경매글 품목별 경매 시작 최저가 5개 조회",
+            notes = "품목 코드를 입력받아 경매 시작 최저가 5위를 조회합니다")
     @GetMapping("/item/lowest/{item-code}")
     public ResponseEntity<Result<List<ItemLowestPriceResponse>>> getItemLowestPriceFive(@PathVariable("item-code") String itemCode) {
         Result<List<ItemLowestPriceResponse>> itemLowestPriceFive = itemService.getItemLowestPriceFive(itemCode);
         return ResponseEntity.ok().body(itemLowestPriceFive);
     }
 
+    @ApiOperation(
+            value = "지역별 농산물 품목, 거래량, 입찰가 조회",
+            notes = "지역별 농산물 품목, 품목별 평균 거래량, 평균 입찰가를 조회합니다.")
     // 지역별 품목 거래량, 입찰가 통계
     @GetMapping("item/region/{region}")
     public ResponseEntity<Result<RegionResponse>> getRegionAverage(@PathVariable("region") String region) {
