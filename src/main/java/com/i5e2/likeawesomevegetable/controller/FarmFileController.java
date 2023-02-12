@@ -3,8 +3,9 @@ package com.i5e2.likeawesomevegetable.controller;
 import com.i5e2.likeawesomevegetable.domain.Result;
 import com.i5e2.likeawesomevegetable.domain.user.farm.dto.FarmFileResponse;
 import com.i5e2.likeawesomevegetable.domain.user.file.FarmFileUploadService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +15,15 @@ import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
+@Api("Farm User File Controller")
 @RequestMapping("/api/v1/user/mypage")
 public class FarmFileController {
 
     private final FarmFileUploadService farmFileUploadService;
 
-    /*     농가 이미지 업로드     */
+    @ApiOperation(
+            value = "농가 이미지 업로드",
+            notes = "농가 사용자 ID로 해당 농가 사용자의 이미지를 S3에 업로드한다.")
     @PostMapping("/farm-user/{farmUserId}/images/upload")
     public ResponseEntity<Result<FarmFileResponse>> uploadFarmImage(@PathVariable("farmUserId") Long farmUserId,
                                                                     @RequestPart MultipartFile multipartFile,
@@ -29,7 +32,9 @@ public class FarmFileController {
         return ResponseEntity.ok().body(Result.success(farmFileUploadResponse));
     }
 
-    /*     농가 파일 업로드     */
+    @ApiOperation(
+            value = "농가 파일 업로드",
+            notes = "농가 사용자 ID로 해당 농가 사용자의 파일을 S3에 업로드한다.")
     @PostMapping("/farm-user/{farmUserId}/files/upload")
     public ResponseEntity<Result<FarmFileResponse>> uploadFarmFile(@PathVariable("farmUserId") Long farmUserId,
                                                                    @RequestPart MultipartFile multipartFile,
@@ -39,7 +44,9 @@ public class FarmFileController {
         return ResponseEntity.ok().body(Result.success(farmImageUploadResponse));
     }
 
-    /*    농가 이미지 삭제     */
+    @ApiOperation(
+            value = "농가 이미지 삭제",
+            notes = "농가 사용자 ID와 이미지 ID로 S3에 있는 해당 사용자의 해당 이미지를 삭제한다")
     @DeleteMapping("/farm-user/{farmUserId}/farm-images/{farmImageId}/delete")
     public ResponseEntity<Result<FarmFileResponse>> deleteFarmImage(@PathVariable("farmUserId") Long farmUserId,
                                                                     @PathVariable("farmImageId") Long farmImageId,
@@ -49,7 +56,9 @@ public class FarmFileController {
         return ResponseEntity.ok().body(Result.success(farmImageDeleteResponse));
     }
 
-    /*     농가 파일 삭제     */
+    @ApiOperation(
+            value = "농가 이미지 삭제",
+            notes = "농가 사용자 ID와 이미지 ID로 S3에 있는 해당 사용자의 해당 이미지를 삭제한다")
     @DeleteMapping("/farm-user/{farmUserId}/farm-files/{farmImageId}/delete")
     public ResponseEntity<Result<FarmFileResponse>> deleteCompanyFile(@PathVariable("farmUserId") Long farmUserId,
                                                                       @PathVariable("farmImageId") Long farmImageId,
