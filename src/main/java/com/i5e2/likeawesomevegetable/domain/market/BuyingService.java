@@ -68,7 +68,7 @@ public class BuyingService {
                     .alarmTriggerId(companyBuying.getId())
                     .alarmRead(Boolean.FALSE)
                     .alarmSenderId(companyBuying.getCompanyUser().getId())
-                    .user(userJpaRepository.findById(list.get(i).getuserId()).get())
+                    .user(userJpaRepository.findById(list.get(i).getUserId()).get())
                     .build();
             alarmJpaRepository.save(alarm);
         }
