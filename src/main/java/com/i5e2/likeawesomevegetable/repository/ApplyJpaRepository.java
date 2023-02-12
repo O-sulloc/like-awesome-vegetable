@@ -21,6 +21,6 @@ public interface ApplyJpaRepository extends JpaRepository<Apply, Long> {
 
     @Query(nativeQuery = true, value = "select like_awesome_vegetable.t_apply.user_id\n" +
             "from like_awesome_vegetable.t_apply\n" +
-            "where t_apply.company_buying_id = ?1;")
-    List<User> selectByCompanyBuyingId(Long buyingId);
+            "where like_awesome_vegetable.t_apply.company_buying_id = ?1")
+    List<UserId> selectByCompanyBuyingId(Long buyingId);
 }
