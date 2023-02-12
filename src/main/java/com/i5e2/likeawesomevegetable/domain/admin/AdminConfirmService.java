@@ -75,10 +75,6 @@ public class AdminConfirmService {
                 .newHttpClient()
                 .send(request, HttpResponse.BodyHandlers.ofString());
         log.info("response:{}", response.body());
-        if (!response.body().equals(AdminTransferResponse.class)) {
-            throw new AwesomeVegeAppException(AppErrorCode.FAIL_PAYMENT_RESPONSE,
-                    AppErrorCode.FAIL_PAYMENT_RESPONSE.getMessage());
-        }
         return objectMapper.readValue(response.body(), AdminTransferResponse.class);
     }
 

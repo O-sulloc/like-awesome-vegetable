@@ -35,10 +35,12 @@ public class AdminConfirmController {
         return ResponseEntity.ok().body(adminTransferOrder);
     }
 
+    //TODO: 하나의 트랜젝션으로 관리
     @GetMapping("/success")
     public ResponseEntity<Result> transferSuccess(@RequestParam("paymentKey") String paymentKey
             , @RequestParam("orderId") String orderId
-            , @RequestParam("amount") Long amount, Authentication authentication) throws IOException, InterruptedException {
+            , @RequestParam("amount") Long amount
+            , Authentication authentication) throws IOException, InterruptedException {
 
         adminConfirmService.adminVerifySuccessRequest(orderId, amount);
         AdminTransferResponse adminTransferResponse = adminConfirmService.requestFinalTransfer(paymentKey, orderId, amount);
@@ -46,7 +48,7 @@ public class AdminConfirmController {
 
         //사용자 포인트 예치금 업데이트
         UserPointResponse userPointResponse
-                = userPointService.updateUserPointInfo(authentication.getName());
+                = userPointService.updateUserPointInfo(transferEventDetailResponse.getTransferUserEmail());
 
         //예치금 디테일 상태 변경
         DepositTransferResponse depositTransferResponse = depositApiService.updateDepositStatus(userPointResponse.getUserPointId());

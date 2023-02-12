@@ -41,7 +41,7 @@ public class MyPageApiService {
     }
 
     @Transactional(readOnly = true)
-    public List<MypagePointEvenLogResponse> readAdminPointLogs(String userEmail) {
+    public List<MypagePointEvenLogResponse> readAdminTransferLogs(String userEmail) {
         Long userId = getUser(userEmail).getId();
         return pointEventLogJpaRepository.getPointAdminId(userId).stream()
                 .map(pointEventLog -> PointFactory.createUserPointEventLog(pointEventLog))
@@ -62,7 +62,7 @@ public class MyPageApiService {
                         AppErrorCode.LOGIN_USER_NOT_FOUND,
                         AppErrorCode.LOGIN_USER_NOT_FOUND.getMessage()
                 ));
-        
+
         if (userVerificationJpaRepository.findByUserId(loginUser.getId()).isPresent()) {
             userVerificationJpaRepository.delete(userVerificationJpaRepository.findByUserId(loginUser.getId()).get());
         }

@@ -50,6 +50,7 @@ public class AdminFactory {
                 .adminOrderId(makeAdminTransferOrderId())
                 .adminOrderInfo(adminPaymentOrderRequest.getAdminOrderInfo())
                 .adminTransferAmount(calculateTransferAmount(adminPaymentOrderRequest.getTransferTotalAmount()))
+                .transferUserEmail(adminPaymentOrderRequest.getTransferUserEmail())
                 .build();
     }
 

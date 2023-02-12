@@ -14,6 +14,7 @@ public enum AppErrorCode {
     REFUND_AMOUNT_ERROR(HttpStatus.FORBIDDEN, "환불 요청 금액을 확인해 주세요."),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "사용자가 권한이 없습니다."),
     FAIL_PAYMENT_RESPONSE(HttpStatus.FORBIDDEN, "사용자 결제 요청이 실패되었습니다."),
+    NOT_FOUND_TARGET_USER(HttpStatus.NOT_FOUND, "정산 받을 유저를 확인해 주세요"),
 
     // Point
     NO_POINT_RESULT(HttpStatus.NOT_FOUND, "사용자 포인트 정보가 존재하지 않습니다."),
@@ -21,8 +22,8 @@ public enum AppErrorCode {
 
     // Deposit
     NO_POINT_DEPOSIT_RESULT(HttpStatus.NOT_FOUND, "사용자의 보증금 정보가 존재하지 않습니다."),
-
     DIPOSIT_AMOUNT_ERROR(HttpStatus.FORBIDDEN, "포인트가 부족합니다. 보증금 요청 금액을 확인해 주세요."),
+    INVALID_REQUEST_DEPOSIT(HttpStatus.BAD_REQUEST, "보증금은 현재 포인트 잔액을 초과할 수 없습니다"),
 
     //item
     ITEM_CODE_NOT_FOUND(HttpStatus.NOT_FOUND, "요청하신 농산물 품목 코드가 존재하지 않습니다."),

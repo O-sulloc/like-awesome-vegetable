@@ -71,7 +71,7 @@ public class PointFactory {
                 .transferTargetUserId(transferEventLog.getPointTargetUserId())
                 .transferDetailHistory(transferEventLog.getPointEventHistory())
                 .transferDetailStatus(transferEventLog.getPayment().getPaymentStatus())
-                .transferUserId(transferEventLog.getPointUserId())
+                .transferUserEmail(adminPaymentOrder.getTransferUserEmail())
                 .adminUserMail(adminPaymentOrder.getAdminUser().getAdminEmail())
                 .transferEventAmount(transferEventLog.getPointEventAmount())
                 .transferUsedEventAt(transferEventLog.getPointUsedEventAt())
