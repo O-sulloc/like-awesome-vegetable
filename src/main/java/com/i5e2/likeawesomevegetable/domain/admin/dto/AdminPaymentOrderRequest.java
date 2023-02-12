@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminPaymentOrderRequest {
-    private Long adminId;
     private String adminOrderInfo;
     private Long transferTotalAmount;
 }

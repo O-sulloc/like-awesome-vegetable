@@ -34,7 +34,7 @@ public interface ItemJpaRepository extends JpaRepository<Item, Long> {
             "       auction.auction_registered_at as auctionRegisteredAt,\n" +
             "       auction.post_point_activate as postPointActive " +
             "from t_farm_auction as auction " +
-            "where auction.auction_item_category like ? " +
+            "where auction.auction_item like ? " +
             "order by auction_start_price asc " +
             "limit 0, 5", nativeQuery = true)
     List<ItemLowestPriceResponse> getLowestPriceFive(@Param("item") String item);

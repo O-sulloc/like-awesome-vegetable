@@ -28,7 +28,7 @@ public class ContractController {
     @GetMapping("/{buyingId}/{applyId}/new-gather-contract")
     public ModelAndView getBuyingNewContract(@PathVariable Long buyingId, @PathVariable Long applyId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
 
-        ModelAndView mv = new ModelAndView("/contract/gather-new-contract");
+        ModelAndView mv = new ModelAndView("contract/gather-new-contract");
 
         String accessToken = contractService.getAccessToken();
         String refreshToken = contractService.getRefreshToken();
@@ -46,7 +46,7 @@ public class ContractController {
     // 2. 경매 (농가 서명 전, 계약서 생성)
     @GetMapping("/{auctionId}/{biddingId}/new-auction-contract")
     public ModelAndView getAuctionNewContract(@PathVariable Long auctionId, @PathVariable Long biddingId) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeySpecException, SignatureException, ParseException, InvalidKeyException {
-        ModelAndView mv = new ModelAndView("/contract/auction-new-contract");
+        ModelAndView mv = new ModelAndView("contract/auction-new-contract");
 
         String accessToken = contractService.getAccessToken();
         String refreshToken = contractService.getRefreshToken();
@@ -71,7 +71,7 @@ public class ContractController {
 
     @GetMapping("/mail-success")
     public String getMailSend() {
-        return "/contract/mail-success";
+        return "contract/mail-success";
     }
 
     // 계약 진행 상황 조회

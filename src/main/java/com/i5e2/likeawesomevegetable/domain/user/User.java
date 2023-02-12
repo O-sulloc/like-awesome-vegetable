@@ -1,5 +1,6 @@
 package com.i5e2.likeawesomevegetable.domain.user;
 
+import com.i5e2.likeawesomevegetable.domain.admin.entity.AdminUser;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,13 +22,17 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_user_id")
     private CompanyUser companyUser;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_user_id")
     private FarmUser farmUser;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private AdminUser adminUser;
 
     @Column(name = "password")
     private String password;

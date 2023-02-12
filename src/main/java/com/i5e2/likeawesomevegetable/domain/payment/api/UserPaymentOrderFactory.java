@@ -55,7 +55,7 @@ public class UserPaymentOrderFactory {
     }
 
     private static String makePostOrderNumber(String userType) {
-        if (userType.equals(userType.equals(UserType.ROLE_BASIC))) {
+        if (userType.equals(userType.equals(UserType.ROLE_BASIC)) || UserType.values() == null) {
             throw new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION,
                     AppErrorCode.INVALID_PERMISSION.getMessage());
         }

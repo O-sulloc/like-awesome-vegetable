@@ -7,6 +7,7 @@ import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentCardResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentRefundResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentToCancelResponse;
 import com.i5e2.likeawesomevegetable.domain.payment.api.dto.PaymentToPointResponse;
+import com.i5e2.likeawesomevegetable.domain.payment.api.exception.PaymentErrorResponse;
 import com.i5e2.likeawesomevegetable.domain.point.UserPointService;
 import com.i5e2.likeawesomevegetable.domain.point.dto.PointEventDetailResponse;
 import com.i5e2.likeawesomevegetable.domain.point.dto.UserPointResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Slf4j
@@ -55,5 +57,10 @@ public class PaymentConfirmController {
         return ResponseEntity
                 .ok()
                 .body(Result.success(new PaymentToCancelResponse(paymentRefundResponse, pointCancelDetailResponse, userPointResponse)));
+    }
+
+    @RequestMapping("/fail")
+    public Result transferFail(@Valid PaymentErrorResponse paymentErrorResponse) {
+        return Result.error(paymentErrorResponse);
     }
 }
