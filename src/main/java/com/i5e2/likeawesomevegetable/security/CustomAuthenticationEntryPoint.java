@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
-import com.i5e2.likeawesomevegetable.exception.ExceptionManager;
+import com.i5e2.likeawesomevegetable.common.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.common.exception.ExceptionManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.AuthenticationException;
