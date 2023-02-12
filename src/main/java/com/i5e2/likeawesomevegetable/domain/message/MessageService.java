@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional
 public class MessageService {
-    // TODO: UserError, ApplyError 처리 제거한 부분 에러코드 추가되면 처리할 것
     private final UserJpaRepository userJpaRepository;
     private final MessageJpaRepository messageJpaRepository;
     private final MessageContentJpaRepository messageContentJpaRepository;
@@ -100,7 +99,10 @@ public class MessageService {
     // JWT로 로그인 유저 확인
     private User validateUser(String userEmail) {
         User loginUser = userJpaRepository.findByEmail(userEmail)
-                .orElseThrow();
+                .orElseThrow(() -> new AwesomeVegeAppException(
+                        AppErrorCode.EMAIL_NOT_FOUND,
+                        AppErrorCode.EMAIL_NOT_FOUND.getMessage())
+                );
         return loginUser;
     }
 

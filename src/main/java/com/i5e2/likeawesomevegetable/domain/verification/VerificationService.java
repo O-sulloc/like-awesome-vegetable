@@ -38,8 +38,6 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class VerificationService {
-    // TODO: VerifyUrl UserVerification 생성 부분 추후 myPage 구현 시 그쪽으로 이동
-
     private final UserJpaRepository userJpaRepository;
     private final UserVerificationJpaRepository userVerificationJpaRepository;
     private final CompanyUserJpaRepository companyUserJpaRepository;
