@@ -15,10 +15,12 @@ import com.i5e2.likeawesomevegetable.user.basic.User;
 import com.i5e2.likeawesomevegetable.user.basic.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.user.company.CompanyUser;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BuyingService {
@@ -64,6 +66,9 @@ public class BuyingService {
         companyBuying.updateStatusToEnd();
         // TODO - alarm
         List<User> list = applyJpaRepository.selectByCompanyBuyingId(companyBuyingId);
+        for (User user : list) {
+            log.info("user:{}", user);
+        }
         list.get(1).getCompanyUser();
         for (int i = 0; i < list.size(); i++) {
             User getUser = userJpaRepository.findById(list.get(i).getId()).get();
