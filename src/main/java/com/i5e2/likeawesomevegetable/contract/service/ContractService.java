@@ -423,15 +423,6 @@ public class ContractService {
             alarmJpaRepository.save(alarm);
         }
 
-        Alarm alarm = Alarm.builder()
-                .alarmDetail(AlarmDetail.AUCTION)
-                .alarmTriggerId(farmAuction.getId())
-                .alarmRead(Boolean.FALSE)
-                .alarmSenderId(farmAuction.getFarmUser().getId())
-                //.user()
-                .build();
-        alarmJpaRepository.save(alarm);
-
         standByJpaRepository.findAllByFarmAuctionId(farmAuction.getId()).forEach(Standby::updateStatusToEnd);
 
         //+ 계약서 상태 업데이트???

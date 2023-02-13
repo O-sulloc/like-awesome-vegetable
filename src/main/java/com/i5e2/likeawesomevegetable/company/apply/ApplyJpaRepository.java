@@ -1,11 +1,11 @@
 package com.i5e2.likeawesomevegetable.company.apply;
 
 import com.i5e2.likeawesomevegetable.user.basic.User;
-import com.i5e2.likeawesomevegetable.user.basic.dto.UserId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ public interface ApplyJpaRepository extends JpaRepository<Apply, Long> {
 
     Page<Apply> findByUser(Pageable pageable, User user);
 
-    @Query(nativeQuery = true, value = "select like_awesome_vegetable.t_apply.user_id\n" +
-            "from like_awesome_vegetable.t_apply\n" +
-            "where like_awesome_vegetable.t_apply.company_buying_id = ?1")
-    List<UserId> selectByCompanyBuyingId(Long buyingId);
+    @Query(value = "select apply.user " +
+            "from Apply as apply " +
+            "where apply.companyBuying.id = :companyBuyingId")
+    List<User> selectByCompanyBuyingId(@Param("companyBuyingId") Long companyBuyingId);
 }

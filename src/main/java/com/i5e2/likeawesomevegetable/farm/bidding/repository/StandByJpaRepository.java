@@ -1,6 +1,7 @@
 package com.i5e2.likeawesomevegetable.farm.bidding.repository;
 
 import com.i5e2.likeawesomevegetable.farm.bidding.Standby;
+import com.i5e2.likeawesomevegetable.farm.bidding.dto.BiddingMaxResponse;
 import com.i5e2.likeawesomevegetable.user.basic.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +16,20 @@ public interface StandByJpaRepository extends JpaRepository<Standby, Long> {
 
     Page<Standby> findByUser(User user, Pageable pageable);
 
+    Standby findByUserId(Long userId);
+
     boolean existsByFarmAuctionId(Long auctionId);
 
-    @Query(value = "select * from t_standby where bidding_price = (select max(bidding_price) from t_standby where farm_auction_id = :auctionId)", nativeQuery = true)
-    Standby findByFarmAuctionId(@Param("auctionId") Long auctionId);
+    @Query(value = "select max(bidding_price) as price, " +
+            "       standBy.user_id as userId " +
+            "from t_standby as standBy " +
+            "group by farm_auction_id = ? ", nativeQuery = true)
+    BiddingMaxResponse findByFarmAuctionId(@Param("farmAuctionId") Long farmAuctionId);
 
     List<Standby> findAllByFarmAuctionId(Long auctionId);
 
-    @Query(nativeQuery = true, value = "select like_awesome_vegetable.t_standby.user_id\n" +
-            "from like_awesome_vegetable.t_standby\n" +
-            "where like_awesome_vegetable.t_standby.farm_auction_id = ?1")
-    List<User> selectByFarmAuctionId(Long auctionId);
+    @Query(value = "select standBy.user " +
+            "from Standby as standBy " +
+            "where standBy.farmAuction.id = :farmAuctionId ")
+    List<User> selectByFarmAuctionId(@Param("farmAuctionId") Long farmAuctionId);
 }

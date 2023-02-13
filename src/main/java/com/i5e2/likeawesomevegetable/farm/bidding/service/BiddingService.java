@@ -5,6 +5,7 @@ import com.i5e2.likeawesomevegetable.common.exception.AwesomeVegeAppException;
 import com.i5e2.likeawesomevegetable.farm.auction.FarmAuction;
 import com.i5e2.likeawesomevegetable.farm.auction.repository.FarmAuctionJpaRepository;
 import com.i5e2.likeawesomevegetable.farm.bidding.Standby;
+import com.i5e2.likeawesomevegetable.farm.bidding.dto.BiddingMaxResponse;
 import com.i5e2.likeawesomevegetable.farm.bidding.dto.BiddingRequest;
 import com.i5e2.likeawesomevegetable.farm.bidding.dto.BiddingResponse;
 import com.i5e2.likeawesomevegetable.farm.bidding.dto.BiddingResult;
@@ -92,11 +93,12 @@ public class BiddingService {
             // true(exist)면 경쟁 입찰자 있다는 의미
 
             // 이전 낙찰자 -> 패찰자 변경
-            Standby pre = standByJpaRepository.findByFarmAuctionId(auctionId);
+            BiddingMaxResponse response = standByJpaRepository.findByFarmAuctionId(auctionId);
+            Long userId = response.getUserId();
+            Standby pre = standByJpaRepository.findByUserId(userId);
             log.info("pre:{}", pre.getBiddingPrice());
 
             pre.updateBiddingResult(BiddingResult.SLABLENESS);
-
             standByJpaRepository.save(pre);
         }
     }
