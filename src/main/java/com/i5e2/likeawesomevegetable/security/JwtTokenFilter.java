@@ -1,7 +1,7 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserService;
+import com.i5e2.likeawesomevegetable.user.basic.User;
+import com.i5e2.likeawesomevegetable.user.basic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

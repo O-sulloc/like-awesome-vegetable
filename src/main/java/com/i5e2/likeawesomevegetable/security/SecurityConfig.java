@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.domain.user.UserService;
+import com.i5e2.likeawesomevegetable.user.basic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
