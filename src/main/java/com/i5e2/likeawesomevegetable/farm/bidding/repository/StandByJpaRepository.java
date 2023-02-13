@@ -22,7 +22,7 @@ public interface StandByJpaRepository extends JpaRepository<Standby, Long> {
 
     List<Standby> findAllByFarmAuctionId(Long auctionId);
 
-    @Query(value = "select standBy.farmAuction.id " +
+    @Query(value = "select standBy.user " +
             "from Standby as standBy " +
             "where standBy.farmAuction.id = :farmAuctionId ")
     List<User> selectByFarmAuctionId(@Param("farmAuctionId") Long farmAuctionId);
