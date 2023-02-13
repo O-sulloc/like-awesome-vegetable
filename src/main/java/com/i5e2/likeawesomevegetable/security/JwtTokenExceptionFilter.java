@@ -1,6 +1,6 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.exception.AppErrorCode;
+import com.i5e2.likeawesomevegetable.common.exception.AppErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
-import static com.i5e2.likeawesomevegetable.exception.ExceptionManager.setErrorResponse;
+import static com.i5e2.likeawesomevegetable.common.exception.ExceptionManager.setErrorResponse;
 
 @Slf4j
 public class JwtTokenExceptionFilter extends OncePerRequestFilter {

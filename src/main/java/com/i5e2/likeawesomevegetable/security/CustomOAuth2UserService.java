@@ -1,8 +1,8 @@
 package com.i5e2.likeawesomevegetable.security;
 
-import com.i5e2.likeawesomevegetable.domain.user.User;
-import com.i5e2.likeawesomevegetable.domain.user.UserType;
-import com.i5e2.likeawesomevegetable.repository.UserJpaRepository;
+import com.i5e2.likeawesomevegetable.user.basic.User;
+import com.i5e2.likeawesomevegetable.user.basic.dto.UserType;
+import com.i5e2.likeawesomevegetable.user.basic.repository.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -41,7 +41,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         boolean createUserFlag = true;
 
         Optional<User> user = userJpaRepository.findByEmail(email);
-        if (user.isPresent()){
+        if (user.isPresent()) {
             createUserFlag = false;
             User savedUser = user.get();
             userJpaRepository.save(savedUser);
