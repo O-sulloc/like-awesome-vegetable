@@ -12,7 +12,6 @@ import com.i5e2.likeawesomevegetable.company.buying.dto.BuyingRequest;
 import com.i5e2.likeawesomevegetable.company.buying.dto.BuyingResponse;
 import com.i5e2.likeawesomevegetable.company.buying.repository.CompanyBuyingJpaRepository;
 import com.i5e2.likeawesomevegetable.user.basic.User;
-import com.i5e2.likeawesomevegetable.user.basic.dto.UserId;
 import com.i5e2.likeawesomevegetable.user.basic.repository.UserJpaRepository;
 import com.i5e2.likeawesomevegetable.user.company.CompanyUser;
 import lombok.RequiredArgsConstructor;
@@ -64,14 +63,16 @@ public class BuyingService {
 
         companyBuying.updateStatusToEnd();
         // TODO - alarm
-        List<UserId> list = applyJpaRepository.selectByCompanyBuyingId(companyBuyingId);
+        List<User> list = applyJpaRepository.selectByCompanyBuyingId(companyBuyingId);
+        list.get(1).getCompanyUser();
         for (int i = 0; i < list.size(); i++) {
+            User getUser = userJpaRepository.findById(list.get(i).getId()).get();
             Alarm alarm = Alarm.builder()
                     .alarmDetail(AlarmDetail.BUYING)
                     .alarmTriggerId(companyBuying.getId())
                     .alarmRead(Boolean.FALSE)
                     .alarmSenderId(companyBuying.getCompanyUser().getId())
-                    .user(userJpaRepository.findById(list.get(i).getUserId()).get())
+                    .user(getUser)
                     .build();
             alarmJpaRepository.save(alarm);
         }
