@@ -20,6 +20,6 @@ public interface ApplyJpaRepository extends JpaRepository<Apply, Long> {
 
     @Query(value = "select apply.user " +
             "from Apply as apply " +
-            "where apply.companyBuying.id =: buyingId")
-    List<User> selectByCompanyBuyingId(Long buyingId);
+            "where apply.companyBuying.id =: id")
+    List<User> selectByCompanyBuyingId(Long id);
 }
