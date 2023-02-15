@@ -59,8 +59,11 @@ public class ApplyService {
                 .orElseThrow(() -> new AwesomeVegeAppException(AppErrorCode.INVALID_PERMISSION, AppErrorCode.INVALID_PERMISSION.getMessage()));
 
         // 모집 수량을 초과하면 참여 불가
-        if (applyJpaRepository.currentQuantity(companyBuyingId) != null &&
-                companyBuying.getBuyingQuantity() < applyJpaRepository.currentQuantity(companyBuyingId) + request.getApplyQuantity()) {
+        if (applyJpaRepository.currentQuantity(companyBuyingId) == null
+                && companyBuying.getBuyingQuantity() < request.getApplyQuantity()
+        || applyJpaRepository.currentQuantity(companyBuyingId) != null
+                && companyBuying.getBuyingQuantity() < applyJpaRepository.currentQuantity(companyBuyingId)
+                + request.getApplyQuantity()) {
             throw new AwesomeVegeAppException(AppErrorCode.QUANTITY_EXCEED, AppErrorCode.QUANTITY_EXCEED.getMessage());
         }
 
