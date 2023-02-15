@@ -53,7 +53,11 @@
 
 ![](erd.png)
 
-## 🛠️ 4. 프로젝트 환경 및 주요 기능
+## 4. 시스템 아키텍처
+
+<img width="1081" alt="image" src="https://user-images.githubusercontent.com/94329274/219214725-2c009a9d-e2d9-4b07-9f84-8ff0dfa6e02a.png">
+
+## 🛠️ 5. 프로젝트 환경 및 주요 기능
 
 🟩 BackEnd<br>
 
@@ -81,14 +85,122 @@
 🟩 API 문서화 :
 
 - [Postman](https://documenter.getpostman.com/view/25565883/2s935sngt5 )
-- [Swagger](http://ec2-13-125-75-14.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/)
 
 ---
 
-## 5. 서비스 UI
+## 6. 도메인 아키텍처
 
-## 6. 핵심 기능 다이어그램
+<img width="1251" alt="image" src="https://user-images.githubusercontent.com/94329274/219214546-143ae027-8c9c-4ade-ab8c-a5a74a921c03.png">
 
-## 7. 핵심 에러 해결
+### 사용자 다이어그램
 
+<img width="756" alt="image" src="https://user-images.githubusercontent.com/94329274/219216640-70e9a427-bcee-4fc9-8f8b-45115e712357.png">
 
+## 8. 핵심 기능 다이어그램
+
+1. 농산물 정보 API 호출
+   <img width="1016" alt="image" src="https://user-images.githubusercontent.com/94329274/219215215-0969ffc6-3f99-4ac8-9171-3e67ee210633.png">
+
+2.검증
+
+- 사업자 등록 정보
+  <img width="926" alt="image" src="https://user-images.githubusercontent.com/94329274/219215376-c986b543-29d8-4c89-a152-63a22a604823.png">
+- 사용자 검증 URL
+  <img width="905" alt="image" src="https://user-images.githubusercontent.com/94329274/219215478-b21d4947-b007-4bfa-8bb0-15ea2304a3fb.png">
+
+3. 모집
+
+   <img width="414" alt="image" src="https://user-images.githubusercontent.com/94329274/219215668-f433aff8-4139-4c32-bea6-9b027e64884c.png">
+
+## 9. 에러 문제 해결
+
+### 핵심 로직 - 소셜 로그인
+
+**에러 상황**<br>
+Spring security의 웹 보안 기능은 `WebSecurityConfigurerAdapter`를 extends하여 구현하였으나, <br>
+springboot 버전 업그레이드 후 `SecurityFilterChain`이 Bean으로 등록되어 Oauth 2.0 소셜 로그인 과정에서 문제가 발생했다.<br>
+기존에는 `defaultSuccessUrl`을 통해 로그인 성공 후 redirect할 URL을 설정했지만, 이 프로젝트에서는 적용되지 않는 현상이 있었다.
+
+**해결**<br>
+`SimpleUrlAuthenticationSuccessHandler`를 상속 받은 `OAuth2AuthenticationSuccessHandler`를 만들어 Oauth 로그인 성공 후의 처리를 가능하게 했다.
+핸들러에서 `UriComponentsBuilder`를 사용하여 redirect할 주소를 생성하고, 원하는 주소로 send할 수 있도록 했다.
+
+---
+
+### 핵심 로직 - 정회원 인증(사업자 등록정보 확인 API)
+
+**에러 상황**<br>
+`JSONObject.put()`을 사용하여 데이터를 저장할 때, 데이터 순서 정렬 문제가 있었다. API 호출을 위해 `JSONObject`를 사용해야 했는데, API에 전달되는 JSON 데이터의 순서를 지켜주어야
+했다.<br>
+
+하지만 `JSONObject`는 `Map`처럼 데이터의 순서를 고려하지 않고, 할당된 데이터를 메모리에 저장한다.
+따라서 `JSONObject`호출 시 내가 입력한 데이터를 입력 순서대로 가져오지 않고, 메모리에 저장된 순서대로(섞여서) 가져오는 상황이었다.
+
+**해결**<br>
+데이터의 순서를 지키기 위해, `JSONObject`에 입력 시 `LinkedHashMap`을 사용하였다. 요구하는 순서대로 JSON을 입력하여 API를 호출하였다.
+
+---
+
+### 핵심 로직 - 문자 본인 인증
+
+**에러 상황**<br>
+
+문자 인증을 위해 사용자가 농가 사용자인지 기업 사용자인지 확인하는 부분에서 `NullPointException`(NPE)이 발생했다. 기업 사용자일 경우 사용자 테이블의 농가 정회원 ID에 null 값이 들어가고,
+농가 사용자일 경우 기업 정회원 ID에 null 값이 들어가는 상황이었다.
+
+**해결**<br>
+
+처음에는 `orElseThrow`를 사용했지만 `NullPointException`가 떴다. CompanyUser나 FarmUser가 null 값인데 getId를 해서 그런 것이었다. 따라서 id를 가져오지 않고
+객체를 `Optional`로 감싸준 후 `orElseThrow`를 사용하여 해결했다.
+
+---
+
+### 핵심 기능 - 결제
+
+**에러상황**<br>
+
+`Transactional`은 기본적으로 `UnChecked` Exception Error만을 롤백하는데, 런타임 혹은 프레임워크, 서버에 의해 발생되는 오류가 이에 해당된다. <br>
+하지만 결제에서는 클라이언트에 의해 다양한 상황으로 예외가 발생할 수 있다.<br>
+예를 들어 잔액부족, 카드정지, 결제 요청 금액 불일치, 유효기간 등으로 발생한 예외는 에러로 간주하지 않기 때문에 롤백하지 않는다. 따라서, 데이터가 일부만 처리되거나 누락될 수 있다.
+
+**해결**<br>
+이런 경우에는 `Transactional` 어노테이션의 `rollbackFor` 옵션을 이용해서 롤백 할 `Exception` 클래스를 직접 정의해야 한다.
+<br>이를 통해 `Transactional rollbackFor exception` 예외 처리를 할 수 있어서 클라이언트 문제가 발생하여도 rollback이 되어 데이터 일부가 저장되는 현상을 방지할 수 있었다.
+
+---
+
+### 핵심 기능 - 전자 계약
+
+**에러 상황**<br>
+
+전자 계약 완료 후 정보를 가져오는 도중`LazyInitializationException`에러가 발생했다.<Br> 이는 프록시 객체를 통해 지연 로딩되는 객체를 가져오려고 할 때 이미 세션이 종료되어 발생하는
+에러였다. <br>`FetchType.EAGER` 즉시 로딩을 이용하여 객체를 읽어오는데 성공하였으나, 이는 엔티티 간의 관계가 복잡해질 수록 성능 저하의 우려가 있었다.
+
+**해결**<br>
+
+`@Transactional` 어노테이션을 사용하여 지연 조회 시점까지 세션을 유지하여 정상적으로 데이터를 조회할 수 있었다.
+
+---
+
+### 핵심 기능 - 글 작성 시 유효성 검사
+
+**에러 상황**<br>
+글을 작성할 때 금액, 내용 등 필수 요소들을 누락하고 글을 작성해도 작성이 완료되는 상황이 발생했다.
+
+**해결**<br>
+@Valid 어노테이션을 통해 값을 받아 DTO에서 유효성 검사를 했다<<br>
+유효성 검증을 통해 누락된 항목을 알려준다
+
+---
+
+## 10. 배포
+
+- [Swagger](http://ec2-13-125-75-14.ap-northeast-2.compute.amazonaws.com:8080/swagger-ui/#/)
+
+## 11. 사이트 맵 영상
+
+- [유튜브 멋쟁이채소처럼](https://youtu.be/ca-rsBlvM20)
+
+## 12. 프로젝트 팀 노션
+
+- [I5E2 멋쟁이채소처럼](https://www.notion.so/Team-Project-cd79fc4a20e04e8b9b1effbc6169793d?pvs=4)
