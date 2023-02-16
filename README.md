@@ -85,6 +85,7 @@
 🟩 API 문서화 :
 
 - [Postman](https://documenter.getpostman.com/view/25565883/2s935sngt5 )
+  <img width="1719" alt="image" src="https://user-images.githubusercontent.com/94329274/219223230-9b5652fb-7dad-45a5-93de-b590b66b055b.png">
 
 ---
 
